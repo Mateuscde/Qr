@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             scanner.addListener('scan', function (content) {
                 alert( content);
-                if(content.value=="CP-0000"){alert("oxion vulop")}
+                //if(content.value=="CP-0000"){alert("oxion vulop")}
             });
         } else {
             console.error('No cameras found.');
