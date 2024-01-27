@@ -2,14 +2,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const video = document.addEventListener('DOMContentLoaded', function () {
     const video = document.getElementById('preview');
     const scanner = new Instascan.Scanner({ video: video });
-
+    var n=0;
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
             scanner.start(cameras[0]);
 
             scanner.addListener('scan', function (content) {
-                alert(content);
-                if(content=="CP-0000"){alert("oxion vulop")};
+                n=content;
+                alert(n);
+               // if(content=="CP-0000"){alert("oxion vulop")};
             });
         } else {
             console.error('No cameras found.');
@@ -30,8 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
             scanner.start(cameras[0]);
 
             scanner.addListener('scan', function (content) {
-                alert( content);
-                if(content=="CP-0000"){alert("oxion vulop")};
+                n=content;
+                alert(n);
+                //if(content=="CP-0000"){alert("oxion vulop")};
             });
         } else {
             console.error('No cameras found.');
