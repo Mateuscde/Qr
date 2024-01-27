@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
             scanner.start(cameras[0]);
 
             scanner.addListener('scan', function (content) {
-                alert(content);
+                //alert(content);
+                if(content=="CP-0000"){alert("oxion vulop")};
             });
         } else {
             console.error('No cameras found.');
@@ -29,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
             scanner.start(cameras[0]);
 
             scanner.addListener('scan', function (content) {
-                alert( content);
-                //if(content.value=="CP-0000"){alert("oxion vulop")}
+                //alert( content);
+                if(content=="CP-0000"){alert("oxion vulop")};
             });
         } else {
             console.error('No cameras found.');
