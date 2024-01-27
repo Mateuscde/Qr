@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error(e);
     });
 
-    const qrCodeValue = 'Hello, World!'; // Valor do QR code que voc¨º deseja gerar
-    const qrcode = new QRCode(document.getElementById('qrcode'), qrCodeValue);
+    const qrCodeValue = 'Hello, World!'; // Valor do QR code que vocÃª deseja gerar
+    const qrcode = new QRCode(document.getElementById('qrcode'));
+    qrcode.makeCode(qrCodeValue);
 });
