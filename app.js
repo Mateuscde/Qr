@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
             scanner.start(cameras[0]);
 
             scanner.addListener('scan', function (content) {
-                alert('QR code lido: ' + content);
+                alert(content);
             });
         } else {
             console.error('No cameras found.');
@@ -29,7 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
             scanner.start(cameras[0]);
 
             scanner.addListener('scan', function (content) {
-                alert('QR code lido: ' + content);
+                alert( content);
+                if(content.value=="CP-0000"){alert("oxion vulop")}
             });
         } else {
             console.error('No cameras found.');
