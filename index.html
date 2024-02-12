@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="utf-8" />
+<title>kakou</title>
+<style type="text/css">
+    @font-face {
+     font-family:font1;
+     src: url(jogar.ttf);
+    }
+   *{
+     padding:0px;
+     margin:0px;
+     user-select:none;
+     overflow:hidden;
+     outline: none;
+   }
+   body{
+     background:#0C514B;
+     background-image:url("imagens/bg.png");
+     background-attachment:fixed;
+     background-repeat:no-repeat;
+     background-size:cover;
+   }
+   #cont_ultimate{
+     position: absolute;
+     background-image:url("imagens/bg.png");
+     background-attachment:fixed;
+     background-repeat:no-repeat;
+     background-size:cover;
+     width: 100%;
+     height: 100vh;
+     left:0%;
+     transition-timing-function:ease-out;
+     transition-delay:300;
+   }
+   #borda{
+     position:relative;
+     width:90%;
+     height:90vh;
+     top:50%;
+     left:50%;
+     transform:translate(-50%,-50%);
+     border:4px solid white;
+   }
+   #logo{
+     position:absolute;
+     width:55%;
+     top:35%;
+     left:50%;
+     transform:translate(-50%,-50%);
+   }
+   #jogar{
+    z-index:1;
+     position:absolute;
+     height:16%;
+     top:80%;
+     left:50%;
+     transform:translate(-50%,-50%);
+     border:none;
+     background:none;
+     border-radius: 50px;
+   }
+   #jogar:hover{cursor:pointer;}
+   #btn{
+    position:relativ;
+     width:100%;
+     height:100%;
+     filter:hue-rotate(0deg);
+     transition:3s;
+     border-radius: 50px;
+   }
+   #txtjogar{
+     position:absolute;
+     top:50%;
+     left:50%;
+     font-family:font1 ;
+     transform:translate(-50%,-50%);
+     font-size:7vh;
+     color:white;
+   }
+   #c1{
+     position:absolute;
+     width:10%;
+     top:79.8%;
+     left:-20%;
+     transform:translate(-50%,-50%) rotate(-90deg);
+     transition:2s;
+   }
+   #c2{
+   position:absolute;
+   width:10%;
+   top:79.8%;
+   right:-25%;
+   transform:translate(-50%,-50%) rotate(90deg) scalex(-1);
+   transition:2s;
+   }
+</style>
+</head>
+<body>
+  <div id="cont_ultimate">
+   <div id="borda" >
+      <img id="logo" draggable="false" src="imagens/logo.png"/>
+      
+      <button id="jogar">
+        <img id="btn" type="image" draggable="false" src="imagens/button.png">
+        <p id="txtjogar" >JOGAR</p>
+      </button>
+      <img id="c1" draggable="false" src="imagens/animate/frutas/cenoura1.png" >
+      <img id="c2" draggable="false" src="imagens/animate/frutas/cenoura2.png" >
+   </div>
+  </div>
+</body>
+<script type="text/javascript">
+  var largura= window.screen.width;
+  //function cl(){window.location.replace("select.html")}
+  document.addEventListener('contextmenu', event => event.preventDefault());
+  var audio=document.getElementById("audio");
+  var contutimate=document.getElementById("cont_ultimate");
+  var btn=document.getElementById("btn");
+  var jogar=document.getElementById("jogar");
+  var cenoura1=document.getElementById("c1");
+  var cenoura2=document.getElementById("c2");
+  contutimate.style="left:0%;";
+ 
+  //clicks para dispositivos moveis no dedo
+  jogar.addEventListener("touchstart",function(){jogar.style="transition:0.1s; height:20%;";contutimate.style="transition: 1.5s; left:-100%;"});
+  jogar.addEventListener("touchend",function(){b(); jogar.style="transition:0.1s; height:16%; "; });
+
+  //clicks para computador no mouse
+  jogar.addEventListener("mousedown",function(){jogar.style="transition:0.1s; height:20%; "});
+  jogar.addEventListener("mouseup",function(){jogar.style="transition:0.1s; height:16%; "; contutimate.style="transition: 1.5s; left:-100%;"});
+  jogar.addEventListener("mouseout",function(){jogar.style="transition:0.1s; height:16%; ";});
+  
+  //definir tempo para quando o cont estiber fora da tela mudar a url
+  setInterval(function(){
+    if(contutimate.style.left=="-100%"){
+    window.location.replace("select.html");
+  };
+ 
+ },3000);
+
+  //pegar um valor aleatorio para verificar qual fruta deve aparecer
+  var fruta="";
+  var randor= Math.floor(Math.random() * 3) + 1;
+  if(randor==1){fruta="cenoura"};
+  if(randor==2){fruta="maca"};
+  if(randor==3){fruta="ham"};
+   
+
+  //incremento para a animaçao das cenouras
+  var n=1;
+  setInterval(function(){n++;},100);
+   
+  //mudar sprites da fruta
+  setInterval(function(){
+    if(n=="1"){cenoura1.src="imagens/animate/frutas/"+fruta+n+".png"}else
+    if(n=="2"){cenoura1.src="imagens/animate/frutas/"+fruta+n+".png"}else
+    if(n=="3"){cenoura1.src="imagens/animate/frutas/"+fruta+n+".png"}else
+    if(n=="4"){cenoura1.src="imagens/animate/frutas/"+fruta+n+".png"};
+        //divisao entre fruta 1 e fruta dois
+    if(n=="1"){cenoura2.src="imagens/animate/frutas/"+fruta+n+".png"}else
+    if(n=="2"){cenoura2.src="imagens/animate/frutas/"+fruta+n+".png"}else
+    if(n=="3"){cenoura2.src="imagens/animate/frutas/"+fruta+n+".png"}else
+    if(n=="4"){cenoura2.src="imagens/animate/frutas/"+fruta+n+".png"};
+    if(n>4){n=1;}
+  },0);
+  
+  //mudar cor do botao para rgb e aparecer as frutas
+  var c = 0;
+  setInterval(function(){
+    if(c==0){c=1; btn.style.filter="hue-rotate(360deg)";}else
+    if(c==1){c=0; btn.style.filter="hue-rotate(0deg)";};
+    cenoura1.style.left=25+"%";
+    cenoura2.style.right=15+"%";
+  },920);
+</script>
+</html>
