@@ -8,6 +8,7 @@ if(parte==1){
  select[0].style="display:block;";
  select[1].style="display:none;";
  select[2].style="display:none;";
+ select[3].style="display:none;";
 }else
 if(parte==2){
  select[0].style="display:none;";
