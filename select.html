@@ -275,6 +275,11 @@
    width:24%;
    margin-bottom:5%;
    }
+   .iconescolhaorelha{
+   position:relative;
+   width:24%;
+   margin-bottom:5%;
+   }
    
    #coracao{
    z-index:1;
@@ -334,6 +339,7 @@
       <input type="range" class="barra3" class="barra" value="34">
       </div>
     </div>
+    
     <div id="cont2" >
       <div class="select" ></div>
       <div class="select" >
@@ -353,6 +359,14 @@
       <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo3.png" alt="">
       <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo4.png" alt="">
       <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo5.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo6.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo7.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo8.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo9.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo10.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo11.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo12.png" alt="">
+      <img class="iconescolhacabelo" draggable="false" src="imagens/pet corpo/cabelo/icocabelo13.png" alt="">
       </div>
       <div class="select" >
       <img class="iconescolharoupa" draggable="false" src="imagens/pet corpo/roupa/iconone.png" style=" opacity:0.5;" alt="">
@@ -361,11 +375,16 @@
       <img class="iconescolharoupa" draggable="false" src="imagens/pet corpo/roupa/icoroupa3.png" alt="">
       <img class="iconescolharoupa" draggable="false" src="imagens/pet corpo/roupa/icoroupa4.png" alt="">
       </div>
-      <button id="salvar"><img id="salvarimg" draggable="false" src="imagens/button.png" ><p id="txtsalvar">SALVAR</p></button>
+      <div class="select" >
+      <img class="iconescolhaorelha" draggable="false" src="imagens/pet corpo/orelha/iconone.png" style=" opacity:0.5;" alt="">
+      <img class="iconescolhaorelha" draggable="false" src="imagens/pet corpo/orelha/icoorelha1.png" alt="">
+      <img class="iconescolhaorelha" draggable="false" src="imagens/pet corpo/orelha/icoorelha2.png" alt="">
+      <img class="iconescolhaorelha" draggable="false" src="imagens/pet corpo/orelha/icoorelha3.png" alt="">
+      </div>
+      <button id="salvar" onclick="salvar()"><img id="salvarimg" draggable="false" src="imagens/button.png" ><p id="txtsalvar">SALVAR</p></button>
     </div>
   </div>
 </body>
-<script type="text/javascript" src="escolha.js"></script>
 <script type="text/javascript">
 document.addEventListener('contextmenu', event => event.preventDefault());
 var cont=document.getElementById("cont");
@@ -490,24 +509,46 @@ var indice1 = 0;
     });
 
 //cabelo
-var hair=0;
+var tipopet= JSON.parse(localStorage.getItem('pet'));
+var hair=tipopet.cabelo;
 setInterval(function(){
 if(hair==0){cabelo.style.display=" none"};
 cabelo.src="imagens/pet corpo/cabelo/cabelo"+hair+".png";
 },0);
 
-var eyer=1;
+var eyer=tipopet.olho;
 setInterval(function(){
 if(eyer==0){olho.style.display=" none"};
 olho.src="imagens/pet corpo/olho/pupila"+eyer+".png";
 },0);
 
-var look=0;
+var look=tipopet.roupa;
 setInterval(function(){
 if(look==0){roupa.style.display=" none"};
 roupa.src="imagens/pet corpo/roupa/roupa"+look+".png";
 },0);
 
+var ear=tipopet.orelha;
+setInterval(function(){
+if(ear==0){orelha.style.display=" none"};
+orelha.src="imagens/pet corpo/orelha/orelha"+ear+".png";
+},0);
+
+barra1[0].value=tipopet.matizcorpo;
+barra2[0].value=tipopet.satucorpo;
+barra3[0].value=tipopet.lumicorpo;
+
+barra1[1].value=tipopet.matizolho;
+barra2[1].value=tipopet.satuolho;
+barra3[1].value=tipopet.lumiolho;
+
+barra1[2].value=tipopet.matizcabelo;
+barra2[2].value=tipopet.satucabelo;
+barra3[2].value=tipopet.lumicabelo;
+
+barra1[3].value=tipopet.matizroupa;
+barra2[3].value=tipopet.saturoupa;
+barra3[3].value=tipopet.lumiroupa;
 
 var rand=3000;
 setInterval(function(){
@@ -560,7 +601,7 @@ setInterval(function(){
 setInterval(function(){
 
 tronco.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
-   orelha.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
+   if(ear!=0){orelha.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";};
    rabo.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
    boca.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
    cilios.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
@@ -605,5 +646,162 @@ tronco.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].v
   
  },0);
 
+
+
+
+ var icocabelo=document.getElementsByClassName("iconescolhacabelo");
+ var icoolho=document.getElementsByClassName("iconescolhaolho");
+ var icoorelha=document.getElementsByClassName("iconescolhaorelha");
+ var icoroupa=document.getElementsByClassName("iconescolharoupa");
+ var select=document.getElementsByClassName("select");
+ 
+ setInterval(function(){
+ if(parte==1){
+ select[0].style="display:block;";
+ select[1].style="display:none;";
+ select[2].style="display:none;";
+ select[3].style="display:none;";
+ select[4].style="display:none;";
+ }else
+ if(parte==2){
+ select[0].style="display:none;";
+ select[1].style="display:block;";
+ select[2].style="display:none;";
+ select[3].style="display:none;";
+ select[4].style="display:none;";
+ }else
+ if(parte==3){
+ select[0].style="display:none;";
+ select[1].style="display:none;";
+ select[2].style="display:block;";
+ select[3].style="display:none;";
+ select[4].style="display:none;";
+ }else
+ if(parte==4){
+ select[0].style="display:none;";
+ select[1].style="display:none;";
+ select[2].style="display:none;";
+ select[3].style="display:block;";
+ select[4].style="display:none;";
+ };
+ if(parte==5){
+ select[0].style="display:none;";
+ select[1].style="display:none;";
+ select[2].style="display:none;";
+ select[3].style="display:none;";
+ select[4].style="display:block;";
+ };
+ 
+ 
+ 
+ pet={
+   matizcorpo:barra1[0].value,
+   satucorpo:barra2[0].value,
+   lumicorpo:barra3[0].value,
+ cabelo:hair,
+   matizolho:barra1[1].value,
+   satuolho:barra2[1].value,
+   lumiolho:barra3[1].value,
+ olho:eyer,
+   matizcabelo:barra1[2].value,
+   satucabelo:barra2[2].value,
+   lumicabelo:barra3[2].value,
+ roupa:look,
+   matizroupa:barra1[3].value,
+   saturoupa:barra2[3].value,
+   lumiroupa:barra3[3].value,
+ orelha:ear,
+ };
+ },0);
+ 
+ if (localStorage.length === 0) {
+   localStorage.setItem('pet', JSON.stringify(pet));
+ } else {};
+ 
+ 
+ function salvar(){
+ localStorage.setItem('pet', JSON.stringify(pet));
+ alert(pet.matizcorpo);
+ 
+ };
+ 
+ 
+ 
+ 
+ function clear(){
+ icocabelo[0].style.opacity=1;
+ icocabelo[1].style.opacity=1;
+ icocabelo[2].style.opacity=1;
+ icocabelo[3].style.opacity=1;
+ icocabelo[4].style.opacity=1;
+ icocabelo[5].style.opacity=1;
+ icocabelo[6].style.opacity=1;
+ icocabelo[7].style.opacity=1;
+ icocabelo[8].style.opacity=1;
+ icocabelo[9].style.opacity=1;
+ icocabelo[10].style.opacity=1;
+ icocabelo[11].style.opacity=1;
+ icocabelo[12].style.opacity=1;
+ icocabelo[13].style.opacity=1;
+ 
+ icoolho[0].style.opacity=1;
+ icoolho[1].style.opacity=1;
+ icoolho[2].style.opacity=1;
+ icoolho[3].style.opacity=1;
+ icoolho[4].style.opacity=1;
+ icoolho[5].style.opacity=1;
+ icoolho[6].style.opacity=1;
+ icoolho[7].style.opacity=1;
+ 
+ icoroupa[0].style.opacity=1;
+ icoroupa[1].style.opacity=1;
+ icoroupa[2].style.opacity=1;
+ icoroupa[3].style.opacity=1;
+ icoroupa[4].style.opacity=1;
+ 
+ icoorelha[0].style.opacity=1;
+ icoorelha[1].style.opacity=1;
+ icoorelha[2].style.opacity=1;
+ icoorelha[3].style.opacity=1;
+ };
+ 
+ icocabelo[0].addEventListener("click",function(){clear();icocabelo[0].style.opacity=0.5;hair=0;});
+ icocabelo[1].addEventListener("click",function(){clear();icocabelo[1].style.opacity=0.5;hair=1;});
+ icocabelo[2].addEventListener("click",function(){clear();icocabelo[2].style.opacity=0.5;hair=2;});
+ icocabelo[3].addEventListener("click",function(){clear();icocabelo[3].style.opacity=0.5;hair=3;});
+ icocabelo[4].addEventListener("click",function(){clear();icocabelo[4].style.opacity=0.5;hair=4;});
+ icocabelo[5].addEventListener("click",function(){clear();icocabelo[5].style.opacity=0.5;hair=5;});
+ icocabelo[6].addEventListener("click",function(){clear();icocabelo[6].style.opacity=0.5;hair=6;});
+ icocabelo[7].addEventListener("click",function(){clear();icocabelo[7].style.opacity=0.5;hair=7;});
+ icocabelo[8].addEventListener("click",function(){clear();icocabelo[8].style.opacity=0.5;hair=8;});
+ icocabelo[9].addEventListener("click",function(){clear();icocabelo[9].style.opacity=0.5;hair=9;});
+ icocabelo[10].addEventListener("click",function(){clear();icocabelo[10].style.opacity=0.5;hair=10;});
+ icocabelo[11].addEventListener("click",function(){clear();icocabelo[11].style.opacity=0.5;hair=11;});
+ icocabelo[12].addEventListener("click",function(){clear();icocabelo[12].style.opacity=0.5;hair=12;});
+ icocabelo[13].addEventListener("click",function(){clear();icocabelo[13].style.opacity=0.5;hair=13;});
+ 
+ 
+ icoolho[0].addEventListener("click",function(){clear();icoolho[0].style.opacity=0.5;eyer=1;});
+ icoolho[1].addEventListener("click",function(){clear();icoolho[1].style.opacity=0.5;eyer=2;});
+ icoolho[2].addEventListener("click",function(){clear();icoolho[2].style.opacity=0.5;eyer=3;});
+ icoolho[3].addEventListener("click",function(){clear();icoolho[3].style.opacity=0.5;eyer=4;});
+ icoolho[4].addEventListener("click",function(){clear();icoolho[4].style.opacity=0.5;eyer=5;});
+ icoolho[5].addEventListener("click",function(){clear();icoolho[5].style.opacity=0.5;eyer=6;});
+ icoolho[6].addEventListener("click",function(){clear();icoolho[6].style.opacity=0.5;eyer=7;});
+ icoolho[7].addEventListener("click",function(){clear();icoolho[7].style.opacity=0.5;eyer=8;});
+ 
+ 
+ icoroupa[0].addEventListener("click",function(){clear();icoroupa[0].style.opacity=0.5;look=0;});
+ icoroupa[1].addEventListener("click",function(){clear();icoroupa[1].style.opacity=0.5;look=1;});
+ icoroupa[2].addEventListener("click",function(){clear();icoroupa[2].style.opacity=0.5;look=2;});
+ icoroupa[3].addEventListener("click",function(){clear();icoroupa[3].style.opacity=0.5;look=3;});
+ icoroupa[4].addEventListener("click",function(){clear();icoroupa[4].style.opacity=0.5;look=4;});
+ 
+ 
+ icoorelha[0].addEventListener("click",function(){clear();icoorelha[0].style.opacity=0.5;ear=0;});
+ icoorelha[1].addEventListener("click",function(){clear();icoorelha[1].style.opacity=0.5;ear=1;});
+ icoorelha[2].addEventListener("click",function(){clear();icoorelha[2].style.opacity=0.5;ear=2;});
+ icoorelha[3].addEventListener("click",function(){clear();icoorelha[3].style.opacity=0.5;ear=3;});
+ 
 </script>
 </html>
