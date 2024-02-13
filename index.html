@@ -8,7 +8,7 @@
 <style type="text/css">
     @font-face {
      font-family:font1;
-     src: url(jogar.TTF);
+     src: url("jogar.TTF");
     }
    *{
      padding:0px;
@@ -76,7 +76,7 @@
      position:absolute;
      top:50%;
      left:50%;
-     font-family:font1 ;
+     font-family:font1;
      transform:translate(-50%,-50%);
      font-size:7vh;
      color:white;
@@ -127,7 +127,7 @@
  
   //clicks para dispositivos moveis no dedo
   jogar.addEventListener("touchstart",function(){jogar.style="transition:0.1s; height:20%;";contutimate.style="transition: 1.5s; left:-100%;"});
-  jogar.addEventListener("touchend",function(){b(); jogar.style="transition:0.1s; height:16%; "; });
+  jogar.addEventListener("touchend",function(){jogar.style="transition:0.1s; height:16%; "; });
 
   //clicks para computador no mouse
   jogar.addEventListener("mousedown",function(){jogar.style="transition:0.1s; height:20%; "});

@@ -381,7 +381,7 @@
       <img class="iconescolhaorelha" draggable="false" src="imagens/pet corpo/orelha/icoorelha2.png" alt="">
       <img class="iconescolhaorelha" draggable="false" src="imagens/pet corpo/orelha/icoorelha3.png" alt="">
       </div>
-      <button id="salvar" onclick="salvar()"><img id="salvarimg" draggable="false" src="imagens/button.png" ><p id="txtsalvar">SALVAR</p></button>
+      <button id="salvar"><img id="salvarimg" draggable="false" src="imagens/button.png" ><p id="txtsalvar">SALVAR</p></button>
     </div>
   </div>
 </body>
@@ -396,7 +396,8 @@ var cont=document.getElementById("cont");
 
 //variaveis do pet
 parte=1;
-var som=document.getElementById("som")
+var som=document.getElementById("som");
+var salvar=document.getElementById("salvar")
 var coracao=document.getElementById("coracao");
 var icon=document.getElementsByClassName("icon");
 var set=document.getElementById("set");
@@ -419,25 +420,15 @@ var contrololho=document.getElementById("contrololho");
 var controlcorpo=document.getElementById("controlcorpo");
 var emocao="none";
 
-//arrays
-var corcorpo=[0, 0, 50, 34];
-var cororelha=[0, 0, 50, 34];
-var corrabo=[0, 0, 50, 34];
-var corolho=[0, 0, 50, 34];
-var corcabelo=[0, 0, 50, 34];
-var corroupa=[0, 0, 50, 34];
 
-
-
-
-
-icon[0].addEventListener("click", function(){apagar(); icon[0].style.opacity=0.1; parte=1;som.play();});
+//clicks nos icones
+icon[0].addEventListener("click", function(){apagar();icon[0].style.opacity=0.1; parte=1;som.play();});
 icon[1].addEventListener("click", function(){apagar();icon[1].style.opacity=0.1;parte=2;som.play();});
 icon[2].addEventListener("click", function(){apagar();icon[2].style.opacity= 0.1;parte=3;som.play();});
 icon[3].addEventListener("click", function(){apagar();icon[3].style.opacity=0.1;parte=4;som.play();});
 icon[4].addEventListener("click", function(){apagar();icon[4].style.opacity= 0.1;parte=5;som.play();});
 icon[5].addEventListener("click", function(){apagar();icon[5].style.opacity=0.1;parte=6;som.play();});
-
+//deixar apenas o icone clicado transparente
 function apagar(){
   icon[0].style.opacity=1;
   icon[1].style.opacity=1;
@@ -447,32 +438,33 @@ function apagar(){
   icon[5].style.opacity=1;
 };
 
+//animaçao dele pulando
 var vaievem=0;
+
 setInterval(function(){
   vaievem= Math.floor(Math.random() *5) + 1;
 },4000);
+
 var angulos = [-3, 3]; // Angulos de rotação em graus
 var indice = 0; // Índice atual no array de angulos
 var angulos1 = [48,52]; // Angulos de rotação em graus
 var indice1 = 0;
-
-
-    function animarElemento() {
-        setInterval(function() {
-          if(vaievem==3 && emocao=="none"){
-            controlcorpo.style= "transition:0.5s;transform:translate(-50%,-50%) rotate("+angulos[indice]+"deg); left:" + angulos1[indice1]+ "%;";
-            indice = (indice + 1) % angulos.length; // Avança para o próximo índice (loop)
-            indice1 = (indice1 + 1) % angulos1.length; // Avança para o próximo índice (loop)
-          }else{controlcorpo.style= "transition:1s; transform:translate(-50%,-50%) rotate(0deg);";};
-        }, 400); // Intervalo de tempo em milissegundos
-    }
-    animarElemento();
+function animarElemento() {
+  setInterval(function() {
+    if(vaievem==3 && emocao=="none"){
+      controlcorpo.style= "transition:0.5s;transform:translate(-50%,-50%) rotate("+angulos[indice]+"deg); left:" + angulos1[indice1]+ "%;";
+      indice = (indice + 1) % angulos.length; // Avança para o próximo índice (loop)
+      indice1 = (indice1 + 1) % angulos1.length; // Avança para o próximo índice (loop)
+    }else{controlcorpo.style= "transition:1s; transform:translate(-50%,-50%) rotate(0deg);";};
+  }, 400); // Intervalo de tempo em milissegundos
+};
+animarElemento();
     
-    controlcorpo.addEventListener("touchstart",function(){
-    emocao="piscando";
-    });
-    var intervalo;
-    var efeito=0;
+controlcorpo.addEventListener("touchmove",function(){
+  emocao="piscando";
+});
+var intervalo;
+var efeito=0;
     
     controlcorpo.addEventListener("touchend",function(){
     efeito=0;
@@ -498,43 +490,43 @@ var indice1 = 0;
 
     };
     
-    controlcorpo.addEventListener("touchmove",function(){
+controlcorpo.addEventListener("touchmove",function(){
     
-    if (!intervalo) {
+  if (!intervalo) {
     intervalo = setInterval(animar, 1000); // Inicia a animação a cada segundo
-    }else{};
+  }else{};
     
-    boca.src="imagens/pet corpo/boca/boca2.png";
-    expressao.src="imagens/pet corpo/expressao/piscando.png";
-    });
+  boca.src="imagens/pet corpo/boca/boca2.png";
+  expressao.src="imagens/pet corpo/expressao/piscando.png";
+});
 
 //cabelo
-var tipopet= JSON.parse(localStorage.getItem('pet'));
-var hair=tipopet.cabelo;
+//var tipopet= JSON.parse(localStorage.getItem('pet'));
+var hair=0;//tipopet.cabelo;
 setInterval(function(){
-if(hair==0){cabelo.style.display=" none"};
-cabelo.src="imagens/pet corpo/cabelo/cabelo"+hair+".png";
+  if(hair==0){cabelo.style.display=" none"};
+  cabelo.src="imagens/pet corpo/cabelo/cabelo"+hair+".png";
 },0);
 
-var eyer=tipopet.olho;
+var eyer=1;//tipopet.olho;
 setInterval(function(){
 if(eyer==0){olho.style.display=" none"};
 olho.src="imagens/pet corpo/olho/pupila"+eyer+".png";
 },0);
 
-var look=tipopet.roupa;
+var look=0//tipopet.roupa;
 setInterval(function(){
 if(look==0){roupa.style.display=" none"};
 roupa.src="imagens/pet corpo/roupa/roupa"+look+".png";
 },0);
 
-var ear=tipopet.orelha;
+var ear=0;//tipopet.orelha;
 setInterval(function(){
 if(ear==0){orelha.style.display=" none"};
 orelha.src="imagens/pet corpo/orelha/orelha"+ear+".png";
 },0);
 
-barra1[0].value=tipopet.matizcorpo;
+/*barra1[0].value=tipopet.matizcorpo;
 barra2[0].value=tipopet.satucorpo;
 barra3[0].value=tipopet.lumicorpo;
 
@@ -548,7 +540,7 @@ barra3[2].value=tipopet.lumicabelo;
 
 barra1[3].value=tipopet.matizroupa;
 barra2[3].value=tipopet.saturoupa;
-barra3[3].value=tipopet.lumiroupa;
+barra3[3].value=tipopet.lumiroupa;*/
 
 var rand=3000;
 setInterval(function(){
@@ -654,7 +646,7 @@ tronco.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].v
  var icoorelha=document.getElementsByClassName("iconescolhaorelha");
  var icoroupa=document.getElementsByClassName("iconescolharoupa");
  var select=document.getElementsByClassName("select");
- 
+ var pet;
  setInterval(function(){
  if(parte==1){
  select[0].style="display:block;";
@@ -691,39 +683,32 @@ tronco.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].v
  select[3].style="display:none;";
  select[4].style="display:block;";
  };
- 
- 
- 
  pet={
-   matizcorpo:barra1[0].value,
-   satucorpo:barra2[0].value,
-   lumicorpo:barra3[0].value,
+ matizcorpo:barra1[0].value,
+ satucorpo:barra2[0].value,
+ lumicorpo:barra3[0].value,
  cabelo:hair,
-   matizolho:barra1[1].value,
-   satuolho:barra2[1].value,
-   lumiolho:barra3[1].value,
+ matizolho:barra1[1].value,
+ satuolho:barra2[1].value,
+ lumiolho:barra3[1].value,
  olho:eyer,
-   matizcabelo:barra1[2].value,
-   satucabelo:barra2[2].value,
-   lumicabelo:barra3[2].value,
+ matizcabelo:barra1[2].value,
+ satucabelo:barra2[2].value,
+ lumicabelo:barra3[2].value,
  roupa:look,
-   matizroupa:barra1[3].value,
-   saturoupa:barra2[3].value,
-   lumiroupa:barra3[3].value,
- orelha:ear,
+ matizroupa:barra1[3].value,
+ saturoupa:barra2[3].value,
+ lumiroupa:barra3[3].value,
+ orelha:ear
  };
  },0);
  
- if (localStorage.length === 0) {
- alert("sem nada");
-   //localStorage.setItem('pet', JSON.stringify(pet));
- } else {};
+
  
- 
- function salvar(){
- localStorage.setItem('pet', JSON.stringify(pet));
- alert(pet.matizcorpo);
- };
+ salvar.addEventListener("click", function(){
+ alert("oi");
+ //localStorage.setItem('pet', JSON.stringify(pet));
+ });
  
  
  
