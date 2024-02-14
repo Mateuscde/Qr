@@ -236,6 +236,7 @@
      overflow-y:auto;
    }
    #salvar{
+   z-index:10;
      position:relative;
      background:none;
      border:none;
@@ -386,13 +387,14 @@
   </div>
 </body>
 <script type="text/javascript">
-document.addEventListener('contextmenu', event => event.preventDefault());
-var cont=document.getElementById("cont");
- 
+//eliminar o botao direito do mouse
+//document.addEventListener('contextmenu', event => event.preventDefault());
 
- setTimeout(function(){
+//aguardar 500 milesimos para a tela aparecer
+var cont=document.getElementById("cont");
+setTimeout(function(){
    cont.style="transition:1s; opacity:1;";
- },500);
+},500);
 
 //variaveis do pet
 parte=1;
@@ -438,9 +440,8 @@ function apagar(){
   icon[5].style.opacity=1;
 };
 
-//animaçao dele pulando
+/*//animaçao dele pulando
 var vaievem=0;
-
 setInterval(function(){
   vaievem= Math.floor(Math.random() *5) + 1;
 },4000);
@@ -459,39 +460,14 @@ function animarElemento() {
   }, 400); // Intervalo de tempo em milissegundos
 };
 animarElemento();
-    
-controlcorpo.addEventListener("touchmove",function(){
-  emocao="piscando";
-});
+
+
+//ainimar carinho
 var intervalo;
 var efeito=0;
-    
-    controlcorpo.addEventListener("touchend",function(){
-    efeito=0;
-    clearInterval(intervalo); // Interrompe a animação
-    intervalo = null;
-    emocao="none";
-    //boca.src="imagens/pet corpo/boca/boca1.png";
-    });
-    
-    
-    function animar() {
-    efeito+=1;
-    if(efeito==10){
-      coracao.style="transition:0.5s;transition-delay:0s;opacity:1;";
-      efeito=10;
-    };
-    
-    setInterval(function(){
-     if(efeito==0){
-     coracao.style="transition:0.5s;transition-delay:20s;opacity:0;";
-     };
-    },0);
 
-    };
-    
 controlcorpo.addEventListener("touchmove",function(){
-    
+  emocao="piscando";
   if (!intervalo) {
     intervalo = setInterval(animar, 1000); // Inicia a animação a cada segundo
   }else{};
@@ -500,254 +476,231 @@ controlcorpo.addEventListener("touchmove",function(){
   expressao.src="imagens/pet corpo/expressao/piscando.png";
 });
 
-//cabelo
-//var tipopet= JSON.parse(localStorage.getItem('pet'));
-var hair=0;//tipopet.cabelo;
+controlcorpo.addEventListener("touchend",function(){
+  efeito=0;
+  clearInterval(intervalo); // Interrompe a animação
+  intervalo = null;
+  emocao="none";
+});
+    
+//animar o coraçao    
+function animar() {
+  efeito+=1;
+  if(efeito==10){
+    coracao.style="transition:0.5s;transition-delay:0s;opacity:1;";
+    efeito=10;
+  };
+    
+setInterval(function(){
+  if(efeito==0){
+    coracao.style="transition:0.5s;transition-delay:20s;opacity:0;";
+  };
+},0);
+};
+    */
+//cabelo e partes do corpo
+
+var valorRecuperado = localStorage.getItem('posicao');
+var hair=0;
+var eyer=valorRecuperado;
+var look=0;
+var ear=0;
+var valorRecuperado;
 setInterval(function(){
   if(hair==0){cabelo.style.display=" none"};
   cabelo.src="imagens/pet corpo/cabelo/cabelo"+hair+".png";
+
+  if(eyer==0){olho.style.display=" none"};
+  olho.src="imagens/pet corpo/olho/pupila"+eyer+".png";
+
+  if(look==0){roupa.style.display=" none"};
+  roupa.src="imagens/pet corpo/roupa/roupa"+look+".png";
+
+  if(ear==0){orelha.style.display=" none"};
+  orelha.src="imagens/pet corpo/orelha/orelha"+ear+".png";
 },0);
-
-var eyer=1;//tipopet.olho;
-setInterval(function(){
-if(eyer==0){olho.style.display=" none"};
-olho.src="imagens/pet corpo/olho/pupila"+eyer+".png";
-},0);
-
-var look=0//tipopet.roupa;
-setInterval(function(){
-if(look==0){roupa.style.display=" none"};
-roupa.src="imagens/pet corpo/roupa/roupa"+look+".png";
-},0);
-
-var ear=0;//tipopet.orelha;
-setInterval(function(){
-if(ear==0){orelha.style.display=" none"};
-orelha.src="imagens/pet corpo/orelha/orelha"+ear+".png";
-},0);
-
-/*barra1[0].value=tipopet.matizcorpo;
-barra2[0].value=tipopet.satucorpo;
-barra3[0].value=tipopet.lumicorpo;
-
-barra1[1].value=tipopet.matizolho;
-barra2[1].value=tipopet.satuolho;
-barra3[1].value=tipopet.lumiolho;
-
-barra1[2].value=tipopet.matizcabelo;
-barra2[2].value=tipopet.satucabelo;
-barra3[2].value=tipopet.lumicabelo;
-
-barra1[3].value=tipopet.matizroupa;
-barra2[3].value=tipopet.saturoupa;
-barra3[3].value=tipopet.lumiroupa;*/
-
+/*
 var rand=3000;
 setInterval(function(){
-  rand= Math.floor(Math.random() * 10000) + 1;
+  rand= Math.floor(Math.random()*10000) + 1;
 },rand);
 
   //animacao de mexer o olho
-  setInterval(function(){
+setInterval(function(){
   contrololho.style="transition:1s;left:52%;";
-  },rand);
-  setInterval(function(){
+},rand);
+setInterval(function(){
   contrololho.style="transition:1s;left:50%;";
-  },rand+2000);
-  setInterval(function(){
+},rand+2000);
+setInterval(function(){
   contrololho.style="transition:1s;left:52%;top:48%;";
-  },rand+11000);
-  setInterval(function(){
+},rand+11000);
+setInterval(function(){
   contrololho.style="transition:1s;left:48%;";
-  },rand+5000);
-  setInterval(function(){
+},rand+5000);
+setInterval(function(){
   contrololho.style="transition:1s;left:48%;top:52%;";
-  },rand+8000);
-  setInterval(function(){
+},rand+8000);
+setInterval(function(){
   contrololho.style="transition:1s;left:48%;top:48%;";
-  },rand+14000);
+},rand+14000);
   setInterval(function(){
-  contrololho.style="transition:1s;left:52%;top:52%;";
+contrololho.style="transition:1s;left:52%;top:52%;";
   },rand+17000);
-  setInterval(function(){
+setInterval(function(){
   contrololho.style="transition:1s;left:50%;top:50%;";
-  },rand+20000);
+},rand+20000);
   
  //animaçao de piscar o olho
- var piscar=0;
- setInterval(function(){
- piscar= Math.floor(Math.random() *20) + 1;
- boca.src="imagens/pet corpo/boca/boca1.png";
- },2000);
+var piscar=0;
+setInterval(function(){
+  piscar= Math.floor(Math.random() *20) + 1;
+  boca.src="imagens/pet corpo/boca/boca1.png";
+},2000);
  
- var imagem="none";
- setInterval(function(){
-   if(parte!=2 && emocao=="none"){
+var imagem="none";
+setInterval(function(){
+  if(parte!=2 && emocao=="none"){
     if(piscar==3){
-     expressao.src="imagens/pet corpo/expressao/piscando.png";
-     }else{expressao.src="imagens/pet corpo/expressao/"+imagem+".png"};
-   }else{expressao.src="imagens/pet corpo/expressao/"+imagem+".png";};
- },0);
-  
+      expressao.src="imagens/pet corpo/expressao/piscando.png";
+    }else{expressao.src="imagens/pet corpo/expressao/"+imagem+".png"};
+  }else{expressao.src="imagens/pet corpo/expressao/"+imagem+".png";};
+},0);
+  */
 //verificar qual parte do corpo eles vao mudar 
 setInterval(function(){
 
 tronco.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
-   if(ear!=0){orelha.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";};
-   rabo.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
-   boca.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
-   cilios.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
-   expressao.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
-   if(eyer!=0){olho.style="filter:hue-rotate("+barra1[1].value+1+"deg) saturate("+barra2[1].value*2+"%) brightness("+barra3[1].value*3+"%);";};
-   if(hair!=0){cabelo.style="filter:hue-rotate("+barra1[2].value+1+"deg) saturate("+barra2[2].value*2+"%) brightness("+barra3[2].value*3+"%);";};
-   if(look!=0){roupa.style="filter:hue-rotate("+barra1[3].value+1+"deg) saturate("+barra2[3].value*2+"%) brightness("+barra3[3].value*3+"%);";};
+if(ear!=0){orelha.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";};
+rabo.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
+boca.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
+cilios.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
+expressao.style="filter:hue-rotate("+barra1[0].value+1+"deg) saturate("+barra2[0].value*2+"%) brightness("+barra3[0].value*3+"%);";
+if(eyer!=0){olho.style="filter:hue-rotate("+barra1[1].value+1+"deg) saturate("+barra2[1].value*2+"%) brightness("+barra3[1].value*3+"%);";};
+if(hair!=0){cabelo.style="filter:hue-rotate("+barra1[2].value+1+"deg) saturate("+barra2[2].value*2+"%) brightness("+barra3[2].value*3+"%);";};
+if(look!=0){roupa.style="filter:hue-rotate("+barra1[3].value+1+"deg) saturate("+barra2[3].value*2+"%) brightness("+barra3[3].value*3+"%);";};
+},0);
+setInterval(function(){
+if(parte==1){
+  set.style="display:block;";
+  set1.style="display:none;";
+  set2.style="display:none;";
+  set3.style="display:none;";
+}else
    
-
-  if(parte==1){
-   set.style="display:block;";
-   set1.style="display:none;";
-   set2.style="display:none;";
-   set3.style="display:none;";
-   }else
-   
-  if(parte==2){
+if(parte==2){
   set.style="display:none;";
   set1.style="display:block;";
   set2.style="display:none;";
   set3.style="display:none;";
-  }else
+}else
   
-  if(parte==3){
+if(parte==3){
   set.style="display:none;";
   set1.style="display:none;";
   set2.style="display:block;";
   set3.style="display:none;";
-  }else
+}else
   
-  if(parte==4){
+if(parte==4){
   set.style="display:none;";
   set1.style="display:none;";
   set2.style="display:none;";
   set3.style="display:block;";
-  }else{
+}else{
   set.style="display:none;";
   set1.style="display:none;";
   set2.style="display:none;";
   set3.style="display:none;";
+};
+},0);
+
+
+
+
+var icocabelo=document.getElementsByClassName("iconescolhacabelo");
+var icoolho=document.getElementsByClassName("iconescolhaolho");
+var icoorelha=document.getElementsByClassName("iconescolhaorelha");
+var icoroupa=document.getElementsByClassName("iconescolharoupa");
+var select=document.getElementsByClassName("select");
+var coco;
+setInterval(function(){
+  if(parte==1){
+    select[0].style="display:block;";
+    select[1].style="display:none;";
+    select[2].style="display:none;";
+    select[3].style="display:none;";
+    select[4].style="display:none;";
+  }else
+  if(parte==2){
+    select[0].style="display:none;";
+    select[1].style="display:block;";
+    select[2].style="display:none;";
+    select[3].style="display:none;";
+    select[4].style="display:none;";
+  }else
+  if(parte==3){
+    select[0].style="display:none;";
+    select[1].style="display:none;";
+    select[2].style="display:block;";
+    select[3].style="display:none;";
+    select[4].style="display:none;";
+  }else
+  if(parte==4){
+    select[0].style="display:none;";
+    select[1].style="display:none;";
+    select[2].style="display:none;";
+    select[3].style="display:block;";
+    select[4].style="display:none;";
   };
-  
+  if(parte==5){
+    select[0].style="display:none;";
+    select[1].style="display:none;";
+    select[2].style="display:none;";
+    select[3].style="display:none;";
+    select[4].style="display:block;";
+  };
+  coco=6;
  },0);
-
-
-
-
- var icocabelo=document.getElementsByClassName("iconescolhacabelo");
- var icoolho=document.getElementsByClassName("iconescolhaolho");
- var icoorelha=document.getElementsByClassName("iconescolhaorelha");
- var icoroupa=document.getElementsByClassName("iconescolharoupa");
- var select=document.getElementsByClassName("select");
- var pet;
- setInterval(function(){
- if(parte==1){
- select[0].style="display:block;";
- select[1].style="display:none;";
- select[2].style="display:none;";
- select[3].style="display:none;";
- select[4].style="display:none;";
- }else
- if(parte==2){
- select[0].style="display:none;";
- select[1].style="display:block;";
- select[2].style="display:none;";
- select[3].style="display:none;";
- select[4].style="display:none;";
- }else
- if(parte==3){
- select[0].style="display:none;";
- select[1].style="display:none;";
- select[2].style="display:block;";
- select[3].style="display:none;";
- select[4].style="display:none;";
- }else
- if(parte==4){
- select[0].style="display:none;";
- select[1].style="display:none;";
- select[2].style="display:none;";
- select[3].style="display:block;";
- select[4].style="display:none;";
- };
- if(parte==5){
- select[0].style="display:none;";
- select[1].style="display:none;";
- select[2].style="display:none;";
- select[3].style="display:none;";
- select[4].style="display:block;";
- };
- pet={
- matizcorpo:barra1[0].value,
- satucorpo:barra2[0].value,
- lumicorpo:barra3[0].value,
- cabelo:hair,
- matizolho:barra1[1].value,
- satuolho:barra2[1].value,
- lumiolho:barra3[1].value,
- olho:eyer,
- matizcabelo:barra1[2].value,
- satucabelo:barra2[2].value,
- lumicabelo:barra3[2].value,
- roupa:look,
- matizroupa:barra1[3].value,
- saturoupa:barra2[3].value,
- lumiroupa:barra3[3].value,
- orelha:ear
- };
- },0);
- 
-
- 
- salvar.addEventListener("click", function(){
- alert("oi");
- //localStorage.setItem('pet', JSON.stringify(pet));
+ salvar.addEventListener("click",function(){
+   alert(coco);
+   localStorage.setItem('posicao', coco);
  });
- 
- 
- 
- 
  function clear(){
- icocabelo[0].style.opacity=1;
- icocabelo[1].style.opacity=1;
- icocabelo[2].style.opacity=1;
- icocabelo[3].style.opacity=1;
- icocabelo[4].style.opacity=1;
- icocabelo[5].style.opacity=1;
- icocabelo[6].style.opacity=1;
- icocabelo[7].style.opacity=1;
- icocabelo[8].style.opacity=1;
- icocabelo[9].style.opacity=1;
- icocabelo[10].style.opacity=1;
- icocabelo[11].style.opacity=1;
- icocabelo[12].style.opacity=1;
- icocabelo[13].style.opacity=1;
+   icocabelo[0].style.opacity=1;
+   icocabelo[1].style.opacity=1;
+   icocabelo[2].style.opacity=1;
+   icocabelo[3].style.opacity=1;
+   icocabelo[4].style.opacity=1;
+   icocabelo[5].style.opacity=1;
+   icocabelo[6].style.opacity=1;
+   icocabelo[7].style.opacity=1;
+   icocabelo[8].style.opacity=1;
+   icocabelo[9].style.opacity=1;
+   icocabelo[10].style.opacity=1;
+   icocabelo[11].style.opacity=1;
+   icocabelo[12].style.opacity=1;
+   icocabelo[13].style.opacity=1;
  
- icoolho[0].style.opacity=1;
- icoolho[1].style.opacity=1;
- icoolho[2].style.opacity=1;
- icoolho[3].style.opacity=1;
- icoolho[4].style.opacity=1;
- icoolho[5].style.opacity=1;
- icoolho[6].style.opacity=1;
- icoolho[7].style.opacity=1;
+   icoolho[0].style.opacity=1;
+   icoolho[1].style.opacity=1;
+   icoolho[2].style.opacity=1;
+   icoolho[3].style.opacity=1;
+   icoolho[4].style.opacity=1;
+   icoolho[5].style.opacity=1;
+   icoolho[6].style.opacity=1;
+   icoolho[7].style.opacity=1;
  
- icoroupa[0].style.opacity=1;
- icoroupa[1].style.opacity=1;
- icoroupa[2].style.opacity=1;
- icoroupa[3].style.opacity=1;
- icoroupa[4].style.opacity=1;
+   icoroupa[0].style.opacity=1;
+   icoroupa[1].style.opacity=1;
+   icoroupa[2].style.opacity=1;
+   icoroupa[3].style.opacity=1;
+   icoroupa[4].style.opacity=1;
  
- icoorelha[0].style.opacity=1;
- icoorelha[1].style.opacity=1;
- icoorelha[2].style.opacity=1;
- icoorelha[3].style.opacity=1;
+   icoorelha[0].style.opacity=1;
+   icoorelha[1].style.opacity=1;
+   icoorelha[2].style.opacity=1;
+   icoorelha[3].style.opacity=1;
  };
  
  icocabelo[0].addEventListener("click",function(){clear();icocabelo[0].style.opacity=0.5;hair=0;});
