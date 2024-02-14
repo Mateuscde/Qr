@@ -387,6 +387,7 @@
   </div>
 </body>
 <script type="text/javascript">
+
 //eliminar o botao direito do mouse
 //document.addEventListener('contextmenu', event => event.preventDefault());
 
@@ -500,11 +501,11 @@ setInterval(function(){
     */
 //cabelo e partes do corpo
 
-var valorRecuperado = localStorage.getItem('posicao');
-var hair=0;
-var eyer=valorRecuperado;
-var look=0;
-var ear=0;
+var valorRecuperado = JSON.parse(localStorage.getItem('cocoData'));
+var hair=valorRecuperado.cabelo;
+var eyer=valorRecuperado.olho;
+var look=valorRecuperado.roupa;
+var ear=valorRecuperado.orelha;
 var valorRecuperado;
 setInterval(function(){
   if(hair==0){cabelo.style.display=" none"};
@@ -623,7 +624,7 @@ var icoolho=document.getElementsByClassName("iconescolhaolho");
 var icoorelha=document.getElementsByClassName("iconescolhaorelha");
 var icoroupa=document.getElementsByClassName("iconescolharoupa");
 var select=document.getElementsByClassName("select");
-var coco;
+var pet;
 setInterval(function(){
   if(parte==1){
     select[0].style="display:block;";
@@ -660,11 +661,16 @@ setInterval(function(){
     select[3].style="display:none;";
     select[4].style="display:block;";
   };
-  coco=6;
+  pet={
+  olho:eyer,
+  cabelo:hair,
+  roupa:look,
+  orelha:ear,
+  }
  },0);
  salvar.addEventListener("click",function(){
-   alert(coco);
-   localStorage.setItem('posicao', coco);
+   alert("ds");
+   localStorage.setItem('cocoData',JSON.stringify(pet));
  });
  function clear(){
    icocabelo[0].style.opacity=1;
@@ -741,5 +747,6 @@ setInterval(function(){
  icoorelha[2].addEventListener("click",function(){clear();icoorelha[2].style.opacity=0.5;ear=2;});
  icoorelha[3].addEventListener("click",function(){clear();icoorelha[3].style.opacity=0.5;ear=3;});
  
+
 </script>
 </html>
