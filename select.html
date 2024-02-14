@@ -9,6 +9,7 @@
       padding:0px;
       margin:0px;
       user-select:none;
+      overflow:none;
    }
    body{
       overflow:hidden;
@@ -48,7 +49,7 @@
      position:relative;
      background:gray;
      padding: 1%;
-     width:60%;
+     width:100%;
      height:10%;
      top:5%;
      left:50%;
@@ -219,7 +220,7 @@
    #tronco{filter: brightness(100%);}
    #olho{filter:hue-rotate(100deg);}
    #roupa{filter:hue-rotate(100deg);}
-   #orelha{}
+   #orelha{z-index:0;}
    #rabo{left:57%;}
    #cabelo{filter:hue-rotate(100deg);}
    #expressao{display:block;}
@@ -291,23 +292,24 @@
 </style>
 </head>
 <body>
+  <audio id="som"  src="sound/click.mp3"></audio>
   <div id="cont">
     <div id="cont1" >
       <div id="contpet" >
        <div id="controlcorpo" >
         <img id="coracao" draggable="false" src="imagens/items/coracao.png" >
-        <img id="rabo" class="corpopet" draggable="false" src="imagens/pet corpo/rabo/rabo1.png"/>
+        <img id="rabo" class="corpopet" draggable="false" src="imagens/pet corpo/rabo/rabo0.png"/>
         <img id="tronco" class="corpopet" draggable="false" src="imagens/pet corpo/tronco.png"/>
         <img id="esclera" class="corpopet" draggable="false" src="imagens/pet corpo/olho/esclera.png"/>
         <div id="contrololho" >
-        <img id="olho" class="corpopet" draggable="false" src="imagens/pet corpo/olho/pupila6.png"/>
+        <img id="olho" class="corpopet" draggable="false" src="imagens/pet corpo/olho/pupila1.png"/>
         </div>
         <img id="cilios" class="corpopet" draggable="false" src="imagens/pet corpo/olho/cilios.png"/>
         <img id="expressao" class="corpopet" draggable="false" src="imagens/pet corpo/expressao/none.png"/>
-        <img id="orelha" class="corpopet" draggable="false" src="imagens/pet corpo/orelha/orelha1.png"/>
+        <img id="orelha" class="corpopet" draggable="false" src="imagens/pet corpo/orelha/orelha0.png"/>
         <img id="boca" class="corpopet" draggable="false" src="imagens/pet corpo/boca/boca1.png"/>
-        <img id="roupa" class="corpopet" draggable="false" src="imagens/pet corpo/roupa/roupa1.png"/>
-        <img id="cabelo" class="corpopet" draggable="false" src="imagens/pet corpo/cabelo/cabelo1.png"/>
+        <img id="roupa" class="corpopet" draggable="false" src="imagens/pet corpo/roupa/roupa0.png"/>
+        <img id="cabelo" class="corpopet" draggable="false" src="imagens/pet corpo/cabelo/cabelo0.png"/>
         </div>
       </div>
       <div id="icons" >
@@ -388,7 +390,7 @@
 <script type="text/javascript">
 
 //eliminar o botao direito do mouse
-//document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 //aguardar 500 milesimos para a tela aparecer
 var cont=document.getElementById("cont");
@@ -398,6 +400,7 @@ setTimeout(function(){
 
 //variaveis do pet
 parte=1;
+var som=document.getElementById("som");
 var salvar=document.getElementById("salvar")
 var coracao=document.getElementById("coracao");
 var icon=document.getElementsByClassName("icon");
@@ -439,7 +442,7 @@ function apagar(){
   icon[5].style.opacity=1;
 };
 
-/*//animaçao dele pulando
+//animaçao dele pulando
 var vaievem=0;
 setInterval(function(){
   vaievem= Math.floor(Math.random() *5) + 1;
@@ -496,53 +499,55 @@ setInterval(function(){
   };
 },0);
 };
-    */
+    
 //cabelo e partes do corpo
+var hair;
+var eyer;
+var look;
+var ear;
+if (localStorage.length === 0) {
+    console.log("O Local Storage está vazio.");
+barra1[0].value=50;
+hair=0;
+eyer=1;
+look=0;
+ear=0;
 
-var hair=localStorage.getItem('cabelo')
-var eyer=localStorage.getItem('olho');
-var look=localStorage.getItem('roupa')
-var ear=localStorage.getItem('orelha')
-var valorRecuperado;
+} else {
+console.log("O Local Storage não está vazio.");
+barra1[0].value=localStorage.getItem('matizcorpo');
+barra2[0].value=localStorage.getItem('satucorpo');
+barra3[0].value=localStorage.getItem('lumicorpo');
+barra1[1].value=localStorage.getItem('matizolho');
+barra2[1].value=localStorage.getItem('satuolho');
+barra3[1].value=localStorage.getItem('lumiolho');
+barra1[2].value=localStorage.getItem('matizcabelo');
+barra2[2].value=localStorage.getItem('satucabelo');
+barra3[2].value=localStorage.getItem('lumicabelo');
+barra1[3].value=localStorage.getItem('matizroupa');
+barra2[3].value=localStorage.getItem('saturoupa');
+barra3[3].value=localStorage.getItem('lumiroupa');
+
+hair=localStorage.getItem('cabelo');
+eyer=localStorage.getItem('olho');
+look=localStorage.getItem('roupa');
+ear=localStorage.getItem('orelha');
+}
 setInterval(function(){
-  if(hair==0){cabelo.style.display=" none"}else
-  if(hair==1){cabelo.src="imagens/pet corpo/cabelo/cabelo1.png";}else
-  if(hair==2){cabelo.src="imagens/pet corpo/cabelo/cabelo2.png";}else
-  if(hair==3){cabelo.src="imagens/pet corpo/cabelo/cabelo3.png";}else
-  if(hair==4){cabelo.src="imagens/pet corpo/cabelo/cabelo4.png";}else
-  if(hair==5){cabelo.src="imagens/pet corpo/cabelo/cabelo5.png";}else
-  if(hair==6){cabelo.src="imagens/pet corpo/cabelo/cabelo6.png";}else
-  if(hair==7){cabelo.src="imagens/pet corpo/cabelo/cabelo7.png";}else
-  if(hair==8){cabelo.src="imagens/pet corpo/cabelo/cabelo8.png";}else
-  if(hair==9){cabelo.src="imagens/pet corpo/cabelo/cabelo9.png";}else
-  if(hair==10){cabelo.src="imagens/pet corpo/cabelo/cabelo10.png";}else
-  if(hair==11){cabelo.src="imagens/pet corpo/cabelo/cabelo11.png";}else
-  if(hair==12){cabelo.src="imagens/pet corpo/cabelo/cabelo12.png";}else
-  if(hair==13){cabelo.src="imagens/pet corpo/cabelo/cabelo13.png";};
+  if(hair==0){cabelo.style.display=" none"};
+  cabelo.src="imagens/pet corpo/cabelo/cabelo"+hair+".png";
 
-  if(eyer==0){olho.style.display=" none"}else
-  if(eyer==1){olho.src="imagens/pet corpo/olho/pupila1.png";}else
-  if(eyer==2){olho.src="imagens/pet corpo/olho/pupila2.png";}else
-  if(eyer==3){olho.src="imagens/pet corpo/olho/pupila3.png";}else
-  if(eyer==4){olho.src="imagens/pet corpo/olho/pupila4.png";}else
-  if(eyer==5){olho.src="imagens/pet corpo/olho/pupila5.png";}else
-  if(eyer==6){olho.src="imagens/pet corpo/olho/pupila6.png";}else
-  if(eyer==7){olho.src="imagens/pet corpo/olho/pupila7.png";}else
-  if(eyer==8){olho.src="imagens/pet corpo/olho/pupila8.png";};
+  if(eyer==0){olho.style.display=" none"};
+  olho.src="imagens/pet corpo/olho/pupila"+eyer+".png";
 
+  if(look==0){roupa.style.display=" none"};
+  roupa.src="imagens/pet corpo/roupa/roupa"+look+".png";
 
-  if(look==0){roupa.style.display=" none"}else
-  if(look==1){roupa.src="imagens/pet corpo/roupa/roupa1.png";}else
-  if(look==2){roupa.src="imagens/pet corpo/roupa/roupa2.png";}else
-  if(look==3){roupa.src="imagens/pet corpo/roupa/roupa3.png";}else
-  if(look==4){roupa.src="imagens/pet corpo/roupa/roupa4.png";};
-
-  if(ear==0){orelha.style.display=" none"}else
-  if(ear==1){orelha.src="imagens/pet corpo/orelha/orelha1.png";}else
-  if(ear==2){orelha.src="imagens/pet corpo/orelha/orelha2.png";}else
-  if(ear==3){orelha.src="imagens/pet corpo/orelha/orelha3.png";};
+  if(ear==0){orelha.style.display=" none"};
+  orelha.src="imagens/pet corpo/orelha/orelha"+ear+".png";
+ 
 },0);
-/*
+
 var rand=3000;
 setInterval(function(){
   rand= Math.floor(Math.random()*10000) + 1;
@@ -589,7 +594,7 @@ setInterval(function(){
     }else{expressao.src="imagens/pet corpo/expressao/"+imagem+".png"};
   }else{expressao.src="imagens/pet corpo/expressao/"+imagem+".png";};
 },0);
-  */
+  
 //verificar qual parte do corpo eles vao mudar 
 setInterval(function(){
 
@@ -646,7 +651,22 @@ var icoolho=document.getElementsByClassName("iconescolhaolho");
 var icoorelha=document.getElementsByClassName("iconescolhaorelha");
 var icoroupa=document.getElementsByClassName("iconescolharoupa");
 var select=document.getElementsByClassName("select");
-var pet;
+var corpmatiz;
+var corpsatu;
+var corplumi;
+var olhomatiz;
+var olhosatu;
+var olholumi;
+var cabelomatiz;
+var cabelosatu;
+var cabelolumi;
+var roupamatiz;
+var roupasatu;
+var roupalumi;
+var olh;
+var cab;
+var roup;
+var orel;
 setInterval(function(){
   if(parte==1){
     select[0].style="display:block;";
@@ -683,13 +703,38 @@ setInterval(function(){
     select[3].style="display:none;";
     select[4].style="display:block;";
   };
- olh=eyer;
- cab=hair;
- roup=look;
- orel=ear;
+  corpmatiz=barra1[0].value;
+  corpsatu=barra2[0].value;
+  corplumi=barra3[0].value;
+     olh=eyer;
+  olhomatiz=barra1[1].value;
+  olhosatu=barra2[1].value;
+  olholumi=barra3[1].value;
+     cab=hair;
+  cabelomatiz=barra1[2].value;
+  cabelosatu=barra2[2].value;
+  cabelolumi=barra3[2].value;
+     roup=look;
+  roupamatiz=barra1[3].value;
+  roupasatu=barra2[3].value;
+  roupalumi=barra3[3].value;
+     orel=ear;
  },0);
+ 
  salvar.addEventListener("click",function(){
    alert("ds");
+   localStorage.setItem('matizcorpo',corpmatiz);
+   localStorage.setItem('satucorpo',corpsatu);
+   localStorage.setItem('lumicorpo',corplumi);
+   localStorage.setItem('matizolho',olhomatiz);
+   localStorage.setItem('satuolho',olhosatu);
+   localStorage.setItem('lumiolho',olholumi);
+   localStorage.setItem('matizcabelo',cabelomatiz);
+   localStorage.setItem('satucabelo',cabelosatu);
+   localStorage.setItem('lumicabelo',cabelolumi);
+   localStorage.setItem('matizroupa',roupamatiz);
+   localStorage.setItem('saturoupa',roupasatu);
+   localStorage.setItem('lumiroupa',roupalumi);
    localStorage.setItem('olho',olh);
    localStorage.setItem('cabelo',cab);
    localStorage.setItem('roupa',roup);
