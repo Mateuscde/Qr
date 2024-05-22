@@ -53,6 +53,7 @@
      height:10%;
      top:5%;
      left:50%;
+	 justify-content:center;
      transform:translate(-50%,0%);
      overflow-x:auto;
      display: flex;
@@ -198,7 +199,7 @@
     left:50%;
     top:50%;
     transform:translate(-50%,-50%) rotate(0deg);
-    transition:1s;
+    transition:70s;
     transition-timing-function:linear;
     }
 
@@ -212,9 +213,9 @@
    .corpopet{
      position:absolute;
      background:none;
-     height:120%;
+     height:100%;
      left:50%;
-     top:50%;
+     top:51%;
      transform:translate(-50%,-50%);
    }
    #tronco{filter: brightness(100%);}
@@ -298,7 +299,7 @@
       <div id="contpet" >
        <div id="controlcorpo" >
         <img id="coracao" draggable="false" src="imagens/items/coracao.png" >
-        <img id="rabo" class="corpopet" draggable="false" src="imagens/pet corpo/rabo/rabo0.png"/>
+        <img id="rabo" class="corpopet" draggable="false" src="imagens/pet corpo/rabo/rabo1.png"/>
         <img id="tronco" class="corpopet" draggable="false" src="imagens/pet corpo/tronco.png"/>
         <img id="esclera" class="corpopet" draggable="false" src="imagens/pet corpo/olho/esclera.png"/>
         <div id="contrololho" >
@@ -722,7 +723,6 @@ setInterval(function(){
  },0);
  
  salvar.addEventListener("click",function(){
-   alert("ds");
    localStorage.setItem('matizcorpo',corpmatiz);
    localStorage.setItem('satucorpo',corpsatu);
    localStorage.setItem('lumicorpo',corplumi);
