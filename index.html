@@ -9,6 +9,8 @@
   user-select:none;
   -webkit-user-drag: none; 
   font-family:Arial,sans-serif;
+  margin:0px;
+  padding:0px;
   }
   html {
   scroll-behavior:smooth;
@@ -119,22 +121,30 @@
   transform:translate(-50%,0%);
   }
   #caixa1_cont_texto {
+  display:flex;
+  position:relative;
+  background:none;
   width:100%;
-  height:16%;
+  height:auto;
+  
   }
   #modo{
+  position:relative;
   font-family:Arial,sans-serif;
   font-size:100%;
   color:#fff;
   width:50%;
   height:100%;
-  padding:1%;
+  padding:0%;
+  bottom:0px;
+  margin-top:2%;
+  
   font-weight:bold;
   }
   #mostrar{
   position:absolute;
   width:20%;
-  height:auto;
+  height:100%;
   margin:0%;
   padding:1%;
   right:1%;
@@ -144,10 +154,10 @@
   border-radius:5px;
   border:2px solid white;
   font-weight:bold;
-  font-size:100%;
+  font-size:98%;
   }
   #caixa2{
-  position:absolute;
+  position:relative;
   width:100%;
   height:94%;
   background:gray;
