@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>galileu cursos</title>
+<style type="text/css">
+/*estilizacao do body e do header*/
+  *{
+  user-select:none;
+  -webkit-user-drag: none; 
+  }
+  html {
+  scroll-behavior:smooth;
+  }
+  
+  a{
+  width:auto;
+  text-decoration:none;
+  background:none;
+  color:white;
+  }
+  a:focus {
+  outline:2px solid none;
+  box-shadow: none;
+  }
+  
+  body{
+  background:#041A33;
+  margin:0px;
+  padding:0px;
+  overflow-y:scroll;
+  }
+  /*nav cabeçalho*/
+  header{
+  z-index:2;
+  display:flex;
+  position:relative;
+  width:100%;
+  height:6vh;
+  position:sticky;
+  /*background:black;*/
+  top:0px;
+  background:#0E1523;
+  }
+  #icon{
+  display:block;
+  position:absolute;
+  height:60%;
+  left:2%;
+  top:50%;
+  transform:translate(0%,-50%);
+  border-radius:50%;
+  background:none;
+  margin:0%;
+  }
+  
+  
+  
+  #anos{
+  position:relative;
+  bottom:2px;
+  left:50%;
+  transform:translate(-50%,0%);
+  text-align:center;
+  font-size:4.5vw;
+  font-weight:bold;
+  font-family:Arial,sans-serif;
+  /*color:#493612;*/
+  color:white;
+  }
+  
+  /*tela de apresentacao home*/
+  #home{
+  position:relative;
+  width:100%;
+  height:100vh;
+  top:-7vh;
+  background-image:url("imagens/capa1.png");
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  }
+  #bandeira{
+  position:absolute;
+  width:auto;
+  height:1%;
+  margin:0%;
+  padding:2%;
+  right:5%;
+  top:6vh;
+  overflow:hidden;
+  filter:grayscale(0%) hue-rotate(-10deg);
+  border-radius:0px 0px 10px 10px;
+  box-shadow:5px 5px 10px black;
+  background: linear-gradient(0deg, rgba(119,110,6,1) 0%, rgba(94,92,10,1) 12%, rgba(141,133,41,1) 21%, rgba(172,158,21,1) 30%, rgba(189,182,114,1) 39%, rgba(201,190,101,1) 47%, rgba(190,176,73,1) 57%, rgba(191,168,16,1) 70%, rgba(187,162,20,1) 79%, rgba(171,145,18,1) 87%, rgba(134,109,12,1) 99%);
+  /*background: linear-gradient(0deg, rgba(71,62,206,1) 10%, rgba(25,155,255,1) 48%, rgba(225,66,223,1) 91%);*/
+  }
+  #logo{
+  position:relative;
+  width:75%;
+  top:27%;
+  left:50%;
+  transform:translate(-50%,0%);
+  }
+  #base{
+  position:absolute;
+  width:100%;
+  height:34%;
+  left:0px;
+  bottom:0px;
+  }
+  /*container da caixa que tem os cursos de presencial e ead*/
+  #cont_banner{
+  position:relative;
+  width:80%;
+  height:20vh;
+  top:45%;
+  left:50%;
+  transform:translate(-50%,0%);
+  }
+  #caixa1_cont_texto {
+  width:100%;
+  height:16%;
+  }
+  #modo{
+  font-family:Arial,sans-serif;
+  font-size:130%;
+  color:#fff;
+  width:50%;
+  height:100%;
+  padding:1%;
+  font-weight:bold;
+  }
+  #mostrar{
+  position:absolute;
+  width:20%;
+  height:auto;
+  margin:0%;
+  padding:1%;
+  right:1%;
+  top:0px;
+  background:#778BAD;
+  color:#fff;
+  border-radius:5px;
+  border:2px solid white;
+  font-weight:bold;
+  font-size:100%;
+  }
+  #caixa2{
+  position:absolute;
+  width:100%;
+  height:94%;
+  background:gray;
+  border:3px solid black;
+  border-radius:10px;
+  overflow:hidden;
+  }
+  #caixa3{
+  display:none;
+  position:absolute;
+  width:100%;
+  height:94%;
+  background:gray;
+  border:3px solid black;
+  border-radius:10px;
+  overflow:hidden;
+  }
+  .banners{
+  display:block;
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:none;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  }
+  .banners2{
+  display:block;
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:none;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  }
+  
+  
+  #range{
+  position:absolute;
+  bottom:-75px;
+  width:100%;
+  }
+  
+  #range[type=range] {
+  height: 38px;
+  -webkit-appearance: none;
+  background:none;
+  margin: 10px 0;
+  width: 100%;
+  }
+  #range[type=range]:focus {
+  outline: none;
+  }
+  #range[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  animate: 0.2s;
+  background:white;
+  border-radius: 50px;
+  }
+  #range[type=range]::-webkit-slider-thumb {
+  border: 3px solid white;
+  height: 20px;
+  width: 20px;
+  border-radius: 5px;
+  background:#778BAD;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -5px;
+  }
+  
+  
+  
+  /*corpo da pagina*/
+  
+  #corpo_da_pagina {
+  width:100%;
+  height:auto;
+  }
+  #cont_criar_curriculo {
+  display:flex;
+  overflow:hidden;
+  position:relative;
+  width:80%;
+  height:14vh;
+  background:gray;
+  left:50%;
+  top:-9vh;
+  border-radius:5px;
+  transform:translate(-50%,0%);
+  }
+  #cont_imagem_gerador {
+  width:auto;
+  height:100%;
+  background:none;
+  }
+  #img_curriculo {
+   height:100%;
+ }
+  #cont_text_gerador {
+  position:relative;
+  width:100%;
+  height:100%;
+  background:#0E1523;
+  }
+  #texto_curriculo{
+  color:white;
+  position:absolute;
+  background:none;
+  font-weight:bold;
+  font-size:140%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  }
+  
+  
+  /*area de contato*/
+  #contato{
+  position:relative;
+  width:100%;
+  height:30vh;
+  background:#0E1523;
+  }
+  footer{
+  position:relative;
+  width:100%;
+  padding-bottom:2%;
+  color:white;
+  text-align:center;
+  background:#0E1523;
+  }
+</style>
+</head>
+<body>
+  
+ 
+ <!--barra de navegacao header-->
+  <header>
+    <img id="icon"src="imagens/logoimg.png" >
+  </header>  
+    
+    <!--primeira parte tela de boas vindas e inicio-->
+    <div id="home">
+      <div id="bandeira"><p id="anos" ><span style="font-size:190%;" >ALN</span><br>aluno</p></div>
+      <img id="logo" src="imagens/logotxt.png">
+      <img id="base" src="imagens/base.png">
+      <div id="cont_banner" >
+        <div id="caixa1_cont_texto" >
+          <p id="modo"><span id="presencial" >PRESENCIAL</span> | <span style="opacity:0.3;" id="ead" >EAD</span></p>
+          <button id="mostrar">todos</button>
+        </div>
+        <div id="caixa2" >
+          <div class="banners" style="background-image:url('imagens/enfermagem.png');"  ></div>
+          <div style="background-image:url('imagens/radiologia.png');" class="banners" ></div>
+          <div style="background-image:url('imagens/informatica.png');" class="banners" ></div>
+          <div style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlA4AHPm1zEdS3JQToYRF1ZJLi8QD_vaoiCw&usqp=CAU');" class="banners" ></div>
+        </div>
+        <div id="caixa3" >
+          <div class="banners2" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNF285AMGXJpZC2jj0MuwE7aQKv7sxd-Xxr5TvS_bnwmx1GD5Hl_GHMM2S&s=10');"  ></div>
+        </div>
+        <input id="range"  type="range" min="0" max="3" value="0"  >
+      </div>
+    </div>
+    
+    
+    <!--corpo da pagina onde vocebira acrescentar informacoes-->
+    <div id="corpo_da_pagina">
+    
+      <!--gerador de curriculos-->
+      <label id="cont_criar_curriculo">
+      <div id="cont_imagem_gerador"><img id="img_curriculo"  src="imagens/curriculo.png" ></div>
+      <div id="cont_text_gerador"><span id="texto_curriculo" >CRIADOR DE </br>CURRICULOS</span></div>
+      </label>
+      
+      
+    </div>
+    <div id="contato">
+    
+    </div>
+    <footer>&copy; galileu cursos 2024</footer>
+</body>
+<script type="text/javascript">
+
+  var bandeira=document.getElementById("bandeira");
+  var presencial=document.getElementById("presencial");
+  var ead=document.getElementById("ead");
+  var ranger=document.getElementById("range");
+  var banners=document.getElementsByClassName("banners");
+  var caixa2=document.getElementById("caixa2");
+  var caixa3=document.getElementById("caixa3");
+  var icon=document.getElementById("icon");
+  
+  var valor=0;
+  setInterval(function(){
+    if(valor==0){icon.style="transition:3s; filter:hue-rotate(100deg);";valor=1}else
+    if(valor==1){icon.style="transition:3s; filter:hue-rotate(-100deg);";valor=2}else
+    if(valor==2){icon.style="transition:3s; filter:hue-rotate(0deg);";valor=0};
+    
+  },3000);
+  
+  function clear(){
+    banners[0].style.display="none";
+    banners[1].style.display="none";
+    banners[2].style.display="none";
+    banners[3].style.display="none";
+  };
+  
+  presencial.addEventListener("click",function(){
+   caixa2.style.display="block";
+   caixa3.style.display="none";
+   range.style.display="block";
+   ead.style.opacity=0.2;
+   presencial.style.opacity=1;
+  });
+  ead.addEventListener("click",function(){
+  caixa2.style.display="none";
+  caixa3.style.display="block";
+  range.style.display="none";
+  ead.style.opacity=1;
+  presencial.style.opacity=0.2;
+  });
+ 
+  setInterval(function(){
+    if(ranger.value==0){clear(); banners[0].style.display="block";}else
+    if(ranger.value==1){clear(); banners[1].style.display="block";};
+    if(ranger.value==2){clear(); banners[2].style.display="block";};
+    if(ranger.value==3){clear(); banners[3].style.display="block";};
+  },0);
+  
+  setTimeout(function(){
+    bandeira.style="transition:0.3s; height:10%;";
+  },2000);
+</script>
+</html>
