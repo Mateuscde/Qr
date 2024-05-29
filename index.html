@@ -13,7 +13,6 @@
   html {
   scroll-behavior:smooth;
   }
-  
   a{
   width:auto;
   text-decoration:none;
@@ -34,7 +33,7 @@
   /*nav cabeçalho*/
   header{
   z-index:2;
-  display:flex;
+  display:none;
   position:relative;
   width:100%;
   height:6vh;
@@ -46,13 +45,12 @@
   #icon{
   display:block;
   position:absolute;
-  height:60%;
-  left:2%;
-  top:50%;
-  transform:translate(0%,-50%);
+  height:6vh;
+  left:p%;
+  top:0%;
   border-radius:50%;
   background:none;
-  margin:0%;
+  margin:2%;
   }
   
   
@@ -75,7 +73,7 @@
   position:relative;
   width:100%;
   height:100vh;
-  top:-7vh;
+  top:0vh;
   background-image:url("imagens/capa1.png");
   background-attachment:fixed;
   background-repeat:no-repeat;
@@ -89,7 +87,7 @@
   margin:0%;
   padding:2%;
   right:5%;
-  top:-4vh;
+  top:0vh;
   overflow:hidden;
   filter:grayscale(0%) hue-rotate(-10deg);
   border-radius:0px 0px 10px 10px;
@@ -126,7 +124,7 @@
   }
   #modo{
   font-family:Arial,sans-serif;
-  font-size:130%;
+  font-size:100%;
   color:#fff;
   width:50%;
   height:100%;
@@ -234,13 +232,14 @@
   }
   #cont_criar_curriculo {
   display:flex;
+  opacity:0;
   overflow:hidden;
   position:relative;
   width:80%;
   height:14vh;
   background:gray;
   left:50%;
-  top:-9vh;
+  top:-5vh;
   border-radius:5px;
   border:3px solid white;
   transform:translate(-50%,0%);
@@ -264,7 +263,7 @@
   position:absolute;
   background:none;
   font-weight:bold;
-  font-size:100%;
+  font-size:90%;
   text-align:center;
   top:50%;
   left:50%;
@@ -299,7 +298,8 @@
     
     <!--primeira parte tela de boas vindas e inicio-->
     <div id="home">
-      <div id="bandeira"><p id="anos" ><span style="font-size:190%;" >ALN</span><br>aluno</p></div>
+      <img id="icon"src="imagens/logoimg.png" >
+      <a href="#contato" ><div id="bandeira"><p id="anos" ><span style="font-size:190%;" >ALN</span><br>aluno</p></div></a>
       <img id="logo" src="imagens/logotxt.png">
       <img id="base" src="imagens/base.png">
       <div id="cont_banner" >
@@ -339,8 +339,19 @@
 </body>
 <script type="text/javascript">
   document.addEventListener('contextmenu', event => event.preventDefault());
-
+  
   var bandeira=document.getElementById("bandeira");
+  var cont_curriculo=document.getElementById("cont_criar_curriculo");
+  bandeira.style="transition:0.3s; top:0vh;";
+  window.addEventListener('scroll', function() {
+  // Check if the scroll position has reached the defined reveal position
+    if (window.scrollY <= 0) {bandeira.style="transition:0.3s; top:0vh;";cont_curriculo.style="transition:0.3s; opacity:0;";}else
+    if (window.scrollY >= 20) { bandeira.style="transition:0.3s; top:-6vh;";cont_curriculo.style="transition:2s; opacity:1;";};
+  });
+  
+  
+
+  
   var presencial=document.getElementById("presencial");
   var ead=document.getElementById("ead");
   var ranger=document.getElementById("range");
@@ -386,8 +397,6 @@
     if(ranger.value==3){clear(); banners[3].style.display="block";};
   },0);
   
-  setTimeout(function(){
-    bandeira.style="transition:0.3s; top:6vh;";
-  },2000);
+  
 </script>
 </html>
