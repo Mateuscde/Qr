@@ -48,13 +48,25 @@
   display:block;
   position:absolute;
   height:6vh;
-  left:p%;
+  left:0%;
   top:0%;
   border-radius:50%;
   background:none;
   margin:2%;
   }
+  #entrar{
+  position:absolute;
+  width:20%;
+  height:4vh;
+  left:10vh;
+  top:2%;
+  border-radius:5px;
+  border:2px solid white;
+  background:none;
+  text-transform:uppercase;
+  color:white;
   
+  }
   
   
   #anos{
@@ -94,8 +106,8 @@
   filter:grayscale(0%) hue-rotate(-10deg);
   border-radius:0px 0px 10px 10px;
   box-shadow:5px 5px 10px black;
-  background: linear-gradient(0deg, rgba(119,110,6,1) 0%, rgba(94,92,10,1) 12%, rgba(141,133,41,1) 21%, rgba(172,158,21,1) 30%, rgba(189,182,114,1) 39%, rgba(201,190,101,1) 47%, rgba(190,176,73,1) 57%, rgba(191,168,16,1) 70%, rgba(187,162,20,1) 79%, rgba(171,145,18,1) 87%, rgba(134,109,12,1) 99%);
-  /*background: linear-gradient(0deg, rgba(71,62,206,1) 10%, rgba(25,155,255,1) 48%, rgba(225,66,223,1) 91%);*/
+ /* background: linear-gradient(0deg, rgba(119,110,6,1) 0%, rgba(94,92,10,1) 12%, rgba(141,133,41,1) 21%, rgba(172,158,21,1) 30%, rgba(189,182,114,1) 39%, rgba(201,190,101,1) 47%, rgba(190,176,73,1) 57%, rgba(191,168,16,1) 70%, rgba(187,162,20,1) 79%, rgba(171,145,18,1) 87%, rgba(134,109,12,1) 99%);*/
+  background: linear-gradient(0deg, rgba(71,62,206,1) 10%, rgba(25,155,255,1) 48%, rgba(225,66,223,1) 91%);*/
   }
   #logo{
   position:relative;
@@ -305,12 +317,27 @@
  <!--barra de navegacao header-->
   <header>
     <img id="icon"src="imagens/logoimg.png" >
+    <button id="entrar" >entrar</button>
   </header>  
     
     <!--primeira parte tela de boas vindas e inicio-->
     <div id="home">
-      <img id="icon"src="imagens/logoimg.png" >
-      <a href="#contato" ><div id="bandeira"><p id="anos" ><span style="font-size:190%;" >ALN</span><br>aluno</p></div></a>
+      <img id="icon"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDwqmIgdpM9WsyGO541LSkQntMWvI5BJgLzA&usqp=CAU" >
+      <div id="g_id_onload"
+      data-client_id="688638656088-ajlhp1v5ff81j1atu50a26p7fpcg9g4j.apps.googleusercontent.com"
+      data-login_uri="https://https://mateuscde.github.io/Qr/"
+      data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+      data-type="standard"
+      data-size="large"
+      data-theme="outline"
+      data-text="sign_in_with"
+      data-shape="rectangular"
+      data-logo_alignment="left">
+      </div>
+      <button id="entrar">entrar</button>
+      <a href="#contato" ><div id="bandeira"><p id="anos" ><span style="font-size:190%;" >ADM</span><br>admin</p></div></a>
       <img id="logo" src="imagens/logotxt.png">
       <img id="base" src="imagens/base.png">
       <div id="cont_banner" >
@@ -346,8 +373,9 @@
     <div id="contato">
     
     </div>
-    <footer>&copy; galileu cursos 2024</footer>
+    <footer>&copy; galileu cursos | 2024</footer>
 </body>
+<script src="https://acconts.google.com/gsi/client" async defer"></script>
 <script type="text/javascript">
   document.addEventListener('contextmenu', event => event.preventDefault());
   
