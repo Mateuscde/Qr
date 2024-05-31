@@ -16,41 +16,25 @@
             color: #3BB2FF;
             font-family: Arial, sans-serif;
         }
-        .circle {
-            width: 100px;
-            height: 100px;
-            background-color:none;
-            border-radius:0%;
-            margin-bottom: 20px;
-        }
-        .message {
-            width:80%;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight:bold;
-            font-family:Arial,sans-serif;
-            font-size:150%;
-            text-transform:uppercase;
-        }
+        
         
     </style>
 </head>
 <body>
-    <img src="imagens/verify.png" class="circle">
-    <div class="message">dados enviados, espere no prazo 24hrs para seu atendimento</div>
+    
 
     <script>
         setTimeout(function(){
             // Redirecionar para a página do menu
-            window.location.href = 'index.html';
+            window.location.replace("index.html");
             const dado = 2;
             localStorage.setItem("dados",dado);
-        },3000);
+       },0);
         
-        const dado = localStorage.getItem("dados");
-        if(dado==2){
-        window.location.href = 'index.html';
-        }else{};
+       // const dado = localStorage.getItem("dados");
+       // if(dado==2){
+       // window.location.href = 'index.html';
+       // }else{};
         
         
         
