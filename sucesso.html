@@ -32,34 +32,25 @@
             font-size:150%;
             text-transform:uppercase;
         }
-        .button {
-            padding: 10px 20px;
-            border: 2px solid white;
-            background: black;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius:20px;
-        }
-        .button:hover {
-            background: white;
-            color: black;
-        }
+        
     </style>
 </head>
 <body>
     <img src="imagens/verify.png" class="circle">
-    <div class="message">Mensagem enviada, espere no prazo 24hrs para seu atendimento</div>
-    <button class="button" onclick="backToMenu()">Voltar ao menu</button>
+    <div class="message">dados enviados, espere no prazo 24hrs para seu atendimento</div>
 
     <script>
-        function backToMenu() {
+        setTimeout(function(){
             // Redirecionar para a página do menu
             window.location.href = 'index.html';
-        }
+            const dado = 2;
+            localStorage.setItem("dados",dado);
+        },3000);
         
-        const dado = 2
-        localStorage.setItem("dados",dado);
+        const dado = localStorage.getItem("dados");
+        if(dado==2){
+        window.location.href = 'index.html';
+        }else{};
         
         
         

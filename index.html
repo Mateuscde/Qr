@@ -330,6 +330,50 @@
   transform:translate(0%,-50%);
   }
   
+  
+  #cont_criar_qrcode {
+  display:flex;
+  position:relative;
+  opacity:0;
+  overflow:hidden;
+  width:80%;
+  height:auto;
+  background:gray;
+  left:50%;
+  margin-top:10%;
+  border-radius:5px;
+  border:3px solid white;
+  transform:translate(-50%,0%);
+  }
+  #cont_imagem_geradorqrcode {
+  width:auto;
+  height:80px;
+  background:none;
+  }
+  #img_qrcode {
+  height:100%;
+  }
+  #cont_text_geradorqrcode {
+  position:relative;
+  width:100%;
+  height:auto;
+  background:#0E1523;
+  }
+  #texto_qrcode{
+  color:white;
+  width:100%;
+  position:absolute;
+  background:none;
+  font-weight:bold;
+  font-size:90%;
+  margin:0px;
+  text-align:center;
+  top:50%;
+  transform:translate(0%,-50%);
+  }
+  
+  
+  
   #cont_img_sobre{
   display:flex;
   overflow:hidden;
@@ -501,6 +545,10 @@
       <div id="cont_imagem_gerador"><img id="img_curriculo"  src="imagens/curriculo.png" ></div>
       <div id="cont_text_gerador"><span id="texto_curriculo" ><span style="display:block;width:100%; font-size:190%;">MAKER C</span></br>criador de curriculo</span></div>
       </label>
+      <label id="cont_criar_qrcode">
+      <div id="cont_imagem_geradorqrcode"><img id="img_qrcode"  src="imagens/curriculo.png" ></div>
+      <div id="cont_text_geradorqrcode"><span id="texto_qrcode" ><span style="display:block;width:100%; font-size:190%;">QR GEAR</span></br>gerador de qr code</span></div>
+      </label>
       
 	  <p style="position:relative;display:block;font-size:150%;color:white; width:75%;margin-top:30%; left:50%;transform:translate(-50%,0%);">confie em quem garanta o seu futuro <span style="background:blue; padding:0% 2% 2% 2%;font-size:102%;">vem  ser  galileu!<span></p>
       <div id="cont_img_sobre">
@@ -511,10 +559,10 @@
     
     <div class="notification-box">
     <img src="imagens/verify.png" alt="Ícone de Sucesso">
-    <div class="message">Suas nformação foram enviada com sucesso</div>
+    <div class="message">Suas informação foram enviadas com sucesso</div>
     </div>
     
-    <div class="contact-form">
+    <div class="contact-form" id="contactForm" >
     <h2>Formulário de Contato</h2>
     <form action="https://api.staticforms.xyz/submit" method="POST">
     <label for="name">Nome</label>
@@ -554,7 +602,7 @@
   document.addEventListener('contextmenu', event => event.preventDefault());
   var form=document.getElementsByClassName("contact-form");
   var noti=document.getElementsByClassName("notification-box");
-  
+ 
   
   const dado = localStorage.getItem("dados");
   if(dado==2){
@@ -566,6 +614,7 @@
    
   var bandeira=document.getElementById("bandeira");
   var cont_curriculo=document.getElementById("cont_criar_curriculo");
+  var cont_qrcode=document.getElementById("cont_criar_qrcode");
   var txt_ola=document.getElementById("texto_saudacao");
   setTimeout(function(){
   txt_ola.style="transition:3s; opacity:1; left:50%;";
@@ -573,8 +622,16 @@
   bandeira.style="transition:0.3s; top:0vh;";
   window.addEventListener('scroll', function() {
   // Check if the scroll position has reached the defined reveal position
-    if (window.scrollY <= 0) {bandeira.style="transition:0.3s; top:0vh;";cont_curriculo.style="transition:2s; opacity:0;";}else
-    if (window.scrollY >= 20) { bandeira.style="transition:0.3s; top:-6vh;";cont_curriculo.style="transition:5s; opacity:1;";};
+    if (window.scrollY <= 0) {
+    bandeira.style="transition:0.3s; top:0vh;";
+    cont_curriculo.style="transition:2s; opacity:0;";
+    cont_qrcode.style="transition:2s; opacity:0;";
+    }else
+    if (window.scrollY >= 20) { 
+    bandeira.style="transition:0.3s; top:-6vh;";
+    cont_curriculo.style="transition:5s; opacity:1;";
+    cont_qrcode.style="transition:5s; opacity:1;";
+    };
   });
   //var img_sobre=document.getElementsByClassName("img_sobre");
 // Função para gerar um número aleatório entre 1 e 100
