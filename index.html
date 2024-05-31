@@ -379,6 +379,26 @@
   margin-top:30%;
   }
   
+  .notification-box {
+  display: none;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  margin-bottom:2%;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .notification-box img {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+  }
+  .notification-box .message {
+  font-size: 18px;
+  color: #4CAF50;
+  }
+  
   .contact-form {
   display:block;
   position:relative;
@@ -484,23 +504,36 @@
       
 	  <p style="position:relative;display:block;font-size:150%;color:white; width:75%;margin-top:30%; left:50%;transform:translate(-50%,0%);">confie em quem garanta o seu futuro <span style="background:blue; padding:0% 2% 2% 2%;font-size:102%;">vem  ser  galileu!<span></p>
       <div id="cont_img_sobre">
-		<img class="img_sobre"src="imagens/GIF2.GIF"/>
+		<img class="img_sobre"src="imagens/gif2.gif"/>
 	  </div>
 	  <button id="sobre" >sobre a galileu cursos</button>
     <div id="contato">
     
+    <div class="notification-box">
+    <img src="imagens/verify.png" alt="Ícone de Sucesso">
+    <div class="message">Suas informação foram enviada com sucesso</div>
+    </div>
+    
     <div class="contact-form">
     <h2>Formulário de Contato</h2>
-    <form>
+    <form action="https://api.staticforms.xyz/submit" method="POST">
     <label for="name">Nome</label>
     <input type="text" id="name" name="name" placeholder="nome completo" required>
     
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="digite seu email" required>
+    <input type="email" id="email" name="email" placeholder="digite seu email (opcional)">
     
     <label for="phone">Whatsapp</label>
     <input type="tel" id="phone" placeholder="whatsapp (XX) xxxxx-xxxx" name="phone" required>
     
+    <label for="email">Mensagem</label>
+    <input name="message">
+    
+    <input type="text" name="honeypot" style="display:none">
+    <input type="hidden" name="accessKey" value="3663071d-ac66-4ea7-818b-030147231015">
+    <input type="hidden" name="subject" value="Contact us from - example.com" />
+    <input type="hidden" name="replyTo" value="@">
+    <input type="hidden" name="redirectTo" value="sucesso.html">
     
     
     <button type="submit">Enviar</button>
@@ -519,6 +552,15 @@
 <script type="text/javascript">
   window.sr=ScrollReveal({ reset: true });
   document.addEventListener('contextmenu', event => event.preventDefault());
+  var form=document.getElementsByClassName("contact-form");
+  var noti=document.getElementsByClassName("notification-box");
+  
+  
+  const dado = localStorage.getItem("dados");
+  if(dado==2){
+   form[0].style="display:none;";
+   noti[0].style="display:flex;";
+  }else{};
   
   sr.reveal('#cont_img_sobre', { duration: 2000,interval: 3, x: 70, delay:0 });
    
