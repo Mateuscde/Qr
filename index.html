@@ -531,7 +531,7 @@
         <div id="caixa3" >
           <div class="banners2" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNF285AMGXJpZC2jj0MuwE7aQKv7sxd-Xxr5TvS_bnwmx1GD5Hl_GHMM2S&s=10');"  ></div>
         </div>
-        <input class="range"  type="range" min="0" max="3" value="0"  >
+        <input class="range"  type="range" min="0" max="20" value="0"  >
 		<input class="range" style="display:none;" type="range" min="0" max="0" value="0"  >
       </div>
     </div>
@@ -601,7 +601,7 @@
 
 if (document.documentElement.requestFullscreen) {
     // Adiciona um evento de clique para ativar o modo de tela cheia
-    document.addEventListener('click', function() {
+    document.addEventListener('dblclick', function() {
         document.documentElement.requestFullscreen();
     });
 } else {
@@ -614,11 +614,12 @@ if (document.documentElement.requestFullscreen) {
   var noti=document.getElementsByClassName("notification-box");
  
   
+  
+  
   const dado = localStorage.getItem("dados");
   if(dado==2){
    form[0].style="display:none;";
    noti[0].style="display:flex;";
-   document.documentElement.requestFullscreen();
   }else{};
   
   sr.reveal('#cont_img_sobre', { duration: 2000,interval: 3, x: 70, delay:0 });
