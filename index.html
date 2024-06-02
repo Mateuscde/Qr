@@ -117,10 +117,12 @@
   left:0%;
   top:0%;
   border-radius:50%;
+  border:2px solid black;
   background:none;
   margin:2%;
   }
   #entrar{
+  display:none;
   position:absolute;
   width:20%;
   height:4vh;
@@ -133,7 +135,18 @@
   color:white;
   
   }
-  
+  #userText {
+  position:absolute;
+  height:4vh;
+  left:10vh;
+  top:1.2%;
+  font-size:140%;
+  border-radius:5px;
+  background:none;
+  font-weight:bold;
+  text-transform:uppercase;
+  color:white;
+  }
   
   #anos{
   position:relative;
@@ -253,7 +266,16 @@
   .carousel {
   position: relative;
   width:100%;
-  height: 20vh;
+  height: auto;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .carousel1 {
+  display:none;
+  position: relative;
+  width:100%;
+  height: auto;
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -290,8 +312,6 @@
   
   .carousel-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
   }
   
   .carousel-button {
@@ -461,7 +481,7 @@
   transform:translate(-50%,0%);
   border-radius:5px;
   font-weight:bold;
-  font-size:110%;
+  font-size:4vw;
   text-align:center;
   text-transform:uppercase;
   border:none;
@@ -593,6 +613,7 @@
     <div id="home">
       <img id="icon"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlqmWlQSfVtkehZ14sN_hkTRUNuOHJOVu3aEGJKCHTO-nbgxuAYSx-lVu8&s=10" >
 	  <button id="entrar">entrar</button>
+	  <p id="userText" >Nome do usuario</p>
       <div id="bandeira"><p id="anos" ><span style="font-size:190%; text-transform:uppercase;" >6</span><br>anos</p></div>
       <img id="logo" src="imagens/logotxt.png">
 	  <div id="texto_saudacao" >
@@ -626,6 +647,18 @@
         <button class="carousel-button carousel-button-left">‹</button>
         <button class="carousel-button carousel-button-right">›</button>
         </div>
+        
+        <div class="carousel1">
+        <div class="carousel-track-container">
+        <ul class="carousel-track">
+        <li class="carousel-slide current-slide">
+        <img class="carousel-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNF285AMGXJpZC2jj0MuwE7aQKv7sxd-Xxr5TvS_bnwmx1GD5Hl_GHMM2S&s=10" alt="Imagem 1">
+        </li>
+        </ul>
+        </div>
+        <button class="carousel-button carousel-button-left">‹</button>
+        <button class="carousel-button carousel-button-right">›</button>
+        </div>
     </div>
     
     
@@ -644,7 +677,7 @@
       <div id="cont_text_geradorqrcode"><span id="texto_qrcode" ><span style="display:block;width:100%; font-size:190%;">QR GEAR</span></br>gerador de qr code</span></div>
       </label>
       
-	  <p style="position:relative;text-align:left;text-transform:uppercase;display:block;font-size:160%;color:white; width:90%;margin-top:30%; left:50%;transform:translate(-50%,0%);">Contamos com o melhor ensino profissionalizante e técnico da região</p></br><p style="position:relative;display:block;font-size:150%;color:white; width:90%;margin-top:3%; left:50%;transform:translate(-50%,0%);">confie em quem garanta o seu futuro </br><span style="background:blue;padding:0% 2% 0% 2%;font-size:102%;">vem  ser  galileu!<span></p>
+	  <p style="position:relative;text-align:left;text-transform:uppercase;display:block;font-size:160%;color:white; width:90%;margin-top:30%; left:50%;transform:translate(-50%,0%);">Contamos com o melhor ensino profissionalizante e técnico</p></br><p style="position:relative;display:block;font-size:150%;color:white; width:90%;margin-top:3%; left:50%;transform:translate(-50%,0%);">confie em quem garanta o seu futuro </br><span style="background:blue;padding:0% 2% 0% 2%;font-size:102%;">vem  ser  galileu!<span></p>
       <div id="cont_img_sobre">
 		<img class="img_sobre"src="imagens/GIF2.GIF"/>
 	  </div>
@@ -688,13 +721,27 @@
     
     </div>
     <footer>
-    <pre style="font-size:100%;" ><a href="#home" >HOME</a>  |  SOBRE  |  CURSOS  |  MAKER C  |  QR GEAR</pre></p></br>
+    <img style="height:5vh;text-align:right;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png"  class="button" onclick="openInstagram()">
+    <pre style="text-align:center;font-size:100%;margin-left:0%;opacity:0.4;" >AV. Marechal Castelo Branco, 1332-B, São Pedro, Codó-MA</pre></br>
+    <pre style="font-size:100%;" ><a href="#home" >HOME</a>  |  SOBRE  |  CURSOS  |  MAKER C  |  QR GEAR</pre></br>
     <p style="margin-bottom:0%; font-size:80%;">site 100% desenvolvido por: @mack_ilustrator</br>
     &copy; galileu cursos | 2024
     </footer>
 </body>
 <script src="https://unpkg.com/scrollreveal"></script>
 <script type="text/javascript">
+
+
+function openInstagram() {
+            // Substitua "nomedeusuario" pelo nome da conta que você deseja abrir
+            const username = "@mack_illustrator";
+            // URL do perfil do Instagram
+            const instagramURL = `https://www.instagram.com/galileucodo?utm_source=qr&igsh=MWgyOWdyZ3A1cGVoZw==`;
+            // Abrir Instagram no navegador
+            window.open(instagramURL, "_blank");
+        };
+
+
 
 if (document.documentElement.requestFullscreen) {
     // Adiciona um evento de clique para ativar o modo de tela cheia
@@ -711,7 +758,8 @@ if (document.documentElement.requestFullscreen) {
   var noti=document.getElementsByClassName("notification-box");
  
   
-  
+  var carousel1=document.getElementsByClassName("carousel1");
+  var carousel=document.getElementsByClassName("carousel");
   const track = document.querySelector('.carousel-track');
   const slides = Array.from(track.children);
   const nextButton = document.querySelector('.carousel-button-right');
@@ -786,7 +834,7 @@ if (document.documentElement.requestFullscreen) {
     cont_curriculo.style="transition:2s; opacity:0;";
     cont_qrcode.style="transition:2s; opacity:0;";
     if(n==1){
-    contMenu[0].style="transition:0.1s; display:block; top:8vh; left:2%; position:absolute;";
+    contMenu[0].style="transition:1s; display:block; top:8vh; left:2%; position:absolute;";
    }
     }else
     if (window.scrollY >= 20) { 
@@ -794,7 +842,7 @@ if (document.documentElement.requestFullscreen) {
     cont_curriculo.style="transition:5s; opacity:1;";
     cont_qrcode.style="transition:5s; opacity:1;";
     if(n==1){
-    contMenu[0].style="transition:0.1s; display:block; width:100%; top:0%; left:0%; position:fixed;";
+    contMenu[0].style="transition:1s; display:block; width:100%; top:0%; left:0%; position:fixed;";
     };
   }});
   
@@ -826,14 +874,14 @@ if (document.documentElement.requestFullscreen) {
   };*/
   
   presencial.addEventListener("click",function(){
-   //caixa2.style.display="flex";
-   //caixa3.style.display="none";
+   carousel1[0].style.display="none";
+   carousel[0].style.display="block";
    ead.style.opacity=0.2;
    presencial.style.opacity=1;
   });
   ead.addEventListener("click",function(){
-  //caixa2.style.display="none";
- // caixa3.style.display="flex";
+  carousel1[0].style.display="block";
+  carousel[0].style.display="none";
   ead.style.opacity=1;
   presencial.style.opacity=0.2;
   });
