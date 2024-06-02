@@ -724,8 +724,8 @@
     <img style="height:5vh;text-align:right;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png"  class="button" onclick="openInstagram()">
     <pre style="text-align:center;font-size:100%;margin-left:0%;opacity:0.4;" >AV. Marechal Castelo Branco, 1332-B, São Pedro, Codó-MA</pre></br>
     <pre style="font-size:100%;" ><a href="#home" >HOME</a>  |  SOBRE  |  CURSOS  |  MAKER C  |  QR GEAR</pre></br>
-    <p style="margin-bottom:0%; font-size:80%;">site 100% desenvolvido por: @mack_ilustrator</br>
-    &copy; galileu cursos | 2024
+    <p style="margin-bottom:5%; font-size:80%;">aplicação da web totalmente desenvolvida por: <span onclick="mack()"  style="font-weight:bold; color:pink;" >@mack_illustrator</span></br>
+    <p style="margin-bottom:1%;" >&copy; galileu cursos | 2024</p>
     </footer>
 </body>
 <script src="https://unpkg.com/scrollreveal"></script>
@@ -734,13 +734,21 @@
 
 function openInstagram() {
             // Substitua "nomedeusuario" pelo nome da conta que você deseja abrir
-            const username = "@mack_illustrator";
+            const username = "@galileucodo";
             // URL do perfil do Instagram
             const instagramURL = `https://www.instagram.com/galileucodo?utm_source=qr&igsh=MWgyOWdyZ3A1cGVoZw==`;
             // Abrir Instagram no navegador
             window.open(instagramURL, "_blank");
         };
 
+function mack() {
+            // Substitua "nomedeusuario" pelo nome da conta que você deseja abrir
+            const username = "@mack_illustrator";
+            // URL do perfil do Instagram
+            const instagramURL = `https://www.instagram.com/mack_illustrator?igsh=MTBkam40YmFoMDB3aw==`;
+            // Abrir Instagram no navegador
+            window.open(instagramURL, "_blank");
+        };
 
 
 if (document.documentElement.requestFullscreen) {
