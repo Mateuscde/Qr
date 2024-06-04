@@ -143,8 +143,27 @@ if(dado==2){
  noti[0].style="display:flex;";
 }else{};
 
+//instageam
+function openInstagram() {
+            // Substitua "nomedeusuario" pelo nome da conta que você deseja que o visitante siga
+            const username = "galileucodo";
+            // URL do perfil do Instagram
+            const instagramURL = `https://www.instagram.com/galileucodo?igsh=Z2JsaW9nbmx4MGRj`;
+            // Abrir Instagram no navegador
+            window.open(instagramURL, "_blank");
+        };
+function mack() {
+            // Substitua "nomedeusuario" pelo nome da conta que você deseja que o visitante siga
+            const username = "mack_illustrator";
+            // URL do perfil do Instagram
+            const instagramURL = `https://www.instagram.com/mack_illustrator?igsh=MTBkam40YmFoMDB3aw==`;
+            // Abrir Instagram no navegador
+            window.open(instagramURL, "_blank");
+        };
 
-//instagram
+
+
+//notificacao
 document.getElementById('notifyButton').addEventListener('click', () => {
             // Verifica se a API de Notificações é suportada pelo navegador
             if (!("Notification" in window)) {
