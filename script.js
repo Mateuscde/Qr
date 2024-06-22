@@ -1,5 +1,7 @@
 
 
+
+
 document.addEventListener('contextmenu', event => event.preventDefault());
 //deuxar abtela em telacheia
 if (document.documentElement.requestFullscreen) {
@@ -10,6 +12,12 @@ if (document.documentElement.requestFullscreen) {
 } else {
     console.log('Seu navegador não suporta o modo de tela cheia.');
 };
+
+var video=document.getElementById("video");
+video.addEventListener("click",function(){
+  video.play();
+  });
+  
 
 //variaveis de inicio
 

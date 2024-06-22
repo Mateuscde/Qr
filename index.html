@@ -4,7 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0'">
 <meta charset="utf-8"/>
 <title>galileu cursos</title>
+<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPLqD2UPmCem5rUYL0Y0wTulFxEn8f5VQ&callback=initMap"></script>
 <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
   
@@ -31,9 +33,11 @@
     </div>
     
     <div id="home">
-      <img id="icon"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlqmWlQSfVtkehZ14sN_hkTRUNuOHJOVu3aEGJKCHTO-nbgxuAYSx-lVu8&s=10" >
-	  <button id="entrar">entrar</button>
-	  <p id="userText" >Nome do usuario</p>
+      <div id="cont_user" >
+      <img id="icon"src="imagens/iconUser.jpeg" >
+      <button id="entrar">login</button>
+      <span id="userText" >Nome do usuario</span>
+      </div>
       <div id="bandeira"><p id="anos" ><span style="font-size:190%; text-transform:uppercase;" >6</span><br>anos</p></div>
       <img id="logo" src="imagens/logotxt.png">
 	  <div id="texto_saudacao" >
@@ -43,7 +47,7 @@
        <div id="cont_banner" >
         <div id="caixa1_cont_texto" >
           <p id="modo"><span id="presencial" >PRESENCIAL</span> | <span style="opacity:0.3;" id="ead" >EAD</span></p>
-          <button id="mostrar">todos</button>
+          <button id="mostrar">ver cursos</button>
         </div>
         
         <div class="carousel">
@@ -85,6 +89,7 @@
     <div id="corpo_da_pagina">
     
     
+      
       <p id="ferramentas" >ferramentas de criação</p>
       <!--gerador de curriculos-->
       <label id="cont_criar_curriculo">
@@ -96,16 +101,10 @@
       <div id="cont_text_geradorqrcode"><span id="texto_qrcode" ><span style="display:block;width:100%; font-size:190%;">QR GEAR</span></br>gerador de qr code</span></div>
       </label>
       
-	  <p style="position:relative;text-align:left;text-transform:uppercase;display:flex;font-size:160%;color:white; width:90%;margin-top:30%;left:50%;transform:translate(-50%,0%);">Contamos com o melhor ensino profissionalizante e técnico</p></br><p style="position:relative;display:block;font-size:150%;color:white; width:90%;margin-top:3%; left:50%;transform:translate(-50%,0%);">confie em quem garanta o seu futuro </br><span style="background:blue;padding:0% 2% 0% 2%;font-size:102%;">vem  ser  galileu!<span></p>
-      <div id="cont_img_sobre">
-		<img class="img_sobre"src="imagens/GIF2.GIF"/>
-	  </div>
-	  <button id="btn_sobre" >• sobre a galileu cursos •</button>
-	  
-	  
-	  
+	  <p style="position:relative;text-align:left;text-transform:uppercase;display:flex;font-size:160%;color:white; width:90%;margin-top:20%;left:50%;transform:translate(-50%,0%);">Contamos com o melhor ensino profissionalizante e técnico</p></br><p style="position:relative;display:block;font-size:150%;color:white; width:90%;margin-top:3%; left:50%;transform:translate(-50%,0%);">confie em quem garanta o seu futuro </br><span style="background:blue;padding:0% 2% 0% 2%;font-size:102%;">vem  ser  galileu!<span></p>
+	  <video id="video"  src="imagens/video.mp4" autoplay poster="imagens/gifK.gif"></video>
+      <div id="map"></div>
     <div id="contato">
-    
     <div class="notification-box" id="notifyButton" >
     <img src="imagens/verify.png" alt="Ícone de Sucesso">
     <div class="message">Sua solicitação foi enviada com sucesso</div>
@@ -143,10 +142,33 @@
     <img style="height:5vh;text-align:right;margin-top:0%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png"  class="button" onclick="openInstagram()">
     <pre style="text-align:center;font-size:100%;margin-left:0%;opacity:0.4;" >AV. Marechal Castelo Branco, 1332-B, São Pedro, Codó-MA</pre></br>
     <pre style="font-size:100%;" ><a href="#home" >HOME</a>  |  SOBRE  |  CURSOS  |  MAKER C  |  QR GEAR</pre></br>
-    <p style="margin-bottom:5%; font-size:80%;">aplicação da web totalmente desenvolvida por: <span onclick="mack()"  style="font-weight:bold; color:pink;" >@mack_illustrator</span></br>
+    <p style="margin-bottom:5%; font-size:80%;">aplicação da web totalmente desenvolvida por: <span onclick="mack()"  style="font-weight:bold; color:pink;" >@mack_developer</span></br>
     <p style="margin-bottom:1%;" >&copy; galileu cursos | 2024</p>
     </footer>
 </body>
 <script src="https://unpkg.com/scrollreveal"></script>
 <script src="script.js"></script>
+<script>
+    // de inicialização do mapa
+    function initMap() {
+      // Coordenadas do local (latitude e longitude)
+      var localizacao = { lat: -4.4561314, lng:-43.8939448 };
+
+      // Opções do mapa
+      var mapOptions = {
+        zoom: 15, // Zoom inicial
+        center: localizacao // Centraliza o mapa nas coordenadas especificadas
+      };
+
+      // Criação do mapa
+      var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+      // Marcador no mapa
+      var marker = new google.maps.Marker({
+        position: localizacao,
+        map: map,
+        title: 'Localização da Empresa' // Título do marcador (opcional)
+      });
+    }
+  </script>
 </html>
