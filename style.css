@@ -482,6 +482,18 @@
  left:50%;
  transform:translate(-50%,0px);
  margin-top:20%;
+ border-radius:10px;
+ filter:hue-rotate(200deg);
+ }
+ #map2{
+ position:relative;
+ width:90%;
+ height:400px;
+ left:50%;
+ transform:translate(-50%,0px);
+ margin-top:20%;
+ border-radius:10px;
+ filter:hue-rotate(200deg);
  }
   
   /*area de contato*/
