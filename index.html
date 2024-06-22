@@ -7,6 +7,7 @@
 <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPLqD2UPmCem5rUYL0Y0wTulFxEn8f5VQ&callback=initMap"></script>
 <link rel="stylesheet" href="style.css">
 <script src="https://accounts.google.com/gsi/client" async></script>
+
 </head>
 <body>
   
@@ -44,19 +45,22 @@
       <p style="font-family:arial; font-size:110%;" id="mensagem" ><span style="font-size:160%; background:blue;padding:0% 5% 0% 5%;text-transform:uppercase;font-weight:bold;">desenvolva</span> <strong>habilidades</strong> únicas para encarar o <strong>mercado de trabalho.</strong></p><b/><p id="btnContato" style="text-transform:uppercase;padding:2%;width:auto;border-radius:50px;margin-top:4%;border:2px solid white;font-weight:bold;text-align:center;" onclick="contato()">fale conosco</p>
       </div>
       
-      <div id="g_id_onload"
-      data-client_id="58g2joohv673cch2r0qu0hcp0hhsed6h.apps.googleusercontent.com"
-      data-login_url="https://mateuscde.github.io/Qr/"
-      data-auto_prompt="false">
-      </div>
-      <div class="g_id_signin"
-      data-type="standard"
-      data-size="large"
-      data-theme="outline"
-      data-text="sign_in_with"
-      data-shape="rectangular"
-      data-logo_alignment="left">
-      </div>
+     <div id="g_id_onload"
+     data-client_id="58g2joohv673cch2r0qu0hcp0hhsed6h.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-login_uri="https://mateuscde.github.io/Qr/"
+     data-auto_prompt="false">
+     </div>
+     
+     <div class="g_id_signin"
+     data-type="icon"
+     data-shape="square"
+     data-theme="outline"
+     data-text="signin_with"
+     data-size="large"
+     data-locale="pt-BR">
+     </div>
       
        <div id="cont_banner" >
         <div id="caixa1_cont_texto" >
@@ -189,6 +193,28 @@
   position: location,
   map: map
   });
+  };
+  
+  function handleCredentialResponse(response) {
+  console.log("Encoded JWT ID token: " + response.credential);
   }
+  window.onload = function () {
+  google.accounts.id.initialize({
+  client_id: "58g2joohv673cch2r0qu0hcp0hhsed6h.apps.googleusercontent.com"
+  callback: handleCredentialResponse
+  });
+  google.accounts.id.renderButton(
+  document.getElementById("buttonDiv"),
+  { theme: "outline", size: "small" }  // customization attributes
+  );
+  google.accounts.id.prompt(); // also display the One Tap dialog
+  }
+  </script>
+  <script src="https://accounts.google.com/gsi/client?hl=fr" async></script>
+  <script>
+  google.accounts.id.renderButton(
+  document.getElementById("buttonDiv"),
+  { locale: "br" }
+  );
   </script>
 </html>
