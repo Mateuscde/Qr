@@ -58,7 +58,7 @@ bandeira.style="transition:0.3s; top:0vh;";
        cont_curriculo.style="transition:2s; opacity:0;";
        cont_qrcode.style="transition:2s; opacity:0;";
     if(n==1){
-       contMenu[0].style="transition:0.4s; display:block; top:8vh; left:2%; position:absolute;";
+       contMenu[0].style="transition:0.4s; display:block; top:8vh; left:50%; position:absolute;";
    }
     }else
     if (window.scrollY >= 20) { 
@@ -66,7 +66,7 @@ bandeira.style="transition:0.3s; top:0vh;";
        cont_curriculo.style="transition:5s; opacity:1;";
        cont_qrcode.style="transition:5s; opacity:1;";
     if(n==1){
-       contMenu[0].style="transition:0.4s; display:block; width:100%; top:0%; left:0%; position:fixed;";
+       contMenu[0].style="transition:0.4s; display:block; width:96%; top:1%; left:50%; position:fixed;";
     };
   }});
   
@@ -145,7 +145,7 @@ var noti=document.getElementsByClassName("notification-box");
 
 const dado = localStorage.getItem("dados");
 var btnContato=document.getElementById("btnContato");
-if(dado==2){
+if(dado==0){
  btnContato.innerHTML="contato";
  form[0].style="display:none;";
  noti[0].style="display:flex;";
@@ -169,7 +169,18 @@ function mack() {
             window.open(instagramURL, "_blank");
         };
 
-
+function openwhatsapp1(){
+           var phoneNumber = '5599981041696'; // substitua pelo número de telefone desejado
+           var message = 'Olá, tudo bem? Gostaria de saber mais sobre a galileu cursos'; // mensagem que deseja enviar
+           
+           // Codificar a mensagem para que seja um parâmetro válido na URL
+           var encodedMessage = encodeURIComponent(message);
+           
+           // Construir o link do WhatsApp com o número de telefone e a mensagem
+           var whatsappLink = 'whatsapp://send?phone=' + phoneNumber + '&text=' + encodedMessage;
+           
+           window.open(whatsappLink);
+}
 
 //notificacao
 document.getElementById('notifyButton').addEventListener('click', () => {

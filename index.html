@@ -6,8 +6,6 @@
 <title>galileu cursos</title>
 <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPLqD2UPmCem5rUYL0Y0wTulFxEn8f5VQ&callback=initMap"></script>
 <link rel="stylesheet" href="style.css">
-<script src="https://accounts.google.com/gsi/client" async></script>
-
 </head>
 <body>
   
@@ -44,24 +42,6 @@
 	  <div id="texto_saudacao" >
       <p style="font-family:arial; font-size:110%;" id="mensagem" ><span style="font-size:160%; background:blue;padding:0% 5% 0% 5%;text-transform:uppercase;font-weight:bold;">desenvolva</span> <strong>habilidades</strong> únicas para encarar o <strong>mercado de trabalho.</strong></p><b/><p id="btnContato" style="text-transform:uppercase;padding:2%;width:auto;border-radius:50px;margin-top:4%;border:2px solid white;font-weight:bold;text-align:center;" onclick="contato()">fale conosco</p>
       </div>
-      
-     <div id="g_id_onload"
-     data-client_id="58g2joohv673cch2r0qu0hcp0hhsed6h.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-login_uri="https://mateuscde.github.io/Qr/"
-     data-auto_prompt="false">
-     </div>
-     
-     <div class="g_id_signin"
-     data-type="icon"
-     data-shape="square"
-     data-theme="outline"
-     data-text="signin_with"
-     data-size="large"
-     data-locale="pt-BR">
-     </div>
-      
        <div id="cont_banner" >
         <div id="caixa1_cont_texto" >
           <p id="modo"><span id="presencial" >PRESENCIAL</span> | <span style="opacity:0.3;" id="ead" >EAD</span></p>
@@ -105,41 +85,16 @@
     
     <!--corpo da pagina onde vocebira acrescentar informacoes-->
     <div id="corpo_da_pagina">
-    
-    
-      
-      <p id="ferramentas" >ferramentas de criação</p>
-      <!--gerador de curriculos-->
-      <label id="cont_criar_curriculo">
-      <div id="cont_imagem_gerador"><img id="img_curriculo"  src="imagens/curriculo.png" ></div>
-      <div id="cont_text_gerador"><span id="texto_curriculo" ><span style="display:block;width:100%; font-size:190%;">MAKER C</span></br>criador de curriculo</span></div>
-      </label>
-      <label id="cont_criar_qrcode">
-      <div id="cont_imagem_geradorqrcode"><img id="img_qrcode"  src="imagens/curriculo.png" ></div>
-      <div id="cont_text_geradorqrcode"><span id="texto_qrcode" ><span style="display:block;width:100%; font-size:190%;">QR GEAR</span></br>gerador de qr code</span></div>
-      </label>
-      
-	  <p style="position:relative;text-align:left;text-transform:uppercase;display:flex;font-size:160%;color:white; width:90%;margin-top:20%;left:50%;transform:translate(-50%,0%);">Contamos com o melhor ensino profissionalizante e técnico</p></br><p style="position:relative;display:block;font-size:150%;color:white; width:90%;margin-top:3%; left:50%;transform:translate(-50%,0%);">confie em quem garanta o seu futuro </br><span style="background:blue;padding:0% 2% 0% 2%;font-size:102%;">vem  ser  galileu!<span></p>
+ 
+	  <p style="position:relative;text-align:center;text-transform:uppercase;display:flex;font-size:180%;color:white; width:90%;margin-top:0%;left:50%;transform:translate(-50%,0%);">Contamos com o melhor ensino profissionalizante e técnico</p>
 	  <video id="video"  src="imagens/video.mp4" autoplay poster="imagens/gifK.gif"></video>
-      <div id="map"></div>
       
-      <iframe id="map2"
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.5898786236696!2d-43.893822!3d-4.456132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7f68e711c1b1935%3A0x4b7f68e7e5b7c5!2sCod%C3%B3%2C%20MA%2C%20Brasil!5e0!3m2!1spt-BR!2sus!4v1584389240957!5m2!1spt-BR!2sus"
-      width="600"
-      height="450"
-      frameborder="0"
-      style="border:0;"
-      allowfullscreen=""
-      aria-hidden="false"
-      tabindex="0">
-      </iframe>
-      
+    </div>
     <div id="contato">
     <div class="notification-box" id="notifyButton" >
     <img src="imagens/verify.png" alt="Ícone de Sucesso">
     <div class="message">Solicitação enviada com sucesso</div>
     </div>
-    
     <div class="contact-form" id="contactForm" >
     <h2>Formulário de Contato</h2>
     <form action="https://api.staticforms.xyz/submit" method="POST">
@@ -169,6 +124,7 @@
     
     </div>
     <footer>
+    <img style="height:5vh;text-align:right;margin-top:0%; border-radius:10px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfvX_9UP-ki0YRVn8GHa75TxouZjvXBYVrxa_kD--Mxl_RL015-Od3WoSH&s=10"  class="button" onclick="openwhatsapp1()">
     <img style="height:5vh;text-align:right;margin-top:0%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png"  class="button" onclick="openInstagram()">
     <pre style="text-align:center;font-size:100%;margin-left:0%;opacity:0.4;" >AV. Marechal Castelo Branco, 1332-B, São Pedro, Codó-MA</pre></br>
     <pre style="font-size:100%;" ><a href="#home" >HOME</a>  |  SOBRE  |  CURSOS  |  MAKER C  |  QR GEAR</pre></br>
@@ -178,43 +134,4 @@
 </body>
 <script src="https://unpkg.com/scrollreveal"></script>
 <script src="script.js"></script>
-<script>
-  // Função para inicializar o mapa
-  function initMap() {
-  // Localização desejada
-  var location = { lat: -4.456132, lng: -43.893822 };
-  // Cria o mapa centrado nas coordenadas fornecidas
-  var map = new google.maps.Map(document.getElementById('map'), {
-  zoom: 14,
-  center: location
-  });
-  // Adiciona um marcador na localização especificada
-  var marker = new google.maps.Marker({
-  position: location,
-  map: map
-  });
-  };
-  
-  function handleCredentialResponse(response) {
-  console.log("Encoded JWT ID token: " + response.credential);
-  }
-  window.onload = function () {
-  google.accounts.id.initialize({
-  client_id: "58g2joohv673cch2r0qu0hcp0hhsed6h.apps.googleusercontent.com"
-  callback: handleCredentialResponse
-  });
-  google.accounts.id.renderButton(
-  document.getElementById("buttonDiv"),
-  { theme: "outline", size: "small" }  // customization attributes
-  );
-  google.accounts.id.prompt(); // also display the One Tap dialog
-  }
-  </script>
-  <script src="https://accounts.google.com/gsi/client?hl=fr" async></script>
-  <script>
-  google.accounts.id.renderButton(
-  document.getElementById("buttonDiv"),
-  { locale: "br" }
-  );
-  </script>
 </html>
