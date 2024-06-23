@@ -169,18 +169,18 @@ function mack() {
             window.open(instagramURL, "_blank");
         };
 
-function openwhatsapp1(){
-           var phoneNumber = '5599981041696'; // substitua pelo número de telefone desejado
-           var message = 'Olá, tudo bem? Gostaria de saber mais sobre a galileu cursos'; // mensagem que deseja enviar
-           
-           // Codificar a mensagem para que seja um parâmetro válido na URL
-           var encodedMessage = encodeURIComponent(message);
-           
-           // Construir o link do WhatsApp com o número de telefone e a mensagem
-           var whatsappLink = 'whatsapp://send?phone=' + phoneNumber + '&text=' + encodedMessage;
-           
-           window.open(whatsappLink);
-}
+document.getElementById('wa1').addEventListener('click', function() {
+            var phoneNumber = '5599981041696'; // substitua pelo número de telefone desejado
+            var message = 'Olá, tudo bem? Gostaria de saber mais sobre a galileu cursos'; // mensagem que deseja enviar
+            
+            // Codificar a mensagem para que seja um parâmetro válido na URL
+            var encodedMessage = encodeURIComponent(message);
+            
+            // Construir o link do WhatsApp com o número de telefone e a mensagem
+            var whatsappLink = 'whatsapp://send?phone=' + phoneNumber + '&text=' + encodedMessage;
+            
+            window.open(whatsappLink);
+        });
 
 //notificacao
 document.getElementById('notifyButton').addEventListener('click', () => {
