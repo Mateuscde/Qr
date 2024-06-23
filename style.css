@@ -49,9 +49,10 @@
   position:absolute;
   z-index:4;
   background-color: #fff;
-  width: 300px;
+  width: 96%;
   top:8vh;
-  left:2%;
+  left:50%;
+  transform:translate(-50%,0%);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -353,116 +354,14 @@
   width:100%;
   height:auto;
   background:none;
-  }
+  padding:70px 0px 100px 0px;
   
-  #ferramentas{
-  display:none;
-  position:relative;
-  width:83%;
-  color:white;
-  font-size:140%;
-  font-family:Arial,sans-serif;
-  text-transform:uppercase;
-  margin-top:30%;
-  padding:2%;
-  border-bottom:2px solid white;
-  left:50%;
-  transform:translate(-50%,0%);
+  background-image:url("imagens/capa1.png");
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
   }
-  
-  /*criar curriculo*/
-  #cont_criar_curriculo {
-  display:none;
-  position:relative;
-  opacity:0;
-  overflow:hidden;
-  width:80%;
-  height:auto;
-  background:gray;
-  left:50%;
-  margin-top:5%;
-  border-radius:5px;
-  border:3px solid white;
-  transform:translate(-50%,0%);
-  }
-  
-  #cont_imagem_gerador {
-  width:auto;
-  height:80px;
-  background:none;
-  }
-  
-  #img_curriculo {
-   height:100%;
-  }
- 
-  #cont_text_gerador {
-  display:none;
-  position:relative;
-  width:100%;
-  height:auto;
-  background:#0E1523;
-  }
-  
-  #texto_curriculo{
-  color:white;
-  width:100%;
-  position:absolute;
-  background:none;
-  font-weight:bold;
-  font-size:90%;
-  margin:0px;
-  text-align:center;
-  top:50%;
-  transform:translate(0%,-50%);
-  }
-  
-  /*criar qrcode*/
-  #cont_criar_qrcode {
-  display:none;
-  position:relative;
-  opacity:0;
-  overflow:hidden;
-  width:80%;
-  height:auto;
-  background:gray;
-  left:50%;
-  margin-top:5%;
-  border-radius:5px;
-  border:3px solid white;
-  transform:translate(-50%,0%);
-  }
-  
-  #cont_imagem_geradorqrcode {
-  width:auto;
-  height:80px;
-  background:none;
-  }
-  
-  #img_qrcode {
-  height:100%;
-  }
-  
-  #cont_text_geradorqrcode {
-  position:relative;
-  width:100%;
-  height:auto;
-  background:#0E1523;
-  }
-  
-  #texto_qrcode{
-  color:white;
-  width:100%;
-  position:absolute;
-  background:none;
-  font-weight:bold;
-  font-size:90%;
-  margin:0px;
-  text-align:center;
-  top:50%;
-  transform:translate(0%,-50%);
-  }
-  
   #video {
   position:relative;
   width:90%;
@@ -476,35 +375,18 @@
   object-fit:cover;
  }
  
- #map{
- width:90%;
- height:400px;
- left:50%;
- transform:translate(-50%,0px);
- margin-top:20%;
- border-radius:10px;
- filter:hue-rotate(200deg);
- }
- #map2{
- position:relative;
- width:90%;
- height:400px;
- left:50%;
- transform:translate(-50%,0px);
- margin-top:20%;
- border-radius:10px;
- filter:hue-rotate(200deg);
- }
-  
   /*area de contato*/
   #contato{
   position:relative;
   width:100%;
   height:auto;
-  background:#0E1523;
+  background:none;
   padding:0.4% 0% 1% 0%;
-  margin-top:30%;
-  padding-bottom:5%;
+  margin-top:0%;
+  padding-bottom:0%;
+  padding-top:0px;
+  
+  
   }
   
   .notification-box {
@@ -581,6 +463,8 @@
   position:relative;
   width:100%;
   padding-bottom:3%;
+  padding-top:30px;
+  border-top:5px solid gray;
   color:white;
   text-align:center;
   background:#0E1523;
