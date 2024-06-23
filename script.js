@@ -183,7 +183,7 @@ document.getElementById('wa1').addEventListener('click', function() {
         });
         
 document.getElementById('wa2').addEventListener('click', function() {
-            var phoneNumber = '55999903-5262'; // substitua pelo número de telefone desejado
+            var phoneNumber = '559999035262'; // substitua pelo número de telefone desejado
             var message = 'Olá, tudo bem? Gostaria de saber mais sobre a galileu cursos'; // mensagem que deseja enviar
             
             // Codificar a mensagem para que seja um parâmetro válido na URL
