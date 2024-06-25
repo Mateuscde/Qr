@@ -41,15 +41,15 @@ btnsobre.addEventListener("click", function(){
  if(valuer==1){btnsobre.innerHTML="ver menos";sobre.style="display:block;position:relative;color:white;background:none;font-size:110%;margin-top:3%;text-transform:lowercase;width:90%;left:50%;transform:translate(-50%,0%);text-align:justify;";valuer=0};
 });
 
-setTimeout(function(){fundo.style="display:block;"},2000)
+//setTimeout(function(){fundo.style="display:block;"},2000)
 
 var close=0;
 fechar.addEventListener("click", function(){close=1; localStorage.setItem("fechar",close); fundo.style="display:none;"  });
 
 var close= localStorage.getItem("fechar");
 setInterval(function(){
-if(close==1){fundo.style="display:none;"}else{};
-},0);
+if(close==1){fundo.style="display:none;"}else{fundo.style="display:block;"};
+},2000);
 //variaveis da caixav1 do carrossel
 var presencial=document.getElementById("presencial");
 var ead=document.getElementById("ead");
