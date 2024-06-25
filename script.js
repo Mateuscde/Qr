@@ -159,7 +159,7 @@ var noti=document.getElementsByClassName("notification-box");
 
 const dado = localStorage.getItem("dados");
 var btnContato=document.getElementById("btnContato");
-if(dado==0){
+if(dado==2){
  btnContato.innerHTML="contato";
  form[0].style="display:none;";
  noti[0].style="display:flex;";
