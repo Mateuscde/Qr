@@ -47,9 +47,9 @@ var close=0;
 fechar.addEventListener("click", function(){close=1; localStorage.setItem("fechar",close); fundo.style="display:none;"  });
 
 var close= localStorage.getItem("fechar");
+setInterval(function(){
 if(close==1){fundo.style="display:none;"}else{};
-console.log(close);
-
+},0);
 //variaveis da caixav1 do carrossel
 var presencial=document.getElementById("presencial");
 var ead=document.getElementById("ead");
