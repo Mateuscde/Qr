@@ -12,13 +12,6 @@ if (document.documentElement.requestFullscreen) {
 } else {
     console.log('Seu navegador não suporta o modo de tela cheia.');
 };
-
-var video=document.getElementById("video");
-video.addEventListener("click",function(){
-  video.play();
-  });
-  
-
 //variaveis de inicio
 
 var icon=document.getElementById("icon");
@@ -29,7 +22,28 @@ var contMenu=document.getElementsByClassName("menu-box");
 var cont_curriculo=document.getElementById("cont_criar_curriculo");
 var cont_qrcode=document.getElementById("cont_criar_qrcode");
 var txt_ola=document.getElementById("texto_saudacao");
+var sobre=document.getElementById("sobre");
+var btnsobre=document.getElementById("btnsobre");
+var card=document.getElementById("card");
+var fechar=document.getElementById("fechar");
+var fundo=document.getElementById("fundo");
 
+
+var virar=0;
+card.addEventListener("click", function(){
+ if(virar==0){fechar.style="display:block;"; card.style="transition:1s;transform:translate(-50%,-50%) rotateY(180deg);";virar=1}else
+ if(virar==1){fechar.style="display:none;"; card.style="transition:1s;transform:translate(-50%,-50%) rotateY(0deg);";virar=0};
+});
+
+valuer=0;
+btnsobre.addEventListener("click", function(){
+ if(valuer==0){btnsobre.innerHTML="ver mais";sobre.style="display:none;";valuer=1}else
+ if(valuer==1){btnsobre.innerHTML="ver menos";sobre.style="display:block;position:relative;color:white;background:none;font-size:110%;margin-top:3%;text-transform:lowercase;width:90%;left:50%;transform:translate(-50%,0%);text-align:justify;";valuer=0};
+});
+
+setTimeout(function(){fundo.style="display:block;"},2000)
+
+fechar.addEventListener("click", function(){fundo.style="display:none;"  });
 
 //variaveis da caixav1 do carrossel
 var presencial=document.getElementById("presencial");
@@ -57,29 +71,29 @@ bandeira.style="transition:0.3s; top:0vh;";
        bandeira.style="transition:0.3s; top:0vh;";
        cont_curriculo.style="transition:2s; opacity:0;";
        cont_qrcode.style="transition:2s; opacity:0;";
-    if(n==1){
+    /*if(n==1){
        contMenu[0].style="transition:0.4s; display:block; top:8vh; left:50%; position:absolute;";
-   }
+   }*/
     }else
     if (window.scrollY >= 20) { 
        bandeira.style="transition:0.3s; top:-6vh;";
        cont_curriculo.style="transition:5s; opacity:1;";
        cont_qrcode.style="transition:5s; opacity:1;";
-    if(n==1){
+    /*if(n==1){
        contMenu[0].style="transition:0.4s; display:block; width:96%; top:1%; left:50%; position:fixed;";
-    };
+    };*/
   }});
   
-  icon.addEventListener("click",function(){
+ /* icon.addEventListener("click",function(){
   if(n==0){contMenu[0].style="display:block;";n=1}else
   if(n==1){contMenu[0].style="display:none;";n=0};
-  });
+  });*/
   
   
 //agurada 2s para o texto de saudacao aparever
 setTimeout(function(){
   txt_ola.style="transition:3s; opacity:1; left:50%;";
-  },2000);
+  },90);
 
 
 

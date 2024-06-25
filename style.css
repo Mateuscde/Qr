@@ -1,3 +1,55 @@
+#fundo{
+z-index:10;
+position:fixed;
+display:none;
+width:100%;
+height:100vh;
+background: rgba(0,0,0,0.8702959501497806);
+perspective: 2000px;
+}
+#card{
+ position:relative;
+ width:75%;
+ height:60%;
+ background:white;
+ left:50%;
+ top:50%;
+ opacity:5;
+ border-radius:20px;
+ transform-style: preserve-3d;
+ transform:translate(-50%,-50%) rotateY(0deg);
+ border:3px solid white;
+}
+#numero1{
+position:absolute;
+width:100%;
+height:100%;
+background:red;
+border-radius:20px;
+transform: translateZ(1px);
+}
+#numero2{
+position:absolute;
+width:100%;
+height:100%;
+background:blue;
+border-radius:20px;
+transform:scaleX(-1);
+}
+#fechar{
+display:none;
+position:absolute;
+width:50%;
+height:50px;
+border:none;
+left:50%;
+bottom:100px;
+border-radius:50px;
+font-size:140%;
+text-transform:uppercase;
+font-weight:bold;
+transform:translate(-50%,0%);
+}
 /*estilizacao do body e do header*/
   *{
   user-select:none;
@@ -125,7 +177,7 @@
   margin:0%;
   }
   #entrar{
-  display:block;
+  display:none;
   position:relative;
   width:20%;
   height:4vh;
@@ -252,6 +304,7 @@
   }
   
   #mostrar{
+  display:none;
   position:absolute;
   width:20%;
   height:100%;
@@ -362,7 +415,7 @@
   background-size:cover;
   background-position:center;
   }
-  #video {
+  #img {
   position:relative;
   width:90%;
   left:50%;
@@ -370,11 +423,6 @@
   margin-top:5%;
   border-radius:20px;
   }
-  #video::poster{
-  filter:hue-rotate(190deg);
-  object-fit:cover;
- }
- 
   /*area de contato*/
   #contato{
   position:relative;

@@ -8,6 +8,14 @@
 </head>
 <body>
   
+  <div id="fundo" >
+    <div id="card" >
+      <img src="imagens/cartaverso.png"  id="numero1" >
+      <img src="imagens/carta.jpg"  id="numero2" >
+    </div>
+    <button  id="fechar">fechar</button>
+  </div>
+  
  
  <!--barra de navegacao header-->
     <!--primeira parte tela de boas vindas e inicio-->
@@ -32,7 +40,7 @@
     
     <div id="home">
       <div id="cont_user" >
-      <img id="icon"src="imagens/iconUser.jpeg" >
+      <img id="icon"src="imagens/logoimg.png" >
       <button id="entrar">login</button>
       <span id="userText" >Nome do usuario</span>
       </div>
@@ -51,16 +59,25 @@
         <div class="carousel-track-container">
         <ul class="carousel-track">
         <li class="carousel-slide current-slide">
-        <img class="carousel-image" src="imagens/radiologia.png" alt="Imagem 1">
+        <img class="carousel-image" src="imagens/b1.png" alt="Imagem 1">
         </li>
         <li class="carousel-slide">
-        <img class="carousel-image" src="imagens/enfermagem.png" alt="Imagem 2">
+        <img class="carousel-image" src="imagens/b2.png" alt="Imagem 2">
         </li>
         <li class="carousel-slide">
-        <img class="carousel-image" src="imagens/informatica.png" alt="Imagem 3">
+        <img class="carousel-image" src="imagens/b3.png" alt="Imagem 3">
         </li>
         <li class="carousel-slide">
-        <img class="carousel-image" src="imagens/informatica.png" alt="Imagem 3">
+        <img class="carousel-image" src="imagens/b4.png" alt="Imagem 3">
+        </li>
+        <li class="carousel-slide">
+        <img class="carousel-image" src="imagens/b5.png" alt="Imagem 3">
+        </li>
+        <li class="carousel-slide">
+        <img class="carousel-image" src="imagens/b6.png" alt="Imagem 3">
+        </li>
+        <li class="carousel-slide">
+        <img class="carousel-image" src="imagens/b7.png" alt="Imagem 3">
         </li>
         </ul>
         </div>
@@ -86,7 +103,9 @@
     <div id="corpo_da_pagina">
  
 	  <p style="position:relative;text-align:center;text-transform:uppercase;display:flex;font-size:180%;color:white; width:90%;margin-top:0%;left:50%;transform:translate(-50%,0%);">Contamos com o melhor ensino profissionalizante e técnico</p>
-	  <video id="video"  src="imagens/video.mp4" autoplay poster="imagens/gifK.gif"></video>
+	  <img id="img" src="imagens/GIF2.GIF" >
+	  <p id="sobre" style="display:none;position:relative;color:white;background:none;font-size:110%;margin-top:3%;text-transform:lowercase;width:90%;left:50%;transform:translate(-50%,0%);text-align:justify;" >A Galileu Cursos Profissionalizantes é uma instituição educacional brasileira que oferece uma variedade de cursos voltados para a formação profissional. O objetivo principal desses cursos é capacitar os alunos com habilidades práticas e teóricas, visando a inserção no mercado de trabalho ou a melhoria de suas qualificações profissionais.</p>
+	  <p id="btnsobre" style="position:relative;color:white;background:none;margin-top:2%;text-transform:uppercase;width:90%;left:50%;transform:translate(-50%,0%);text-align:center;" >ver mais</p>
       
     </div>
     <div id="contato">
@@ -113,9 +132,7 @@
     <input type="hidden" name="accessKey" value="3663071d-ac66-4ea7-818b-030147231015">
     <input type="hidden" name="subject" value="Contact us from - example.com" />
     <input type="hidden" name="replyTo" value="@">
-    <input type="hidden" name="redirectTo" value="https://mateuscde.github.io/Qr/sucesso.html">
-    
-    
+    <input type="hidden" name="redirectTo" value="https://mateuscde.github.io/Qr/qsucesso.html">
     <button type="submit">Enviar</button>
     </form>
     </div>
@@ -127,7 +144,7 @@
     <img style="height:5vh;text-align:right;margin-top:0%; border-radius:10px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfvX_9UP-ki0YRVn8GHa75TxouZjvXBYVrxa_kD--Mxl_RL015-Od3WoSH&s=10"  class="button" id="wa1">
     <img style="height:5vh;text-align:right;margin-top:0%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png"  class="button" onclick="openInstagram()">
     <pre style="text-align:center;font-size:100%;margin-left:0%;opacity:0.4;" >AV. Marechal Castelo Branco, 1332-B, São Pedro, Codó-MA</pre></br>
-    <pre style="font-size:100%;" ><a href="#home" >HOME</a>  |  SOBRE  |  CURSOS  |  MAKER C  |  QR GEAR</pre></br>
+    <pre style="display:none;font-size:100%;" ><a href="#home" >HOME</a>  |  SOBRE  |  CURSOS  |  MAKER C  |  QR GEAR</pre>
     <p style="margin-bottom:5%; font-size:80%;">aplicação da web totalmente desenvolvida por: <span onclick="mack()"  style="font-weight:bold; color:pink;" >@mack_developer</span></br>
     <p style="margin-bottom:1%;" >&copy; galileu cursos | 2024</p>
     </footer>
