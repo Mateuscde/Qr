@@ -43,7 +43,12 @@ btnsobre.addEventListener("click", function(){
 
 setTimeout(function(){fundo.style="display:block;"},2000)
 
-fechar.addEventListener("click", function(){fundo.style="display:none;"  });
+var close=0;
+fechar.addEventListener("click", function(){close=1; localStorage.setItem("fechar",close); fundo.style="display:none;"  });
+
+var close= localStorage.getItem("fechar");
+if(close==1){fundo.style="display:none;"}else{};
+console.log(close);
 
 //variaveis da caixav1 do carrossel
 var presencial=document.getElementById("presencial");
@@ -69,16 +74,12 @@ bandeira.style="transition:0.3s; top:0vh;";
   window.addEventListener('scroll', function() {
     if (window.scrollY <= 0) {
        bandeira.style="transition:0.3s; top:0vh;";
-       cont_curriculo.style="transition:2s; opacity:0;";
-       cont_qrcode.style="transition:2s; opacity:0;";
     /*if(n==1){
        contMenu[0].style="transition:0.4s; display:block; top:8vh; left:50%; position:absolute;";
    }*/
     }else
     if (window.scrollY >= 20) { 
        bandeira.style="transition:0.3s; top:-6vh;";
-       cont_curriculo.style="transition:5s; opacity:1;";
-       cont_qrcode.style="transition:5s; opacity:1;";
     /*if(n==1){
        contMenu[0].style="transition:0.4s; display:block; width:96%; top:1%; left:50%; position:fixed;";
     };*/
