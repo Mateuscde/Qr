@@ -43,7 +43,7 @@ btnsobre.addEventListener("click", function(){
 
 //setTimeout(function(){fundo.style="display:block;"},2000)
 
-var close=0;
+var close;
 fechar.addEventListener("click", function(){close=1; localStorage.setItem("fechar",close); fundo.style="display:none;"  });
 
 var close= localStorage.getItem("fechar");
@@ -58,7 +58,7 @@ var caixa2=document.getElementById("caixa2");
 var caixa3=document.getElementById("caixa3");
 var contatos=document.getElementById("contato");
 
-//variaveisndo carrossel
+//variaveisndo carrossel%
 var carousel1=document.getElementsByClassName("carousel1");
 var carousel=document.getElementsByClassName("carousel");
 const track = document.querySelector('.carousel-track');
@@ -101,41 +101,25 @@ setTimeout(function(){
 //funcao pra quando o bitqo cobtato for clucado ele descer pra baixo
 function contato(){contatos.scrollIntoView({ behavior: "smooth", top:210 , block: "start" });};
 
-
-
-//cfuncao para o carroseelll passasr deumaimagem oara outra
-const setSlidePosition = (slide, index) => {
-slide.style.left = slideWidth * index + 'px';
-};
-slides.forEach(setSlidePosition);
-
-const moveToSlide = (track, currentSlide, targetSlide) => {
-track.style.transform = 'translateX(-' + targetSlide.style.left + ')';
-currentSlide.classList.remove('current-slide');
-targetSlide.classList.add('current-slide');
-};
-
-nextButton.addEventListener('click', e => {
-const currentSlide = track.querySelector('.current-slide');
-const nextSlide = currentSlide.nextElementSibling;
-
-if (nextSlide) {
-moveToSlide(track, currentSlide, nextSlide);
-} else {
-moveToSlide(track, currentSlide, slides[0]);
-}
-});
-
-prevButton.addEventListener('click', e => {
-const currentSlide = track.querySelector('.current-slide');
-const prevSlide = currentSlide.previousElementSibling;
-
-if (prevSlide) {
-moveToSlide(track, currentSlide, prevSlide);
-} else {
-moveToSlide(track, currentSlide, slides[slides.length - 1]);
-}
-});
+var slide=0;
+var voltar1=document.getElementById("voltar1");
+var passar1=document.getElementById("passar1");
+var passar1=document.getElementById("passar1");
+var carouselimage1=document.getElementById("carousel-image1");
+ voltar1.addEventListener('click', function() {slide--;console.log(slide)});
+ passar1.addEventListener('click', function() {slide++;console.log(slide)});
+ 
+ setInterval(function(){
+  if(slide<0){carouselimage1.src="imagens/b7.png";slide=6};
+  if(slide>6){carouselimage1.src="imagens/b1.png";slide=0};
+  if(slide==0){carouselimage1.src="imagens/b1.png";}else
+  if(slide==1){carouselimage1.src="imagens/b2.png";}else
+  if(slide==2){carouselimage1.src="imagens/b3.png";}else
+  if(slide==3){carouselimage1.src="imagens/b4.png";}else
+  if(slide==4){carouselimage1.src="imagens/b5.png";}else
+  if(slide==5){carouselimage1.src="imagens/b6.png";}else
+  if(slide==6){carouselimage1.src="imagens/b7.png";};
+ },0);
 
 //mostrar diferentes tipos de carrosek dependendo do modo
 
