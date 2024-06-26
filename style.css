@@ -3,7 +3,7 @@ z-index:10;
 position:fixed;
 display:none;
 width:100%;
-height:100vh;
+height:100%;
 background: rgba(0,0,0,0.8702959501497806);
 perspective: 2000px;
 }
