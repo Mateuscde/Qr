@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leitor de QR Code</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    #video {
+      width: 300px;
+      height: 300px;
+      border: 2px solid #000;
+    }
+  </style>
+</head>
+<body>
+
+  <video id="video" autoplay></video>
+  <p id="status"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  <script>
+    const video = document.getElementById('video');
+    const statusText = document.getElementById('status');
+
+    // Tentar acessar a câmera frontal
+    function startCamera() {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+      .then((stream) => {
+        video.srcObject = stream;
+        video.setAttribute("playsinline", true); // Necessário para iOS
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        // Função para escanear QR code
+        function scanQRCode() {
+          if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+            if (code) {
+              alert(`QR Code lido: ${code.data}`);
+            }
+          }
+          requestAnimationFrame(scanQRCode);
+        }
+
+        requestAnimationFrame(scanQRCode);
+      })
+      .catch((err) => {
+        statusText.textContent = "Erro ao acessar a câmera: " + err.message;
+        console.error("Erro ao acessar a câmera: ", err);
+      });
+    }
+
+    // Verificar se o navegador suporta a API de mídia
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      startCamera();
+    } else {
+      statusText.textContent = "Navegador não suporta acesso à câmera.";
+    }
+  </script>
+
+</body>
+</html>
