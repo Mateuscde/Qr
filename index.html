@@ -95,7 +95,7 @@
             }
 
             const totalPixels = canvas1.width * canvas1.height;
-            const similarity = ((totalPixels - diffPixels) / totalPixels) * 100;
+            const similarity = ((totalPixels - diffPixels) / totalPixels) * 10;
 
             if (similarity > 80) { // se as imagens forem 80% semelhantes ou mais
                 alert(`As imagens são semelhantes! Similaridade: ${similarity.toFixed(2)}%`);
