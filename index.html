@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microfone com Filtro</title>
+    <title>Microfone com Filtro e Voz Afinada</title>
 </head>
 <body>
-    <h1>Captura de Áudio com Filtro</h1>
+    <h1>Captura de Áudio com Filtro e Modificação de Voz</h1>
     <button id="start">Ativar Microfone</button>
     <p id="status">Microfone desativado</p>
 
@@ -28,9 +28,44 @@
                 biquadFilter.type = "lowpass";
                 biquadFilter.frequency.setValueAtTime(1000, audioContext.currentTime); // Filtro passa-baixa
 
-                // Conecta o filtro à saída de áudio
+                // Detectar fim de fala e gravar áudio
+                const recorder = audioContext.createScriptProcessor(4096, 1, 1);
+                let audioChunks = [];
+                let isSilent = true;
+
+                // Processa o áudio e detecta quando o usuário para de falar
+                recorder.onaudioprocess = function (e) {
+                    const inputData = e.inputBuffer.getChannelData(0);
+                    const total = inputData.reduce((sum, value) => sum + Math.abs(value), 0);
+
+                    if (total > 0.01) { // Limite para detectar a voz
+                        audioChunks.push(...inputData);
+                        isSilent = false;
+                    } else if (!isSilent) {
+                        isSilent = true;
+                        playAfterStop(); // Toca o áudio após parar de falar
+                    }
+                };
+
                 source.connect(biquadFilter);
-                biquadFilter.connect(audioContext.destination);
+                biquadFilter.connect(recorder);
+                recorder.connect(audioContext.destination);
+
+                function playAfterStop() {
+                    const buffer = audioContext.createBuffer(1, audioChunks.length, audioContext.sampleRate);
+                    buffer.copyToChannel(new Float32Array(audioChunks), 0);
+
+                    const playbackSource = audioContext.createBufferSource();
+                    playbackSource.buffer = buffer;
+
+                    // Afinar a voz ajustando o playbackRate
+                    playbackSource.playbackRate.value = 1.5; // 1.0 é normal, > 1 aumenta o tom
+
+                    playbackSource.connect(audioContext.destination);
+                    playbackSource.start();
+                    
+                    audioChunks = []; // Limpa para a próxima gravação
+                }
 
             } catch (err) {
                 console.error('Erro ao acessar o microfone:', err);
