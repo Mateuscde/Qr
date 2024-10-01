@@ -6,7 +6,7 @@
     <title>Microfone com Filtro e Voz Afinada k</title>
 </head>
 <body>
-    <h1>Captura de Áudio com Filtro e Modificação de Voz</h1>
+    <h1>Captura de Áudio com Filtro e Modificação de Voz1</h1>
     <button id="start">Ativar Microfone</button>
     <p id="status">Microfone desativado</p>
 
@@ -44,7 +44,7 @@
                     } else if (!isSilent) {
                         isSilent = true;
                         playAfterStop(); // Toca o áudio após parar de falar
-                    }},0);
+                    }},2000);
                 };
 
                 source.connect(biquadFilter);
@@ -59,7 +59,7 @@
                     playbackSource.buffer = buffer;
 
                     // Afinar a voz ajustando o playbackRate
-                    playbackSource.playbackRate.value = 1.8; // 1.0 é normal, > 1 aumenta o tom
+                    playbackSource.playbackRate.value = 2; // 1.0 é normal, > 1 aumenta o tom
 
                     playbackSource.connect(audioContext.destination);
                     playbackSource.start();
