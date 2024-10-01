@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microfone com Filtro e Voz Afinada k</title>
+    <title>Microfone com Filtro e Voz Afinada</title>
 </head>
 <body>
-    <h1>Captura de Áudio com Filtro e Modificação de Voz1</h1>
+    <h1>Captura de Áudio com Filtro e Modificação de Voz</h1>
     <button id="start">Ativar Microfone</button>
     <p id="status">Microfone desativado</p>
 
     <script>
         const startButton = document.getElementById('start');
         const statusText = document.getElementById('status');
+        let silenceTimeout;
 
         startButton.addEventListener('click', async () => {
             try {
@@ -37,14 +38,18 @@
                 recorder.onaudioprocess = function (e) {
                     const inputData = e.inputBuffer.getChannelData(0);
                     const total = inputData.reduce((sum, value) => sum + Math.abs(value), 0);
-                setInterval(function(){
+
                     if (total > 0.01) { // Limite para detectar a voz
                         audioChunks.push(...inputData);
                         isSilent = false;
+                        clearTimeout(silenceTimeout); // Se tiver som, reseta o timer de silêncio
                     } else if (!isSilent) {
-                        isSilent = true;
-                        playAfterStop(); // Toca o áudio após parar de falar
-                    }},2000);
+                        // Se não houver som, inicia o temporizador para garantir que a fala terminou
+                        silenceTimeout = setTimeout(() => {
+                            isSilent = true;
+                            playAfterStop(); // Toca o áudio após parar de falar
+                        }, 500); // 500ms de silêncio antes de considerar que parou de falar
+                    }
                 };
 
                 source.connect(biquadFilter);
@@ -52,6 +57,7 @@
                 recorder.connect(audioContext.destination);
 
                 function playAfterStop() {
+                    if (audioChunks.length === 0) return; // Se não houver áudio, não faz nada
                     const buffer = audioContext.createBuffer(1, audioChunks.length, audioContext.sampleRate);
                     buffer.copyToChannel(new Float32Array(audioChunks), 0);
 
@@ -59,7 +65,7 @@
                     playbackSource.buffer = buffer;
 
                     // Afinar a voz ajustando o playbackRate
-                    playbackSource.playbackRate.value = 2; // 1.0 é normal, > 1 aumenta o tom
+                    playbackSource.playbackRate.value = 2.2; // 1.0 é normal, > 1 aumenta o tom
 
                     playbackSource.connect(audioContext.destination);
                     playbackSource.start();
