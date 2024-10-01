@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microfone com Filtro e Voz Afinada</title>
+    <title>Microfone com Filtro e Voz Afinada k</title>
 </head>
 <body>
     <h1>Captura de Áudio com Filtro e Modificação de Voz</h1>
@@ -37,14 +37,14 @@
                 recorder.onaudioprocess = function (e) {
                     const inputData = e.inputBuffer.getChannelData(0);
                     const total = inputData.reduce((sum, value) => sum + Math.abs(value), 0);
-
+                setInterval(function(){
                     if (total > 0.01) { // Limite para detectar a voz
                         audioChunks.push(...inputData);
                         isSilent = false;
                     } else if (!isSilent) {
                         isSilent = true;
                         playAfterStop(); // Toca o áudio após parar de falar
-                    }
+                    }},0);
                 };
 
                 source.connect(biquadFilter);
@@ -59,7 +59,7 @@
                     playbackSource.buffer = buffer;
 
                     // Afinar a voz ajustando o playbackRate
-                    playbackSource.playbackRate.value = 1.5; // 1.0 é normal, > 1 aumenta o tom
+                    playbackSource.playbackRate.value = 1.8; // 1.0 é normal, > 1 aumenta o tom
 
                     playbackSource.connect(audioContext.destination);
                     playbackSource.start();
