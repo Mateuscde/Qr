@@ -1,78 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leitor de QR Code</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f0f0f0;
-    }
-    #video {
-      width: 300px;
-      height: 300px;
-      border: 2px solid #000;
-      transform:scaleX(-1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microfone com Filtro</title>
 </head>
 <body>
+    <h1>Captura de Áudio com Filtro</h1>
+    <button id="start">Ativar Microfone</button>
+    <p id="status">Microfone desativado</p>
 
-  <video id="video" autoplay></video>
-  <p id="status"></p>
+    <script>
+        const startButton = document.getElementById('start');
+        const statusText = document.getElementById('status');
 
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-  <script>
-    const video = document.getElementById('video');
-    const statusText = document.getElementById('status');
+        startButton.addEventListener('click', async () => {
+            try {
+                // Solicita permissão para acessar o microfone
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                statusText.textContent = 'Microfone ativado';
 
-    // Tentar acessar a câmera frontal
-    function startCamera() {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-      .then((stream) => {
-        video.srcObject = stream;
-        video.setAttribute("playsinline", true); // Necessário para iOS
+                const audioContext = new AudioContext();
+                const source = audioContext.createMediaStreamSource(stream);
 
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
+                // Aplicando filtro de redução de ruído (lowpass)
+                const biquadFilter = audioContext.createBiquadFilter();
+                biquadFilter.type = "lowpass";
+                biquadFilter.frequency.setValueAtTime(1000, audioContext.currentTime); // Filtro passa-baixa
 
-        // Função para escanear QR code
-        function scanQRCode() {
-          if (video.readyState === video.HAVE_ENOUGH_DATA) {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                // Conecta o filtro à saída de áudio
+                source.connect(biquadFilter);
+                biquadFilter.connect(audioContext.destination);
 
-            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, canvas.width, canvas.height);
-
-            if (code) {
-              alert(`QR Code lido: ${code.data}`);
+            } catch (err) {
+                console.error('Erro ao acessar o microfone:', err);
+                statusText.textContent = 'Erro ao acessar o microfone';
             }
-          }
-          requestAnimationFrame(scanQRCode);
-        }
-
-        requestAnimationFrame(scanQRCode);
-      })
-      .catch((err) => {
-        statusText.textContent = "Erro ao acessar a câmera: " + err.message;
-        console.error("Erro ao acessar a câmera: ", err);
-      });
-    }
-
-    // Verificar se o navegador suporta a API de mídia
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      startCamera();
-    } else {
-      statusText.textContent = "Navegador não suporta acesso à câmera.";
-    }
-  </script>
-
+        });
+    </script>
 </body>
 </html>
