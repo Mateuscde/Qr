@@ -56,8 +56,11 @@
                 biquadFilter.connect(recorder);
                 recorder.connect(audioContext.destination);
 
-                function playAfterStop() {
+                async function playAfterStop() {
                     if (audioChunks.length === 0) return; // Se não houver áudio, não faz nada
+
+                    await audioContext.resume(); // Resume o contexto de áudio, se estiver suspenso
+
                     const buffer = audioContext.createBuffer(1, audioChunks.length, audioContext.sampleRate);
                     buffer.copyToChannel(new Float32Array(audioChunks), 0);
 
@@ -65,7 +68,7 @@
                     playbackSource.buffer = buffer;
 
                     // Afinar a voz ajustando o playbackRate
-                    playbackSource.playbackRate.value = 2.2; // 1.0 é normal, > 1 aumenta o tom
+                    playbackSource.playbackRate.value = 4; // 1.0 é normal, > 1 aumenta o tom
 
                     playbackSource.connect(audioContext.destination);
                     playbackSource.start();
