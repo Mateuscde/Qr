@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exibir Objeto 3D</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<script type="module">
+  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+  import { OBJLoader } from 'https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/loaders/OBJLoader.js';
+
+  let scene, camera, renderer;
+
+  // Configurar a cena
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x333333); // Cor de fundo
+
+  // Configurar a câmera
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 2, 5); // Posição da câmera
+
+  // Configurar o renderizador
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Adicionar luz
+  const luzAmbiente = new THREE.AmbientLight(0xffffff, 1); // Luz ambiente
+  scene.add(luzAmbiente);
+
+  // Carregar o modelo 3D OBJ
+  const loader = new OBJLoader();
+  loader.load(
+    'base.obj', // Caminho do arquivo OBJ
+    (obj) => {
+      obj.scale.set(1, 1, 1); // Ajuste de escala (se necessário)
+      scene.add(obj);
+    },
+    (xhr) => {
+      console.log((xhr.loaded / xhr.total * 100) + '% carregado');
+    },
+    (error) => {
+      console.error('Erro ao carregar o modelo:', error);
+    }
+  );
+
+  // Função de animação
+  function animar() {
+    requestAnimationFrame(animar);
+    renderer.render(scene, camera);
+  }
+
+  animar();
+
+  // Ajustar ao redimensionar a tela
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+
+</body>
+</html>
