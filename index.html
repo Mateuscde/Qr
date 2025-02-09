@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunicação Bluetooth</title>
+    <title>Comunicação WebRTC</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,10 +33,6 @@
         .green { background-color: green; }
         .yellow { background-color: gold; }
 
-        #connect {
-            background: #28a745;
-        }
-
         #received {
             margin-top: 20px;
             padding: 15px;
@@ -44,12 +40,29 @@
             border-radius: 10px;
             font-size: 20px;
         }
+
+        #offer, #answer {
+            width: 100%;
+            margin: 10px 0;
+            background: #333;
+            color: white;
+            padding: 5px;
+            border: none;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
 
-    <h1>Comunicação Bluetooth</h1>
-    <button id="connect">Conectar</button>
+    <h1>Comunicação WebRTC</h1>
+
+    <button onclick="startConnection()">Criar Conexão</button>
+    <button onclick="joinConnection()">Entrar na Conexão</button>
+
+    <textarea id="offer" readonly placeholder="Oferta de Conexão"></textarea>
+    <textarea id="answer" placeholder="Cole a Resposta aqui"></textarea>
+    <button onclick="acceptAnswer()">Aceitar Resposta</button>
 
     <div>
         <button class="red" onclick="sendColor('Vermelho')">Vermelho</button>
@@ -61,46 +74,64 @@
     <div id="received">Nenhuma cor recebida</div>
 
     <script>
-        let bluetoothDevice;
-        let characteristic;
+        let peerConnection;
+        let dataChannel;
 
-        async function connectBluetooth() {
-            try {
-                bluetoothDevice = await navigator.bluetooth.requestDevice({
-                    acceptAllDevices: true,
-                    optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // Serviço genérico para comunicação
-                });
+        async function startConnection() {
+            peerConnection = new RTCPeerConnection();
 
-                const server = await bluetoothDevice.gatt.connect();
-                const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb');
-                characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb');
+            dataChannel = peerConnection.createDataChannel("colorChannel");
+            dataChannel.onmessage = event => {
+                document.getElementById("received").textContent = "Cor recebida: " + event.data;
+            };
 
-                characteristic.addEventListener('characteristicvaluechanged', handleReceivedData);
-                await characteristic.startNotifications();
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            document.getElementById("offer").value = JSON.stringify(offer);
 
-                alert("Conectado ao dispositivo: " + bluetoothDevice.name);
-            } catch (error) {
-                alert("Erro ao conectar: " + error);
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    document.getElementById("offer").value = JSON.stringify(peerConnection.localDescription);
+                }
+            };
+        }
+
+        async function joinConnection() {
+            peerConnection = new RTCPeerConnection();
+
+            peerConnection.ondatachannel = event => {
+                dataChannel = event.channel;
+                dataChannel.onmessage = event => {
+                    document.getElementById("received").textContent = "Cor recebida: " + event.data;
+                };
+            };
+
+            let offer = JSON.parse(document.getElementById("offer").value);
+            await peerConnection.setRemoteDescription(offer);
+            let answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+
+            document.getElementById("answer").value = JSON.stringify(answer);
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    document.getElementById("answer").value = JSON.stringify(peerConnection.localDescription);
+                }
+            };
+        }
+
+        async function acceptAnswer() {
+            let answer = JSON.parse(document.getElementById("answer").value);
+            await peerConnection.setRemoteDescription(answer);
+        }
+
+        function sendColor(color) {
+            if (dataChannel && dataChannel.readyState === "open") {
+                dataChannel.send(color);
+            } else {
+                alert("Conexão ainda não estabelecida!");
             }
         }
-
-        async function sendColor(color) {
-            if (!characteristic) {
-                alert("Primeiro conecte a um dispositivo Bluetooth.");
-                return;
-            }
-
-            let encoder = new TextEncoder();
-            await characteristic.writeValue(encoder.encode(color));
-        }
-
-        function handleReceivedData(event) {
-            let decoder = new TextDecoder();
-            let color = decoder.decode(event.target.value);
-            document.getElementById("received").textContent = "Cor recebida: " + color;
-        }
-
-        document.getElementById("connect").addEventListener("click", connectBluetooth);
     </script>
 
 </body>
