@@ -3,67 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bluetooth Scanner</title>
+    <title>Comunicação Bluetooth</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #111;
+            background-color: #222;
             color: white;
             margin: 0;
             padding: 20px;
         }
 
-        #devices {
-            margin-top: 20px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            display: inline-block;
-            text-align: left;
+        h1 {
+            margin-bottom: 20px;
         }
 
         button {
             padding: 10px 20px;
             font-size: 16px;
-            margin-top: 20px;
+            margin: 10px;
             cursor: pointer;
-            background: #28a745;
             border: none;
-            color: white;
             border-radius: 5px;
+            color: white;
         }
 
-        button:hover {
-            background: #218838;
+        .red { background-color: red; }
+        .blue { background-color: blue; }
+        .green { background-color: green; }
+        .yellow { background-color: gold; }
+
+        #connect {
+            background: #28a745;
+        }
+
+        #received {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Dispositivos Bluetooth</h1>
-    <button onclick="scanBluetooth()">Procurar Dispositivos</button>
-    <ul id="devices"></ul>
+    <h1>Comunicação Bluetooth</h1>
+    <button id="connect">Conectar</button>
+
+    <div>
+        <button class="red" onclick="sendColor('Vermelho')">Vermelho</button>
+        <button class="blue" onclick="sendColor('Azul')">Azul</button>
+        <button class="green" onclick="sendColor('Verde')">Verde</button>
+        <button class="yellow" onclick="sendColor('Amarelo')">Amarelo</button>
+    </div>
+
+    <div id="received">Nenhuma cor recebida</div>
 
     <script>
-        async function scanBluetooth() {
+        let bluetoothDevice;
+        let characteristic;
+
+        async function connectBluetooth() {
             try {
-                const device = await navigator.bluetooth.requestDevice({
+                bluetoothDevice = await navigator.bluetooth.requestDevice({
                     acceptAllDevices: true,
-                    optionalServices: ['battery_service'] // Permite acesso a serviços opcionais
+                    optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb'] // Serviço genérico para comunicação
                 });
 
-                const deviceList = document.getElementById("devices");
-                const listItem = document.createElement("li");
-                listItem.textContent = `📡 ${device.name || 'Dispositivo sem nome'} - ${device.id}`;
-                deviceList.appendChild(listItem);
+                const server = await bluetoothDevice.gatt.connect();
+                const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb');
+                characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb');
 
-                console.log("Dispositivo encontrado:", device);
+                characteristic.addEventListener('characteristicvaluechanged', handleReceivedData);
+                await characteristic.startNotifications();
+
+                alert("Conectado ao dispositivo: " + bluetoothDevice.name);
             } catch (error) {
-                alert("Erro ao acessar o Bluetooth: " + error);
-                console.error("Erro:", error);
+                alert("Erro ao conectar: " + error);
             }
         }
+
+        async function sendColor(color) {
+            if (!characteristic) {
+                alert("Primeiro conecte a um dispositivo Bluetooth.");
+                return;
+            }
+
+            let encoder = new TextEncoder();
+            await characteristic.writeValue(encoder.encode(color));
+        }
+
+        function handleReceivedData(event) {
+            let decoder = new TextDecoder();
+            let color = decoder.decode(event.target.value);
+            document.getElementById("received").textContent = "Cor recebida: " + color;
+        }
+
+        document.getElementById("connect").addEventListener("click", connectBluetooth);
     </script>
 
 </body>
