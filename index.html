@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunicação WebRTC</title>
+    <title>Comunicação WebRTC com QR Code</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,11 +15,7 @@
             margin: 0;
             padding: 20px;
         }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
+        h1 { margin-bottom: 20px; }
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -27,12 +25,10 @@
             border-radius: 5px;
             color: white;
         }
-
         .red { background-color: red; }
         .blue { background-color: blue; }
         .green { background-color: green; }
         .yellow { background-color: gold; }
-
         #received {
             margin-top: 20px;
             padding: 15px;
@@ -40,7 +36,6 @@
             border-radius: 10px;
             font-size: 20px;
         }
-
         textarea {
             width: 100%;
             margin: 10px 0;
@@ -50,18 +45,23 @@
             border: none;
             text-align: center;
         }
-
+        #qrcode, #reader { margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <h1>Comunicação WebRTC</h1>
+    <h1>Comunicação WebRTC com QR Code</h1>
 
     <button onclick="startConnection()">Criar Conexão</button>
     <button onclick="joinConnection()">Entrar na Conexão</button>
 
     <textarea id="offer" placeholder="Oferta de Conexão"></textarea>
+    <button onclick="generateQR('offer')">Gerar QR Code da Oferta</button>
+    <div id="qrcode"></div>
+
     <textarea id="answer" placeholder="Cole a Resposta aqui"></textarea>
+    <button onclick="generateQR('answer')">Gerar QR Code da Resposta</button>
+
     <button onclick="acceptAnswer()">Aceitar Resposta</button>
 
     <div>
@@ -72,6 +72,9 @@
     </div>
 
     <div id="received">Nenhuma cor recebida</div>
+
+    <div id="reader"></div>
+    <button onclick="startQRReader()">Ler QR Code</button>
 
     <script>
         let peerConnection;
@@ -131,6 +134,41 @@
             } else {
                 alert("Conexão ainda não estabelecida!");
             }
+        }
+
+        function generateQR(field) {
+            let data = document.getElementById(field).value;
+            if (!data) {
+                alert("Nenhum dado para gerar QR Code!");
+                return;
+            }
+
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: data,
+                width: 200,
+                height: 200
+            });
+        }
+
+        function startQRReader() {
+            document.getElementById("reader").innerHTML = "";
+            let scanner = new Html5Qrcode("reader");
+            scanner.start(
+                { facingMode: "environment" },
+                {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 }
+                },
+                decodedText => {
+                    document.getElementById("offer").value = decodedText;
+                    scanner.stop();
+                    alert("QR Code escaneado!");
+                },
+                errorMessage => {
+                    console.log(errorMessage);
+                }
+            );
         }
     </script>
 
