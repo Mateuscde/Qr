@@ -1,176 +1,76 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunicação WebRTC com QR Code</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #222;
-            color: white;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 { margin-bottom: 20px; }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            color: white;
-        }
-        .red { background-color: red; }
-        .blue { background-color: blue; }
-        .green { background-color: green; }
-        .yellow { background-color: gold; }
-        #received {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            font-size: 20px;
-        }
-        textarea {
-            width: 100%;
-            margin: 10px 0;
-            background: #333;
-            color: white;
-            padding: 5px;
-            border: none;
-            text-align: center;
-        }
-        #qrcode, #reader { margin-top: 20px; }
-        #reader { display: none; }
-    </style>
+    <title>Matchmaking com Supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-
-    <h1>Comunicação WebRTC com QR Code</h1>
-
-    <button onclick="startConnection()">Criar Conexão</button>
-    <button onclick="joinConnection()">Entrar na Conexão</button>
-
-    <textarea id="offer" placeholder="Oferta de Conexão"></textarea>
-    <button onclick="generateQR('offer')">Gerar QR Code da Oferta</button>
-    <div id="qrcode"></div>
-
-    <textarea id="answer" placeholder="Cole a Resposta aqui"></textarea>
-    <button onclick="generateQR('answer')">Gerar QR Code da Resposta</button>
-
-    <button onclick="acceptAnswer()">Aceitar Resposta</button>
-
-    <div>
-        <button class="red" onclick="sendColor('Vermelho')">Vermelho</button>
-        <button class="blue" onclick="sendColor('Azul')">Azul</button>
-        <button class="green" onclick="sendColor('Verde')">Verde</button>
-        <button class="yellow" onclick="sendColor('Amarelo')">Amarelo</button>
-    </div>
-
-    <div id="received">Nenhuma cor recebida</div>
-
-    <button onclick="startQRReader()">Ler QR Code</button>
-    <div id="reader"></div>
+    <h1>Jogo Multiplayer</h1>
+    <button onclick="entrarNoJogo()">Entrar no Jogo</button>
+    <p id="status">Aguardando...</p>
 
     <script>
-        let peerConnection;
-        let dataChannel;
+        const supabaseUrl = "https://jeaacdrzylhlfngpjeqf.supabase.co"; // Cole aqui
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplYWFjZHJ6eWxobGZuZ3BqZXFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkyMDQ3MjUsImV4cCI6MjA1NDc4MDcyNX0.P2Sc95rfupVeDhqrKmjzh5CqJGafxtnLHHzydqw8ySY"; // Cole aqui
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        let playerId = null;
 
-        async function startConnection() {
-            peerConnection = new RTCPeerConnection();
+        async function entrarNoJogo() {
+            const username = "Player" + Math.floor(Math.random() * 1000);
 
-            dataChannel = peerConnection.createDataChannel("colorChannel");
-            dataChannel.onmessage = event => {
-                document.getElementById("received").textContent = "Cor recebida: " + event.data;
-            };
+            const { data, error } = await supabase
+                .from("players_online")
+                .insert([{ username, status: "waiting" }])
+                .select();
 
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-            document.getElementById("offer").value = JSON.stringify(offer);
-
-            peerConnection.onicecandidate = event => {
-                if (event.candidate) {
-                    document.getElementById("offer").value = JSON.stringify(peerConnection.localDescription);
-                }
-            };
-        }
-
-        async function joinConnection() {
-            peerConnection = new RTCPeerConnection();
-
-            peerConnection.ondatachannel = event => {
-                dataChannel = event.channel;
-                dataChannel.onmessage = event => {
-                    document.getElementById("received").textContent = "Cor recebida: " + event.data;
-                };
-            };
-
-            let offer = JSON.parse(document.getElementById("offer").value);
-            await peerConnection.setRemoteDescription(offer);
-            let answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-
-            document.getElementById("answer").value = JSON.stringify(answer);
-
-            peerConnection.onicecandidate = event => {
-                if (event.candidate) {
-                    document.getElementById("answer").value = JSON.stringify(peerConnection.localDescription);
-                }
-            };
-        }
-
-        async function acceptAnswer() {
-            let answer = JSON.parse(document.getElementById("answer").value);
-            await peerConnection.setRemoteDescription(answer);
-        }
-
-        function sendColor(color) {
-            if (dataChannel && dataChannel.readyState === "open") {
-                dataChannel.send(color);
-            } else {
-                alert("Conexão ainda não estabelecida!");
-            }
-        }
-
-        function generateQR(field) {
-            let data = document.getElementById(field).value;
-            if (!data) {
-                alert("Nenhum dado para gerar QR Code!");
+            if (error) {
+                console.error("Erro ao entrar:", error);
                 return;
             }
 
-            document.getElementById("qrcode").innerHTML = "";
-            new QRCode(document.getElementById("qrcode"), {
-                text: data,
-                width: 200,
-                height: 200
-            });
+            playerId = data[0].id;
+            document.getElementById("status").innerText = "Aguardando oponente...";
+            monitorarMatchmaking();
         }
 
-        function startQRReader() {
-            document.getElementById("reader").style.display = "block";
-            document.getElementById("reader").innerHTML = "";
-            
-            const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: { width: 250, height: 250 } });
+        function monitorarMatchmaking() {
+            supabase.channel("players_online")
+                .on("postgres_changes", { event: "*", schema: "public", table: "players_online" }, async () => {
+                    const { data, error } = await supabase
+                        .from("players_online")
+                        .select("*")
+                        .eq("status", "waiting");
 
-            scanner.render(
-                decodedText => {
-                    document.getElementById("offer").value = decodedText;
-                    scanner.clear();
-                    document.getElementById("reader").style.display = "none";
-                    alert("QR Code escaneado!");
-                },
-                errorMessage => {
-                    console.log(errorMessage);
-                }
-            );
+                    if (error) {
+                        console.error("Erro ao buscar jogadores:", error);
+                        return;
+                    }
+
+                    if (data.length >= 2) {
+                        iniciarPartida(data[0], data[1]);
+                    }
+                })
+                .subscribe();
         }
+
+        async function iniciarPartida(player1, player2) {
+            await supabase
+                .from("players_online")
+                .update({ status: "in-game" })
+                .in("id", [player1.id, player2.id]);
+
+            document.getElementById("status").innerText = `Partida encontrada: ${player1.username} vs ${player2.username}`;
+        }
+
+        async function sairDoJogo() {
+            if (playerId) {
+                await supabase.from("players_online").delete().eq("id", playerId);
+            }
+        }
+
+        window.addEventListener("beforeunload", sairDoJogo);
     </script>
-
 </body>
 </html>
