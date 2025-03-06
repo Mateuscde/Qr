@@ -3,74 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matchmaking Multiplayer</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Leitor de Código de Barras</title>
 </head>
 <body>
-    <h1>Jogo Multiplayer</h1>
-    <button onclick="entrarNoJogo()">Entrar no Jogo</button>
-    <p id="status">Aguardando...</p>
+    <button id="trocarCamera">Trocar Câmera</button>
+    <video id="video" autoplay></video>
 
     <script>
-        const supabaseUrl = "https://jeaacdrzylhlfngpjeqf.supabase.co"; // Cole aqui
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplYWFjZHJ6eWxobGZuZ3BqZXFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkyMDQ3MjUsImV4cCI6MjA1NDc4MDcyNX0.P2Sc95rfupVeDhqrKmjzh5CqJGafxtnLHHzydqw8ySY"; // Cole aqui
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-        let playerId = null;
+        let streamAtual = null;
+        let usandoFrontal = false;
 
-        async function entrarNoJogo() {
-            const username = "Player" + Math.floor(Math.random() * 1000);
-
-            const { data, error } = await supabase
-                .from("players_online")
-                .insert([{ username, status: "waiting" }])
-                .select();
-
-            if (error) {
-                console.error("Erro ao entrar:", error);
+        async function iniciarLeitor() {
+            if (!('BarcodeDetector' in window)) {
+                alert('Seu navegador não suporta a API BarcodeDetector.');
                 return;
             }
 
-            playerId = data[0].id;
-            document.getElementById("status").innerText = "Aguardando oponente...";
-            monitorarMatchmaking();
-        }
-
-        function monitorarMatchmaking() {
-            supabase.channel("players_online")
-                .on("postgres_changes", { event: "INSERT", schema: "public", table: "players_online" }, async () => {
-                    const { data, error } = await supabase
-                        .from("players_online")
-                        .select("*")
-                        .eq("status", "waiting");
-
-                    if (error) {
-                        console.error("Erro ao buscar jogadores:", error);
-                        return;
-                    }
-
-                    if (data.length >= 2) {
-                        iniciarPartida(data[0], data[1]);
-                    }
-                })
-                .subscribe();
-        }
-
-        async function iniciarPartida(player1, player2) {
-            await supabase
-                .from("players_online")
-                .update({ status: "in-game" })
-                .in("id", [player1.id, player2.id]);
-
-            document.getElementById("status").innerText = `Partida encontrada: ${player1.username} vs ${player2.username}`;
-        }
-
-        async function sairDoJogo() {
-            if (playerId) {
-                await supabase.from("players_online").delete().eq("id", playerId);
+            if (streamAtual) {
+                streamAtual.getTracks().forEach(track => track.stop());
             }
+
+            const video = document.getElementById('video');
+            const constraints = { video: { facingMode: usandoFrontal ? 'user' : 'environment' } };
+            
+            try {
+                streamAtual = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = streamAtual;
+            } catch (err) {
+                alert('Erro ao acessar a câmera: ' + err.message);
+                return;
+            }
+
+            const detector = new BarcodeDetector({ formats: ['code_128', 'ean_13', 'qr_code'] });
+
+            setInterval(async () => {
+                try {
+                    const barcodes = await detector.detect(video);
+                    if (barcodes.length > 0) {
+                        alert('Código de barras: ' + barcodes[0].rawValue);
+                        streamAtual.getTracks().forEach(track => track.stop());
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }, 1000);
         }
 
-        window.addEventListener("beforeunload", sairDoJogo);
+        document.getElementById('trocarCamera').addEventListener('click', () => {
+            usandoFrontal = !usandoFrontal;
+            iniciarLeitor();
+        });
+
+        iniciarLeitor();
     </script>
 </body>
 </html>
