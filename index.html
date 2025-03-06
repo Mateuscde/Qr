@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leitor de Código de Barras</title>
+    <title>Leitor de QR Code</title>
 </head>
 <body>
-    <button id="trocarCamera">Trocar Câmera</button>
-    <video id="video" autoplay></video>
-
+    <div id="h" style="position:absolute; width:200px;height:200px;background:gray;" ></div>
     <script>
+        const valorEsperado = "meuCodigoSecreto"; // Defina aqui o valor que deseja comparar
         let streamAtual = null;
-        let usandoFrontal = false;
-
+        var h=document.getElementById("h");
         async function iniciarLeitor() {
             if (!('BarcodeDetector' in window)) {
                 alert('Seu navegador não suporta a API BarcodeDetector.');
@@ -24,8 +22,8 @@
             }
 
             const video = document.getElementById('video');
-            const constraints = { video: { facingMode: usandoFrontal ? 'user' : 'environment' } };
-            
+            const constraints = { video: { facingMode: 'environment' } };
+
             try {
                 streamAtual = await navigator.mediaDevices.getUserMedia(constraints);
                 video.srcObject = streamAtual;
@@ -34,13 +32,25 @@
                 return;
             }
 
-            const detector = new BarcodeDetector({ formats: ['code_128', 'ean_13', 'qr_code'] });
+            const detector = new BarcodeDetector({ formats: ['qr_code'] });
 
             setInterval(async () => {
                 try {
-                    const barcodes = await detector.detect(video);
-                    if (barcodes.length > 0) {
-                        alert('Código de barras: ' + barcodes[0].rawValue);
+                    const codigos = await detector.detect(video);
+                    if (codigos.length > 0) {
+                        const valorLido = codigos[0].rawValue;
+                        if (valorLido === "amarelo") {
+                            h.style.backgroun="yellow";
+                        }else
+                        if (valorLido === "vermelho") {
+                        h.style.backgroun="red";
+                        }else
+                        if (valorLido === "verde") {
+                        h.style.backgroun="green";
+                        }else
+                        if (valorLido === "azul") {
+                        h.style.backgroun="blue";
+                        }else
                         streamAtual.getTracks().forEach(track => track.stop());
                     }
                 } catch (err) {
@@ -48,11 +58,6 @@
                 }
             }, 1000);
         }
-
-        document.getElementById('trocarCamera').addEventListener('click', () => {
-            usandoFrontal = !usandoFrontal;
-            iniciarLeitor();
-        });
 
         iniciarLeitor();
     </script>
