@@ -1,65 +1,64 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leitor de QR Code</title>
+    <title>Bluetooth Colors</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        button { font-size: 20px; padding: 15px; margin: 10px; cursor: pointer; }
+        #colorDisplay { width: 100px; height: 100px; margin: 20px auto; border: 2px solid black; }
+    </style>
 </head>
 <body>
-    <div id="h" style="position:absolute; width:200px;height:200px;background:gray;" ></div>
+
+    <h1>Bluetooth Colors</h1>
+    <button onclick="connectBluetooth()">Conectar</button>
+    <button style="background-color: red;" onclick="sendColor('Red')">Vermelho</button>
+    <button style="background-color: green;" onclick="sendColor('Green')">Verde</button>
+    <button style="background-color: blue;" onclick="sendColor('Blue')">Azul</button>
+    <div id="colorDisplay"></div>
+
     <script>
-        const valorEsperado = "meuCodigoSecreto"; // Defina aqui o valor que deseja comparar
-        let streamAtual = null;
-        var h=document.getElementById("h");
-        async function iniciarLeitor() {
-            if (!('BarcodeDetector' in window)) {
-                alert('Seu navegador não suporta a API BarcodeDetector.');
-                return;
-            }
+        let device, server, service, characteristic;
 
-            if (streamAtual) {
-                streamAtual.getTracks().forEach(track => track.stop());
-            }
-
-            const video = document.getElementById('video');
-            const constraints = { video: { facingMode: 'environment' } };
-
+        async function connectBluetooth() {
             try {
-                streamAtual = await navigator.mediaDevices.getUserMedia(constraints);
-                video.srcObject = streamAtual;
-            } catch (err) {
-                alert('Erro ao acessar a câmera: ' + err.message);
-                return;
+                device = await navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: ['12345678-1234-5678-1234-56789abcdef0'] // UUID do serviço
+                });
+
+                server = await device.gatt.connect();
+                service = await server.getPrimaryService('12345678-1234-5678-1234-56789abcdef0');
+                characteristic = await service.getCharacteristic('abcdef01-1234-5678-1234-56789abcdef0');
+
+                characteristic.addEventListener('characteristicvaluechanged', handleReceivedData);
+                await characteristic.startNotifications();
+
+                alert("Conectado com sucesso!");
+            } catch (error) {
+                alert("Erro ao conectar: " + error);
             }
-
-            const detector = new BarcodeDetector({ formats: ['qr_code'] });
-
-            setInterval(async () => {
-                try {
-                    const codigos = await detector.detect(video);
-                    if (codigos.length > 0) {
-                        const valorLido = codigos[0].rawValue;
-                        if (valorLido === "amarelo") {
-                            h.style.backgroun="yellow";
-                        }else
-                        if (valorLido === "vermelho") {
-                        h.style.backgroun="red";
-                        }else
-                        if (valorLido === "verde") {
-                        h.style.backgroun="green";
-                        }else
-                        if (valorLido === "azul") {
-                        h.style.backgroun="blue";
-                        }else
-                        streamAtual.getTracks().forEach(track => track.stop());
-                    }
-                } catch (err) {
-                    console.error(err);
-                }
-            }, 1000);
         }
 
-        iniciarLeitor();
+        async function sendColor(color) {
+            if (!characteristic) {
+                alert("Conecte-se primeiro!");
+                return;
+            }
+
+            let encoder = new TextEncoder();
+            await characteristic.writeValue(encoder.encode(color));
+        }
+
+        function handleReceivedData(event) {
+            let decoder = new TextDecoder();
+            let receivedColor = decoder.decode(event.target.value);
+            document.getElementById('colorDisplay').style.backgroundColor = receivedColor;
+        }
     </script>
+
 </body>
 </html>
