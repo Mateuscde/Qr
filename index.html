@@ -1,62 +1,87 @@
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bluetooth Colors</title>
+    <title>Conexão Direta WebRTC</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        button { font-size: 20px; padding: 15px; margin: 10px; cursor: pointer; }
-        #colorDisplay { width: 100px; height: 100px; margin: 20px auto; border: 2px solid black; }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #qr-container { display: none; margin: 20px auto; }
+        #status { margin-top: 20px; padding: 10px; font-size: 18px; }
+        textarea { width: 90%; height: 100px; margin: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>Bluetooth Colors</h1>
-    <button onclick="connectBluetooth()">Conectar</button>
-    <button style="background-color: red;" onclick="sendColor('Red')">Vermelho</button>
-    <button style="background-color: green;" onclick="sendColor('Green')">Verde</button>
-    <button style="background-color: blue;" onclick="sendColor('Blue')">Azul</button>
-    <div id="colorDisplay"></div>
+    <h1>Conexão Direta WebRTC</h1>
+    <button onclick="startConnection()">Criar Conexão</button>
+    <button onclick="scanOffer()">Escanear QR Code</button>
+    <div id="qr-container"></div>
+    <textarea id="offerInput" placeholder="Cole aqui o código e pressione Conectar"></textarea>
+    <button onclick="connectWithOffer()">Conectar</button>
+    <p id="status"></p>
 
     <script>
-        let device, server, service, characteristic;
+        let peerConnection;
+        let dataChannel;
+        let qrcodeDiv = document.getElementById("qr-container");
 
-        async function connectBluetooth() {
-            try {
-                device = await navigator.bluetooth.requestDevice({
-                    acceptAllDevices: true,
-                    optionalServices: ['12345678-1234-5678-1234-56789abcdef0'] // UUID do serviço
-                });
+        async function startConnection() {
+            peerConnection = new RTCPeerConnection();
+            dataChannel = peerConnection.createDataChannel("chat");
 
-                server = await device.gatt.connect();
-                service = await server.getPrimaryService('12345678-1234-5678-1234-56789abcdef0');
-                characteristic = await service.getCharacteristic('abcdef01-1234-5678-1234-56789abcdef0');
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) return;
+                let offer = JSON.stringify(peerConnection.localDescription);
+                qrcodeDiv.innerHTML = "";
+                new QRCode(qrcodeDiv, offer);
+                qrcodeDiv.style.display = "block";
+            };
 
-                characteristic.addEventListener('characteristicvaluechanged', handleReceivedData);
-                await characteristic.startNotifications();
+            dataChannel.onopen = () => {
+                document.getElementById("status").innerText = "✅ Conexão estabelecida!";
+            };
 
-                alert("Conectado com sucesso!");
-            } catch (error) {
-                alert("Erro ao conectar: " + error);
+            peerConnection.ondatachannel = (event) => {
+                event.channel.onmessage = (msg) => alert("Mensagem recebida: " + msg.data);
+            };
+
+            let offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+        }
+
+        function scanOffer() {
+            let offer = prompt("Digite ou cole o código do QR Code:");
+            if (offer) {
+                connectWithOffer(offer);
             }
         }
 
-        async function sendColor(color) {
-            if (!characteristic) {
-                alert("Conecte-se primeiro!");
-                return;
-            }
+        async function connectWithOffer(offerText = null) {
+            let offer = offerText || document.getElementById("offerInput").value;
+            if (!offer) return alert("Cole um código válido!");
 
-            let encoder = new TextEncoder();
-            await characteristic.writeValue(encoder.encode(color));
-        }
+            peerConnection = new RTCPeerConnection();
 
-        function handleReceivedData(event) {
-            let decoder = new TextDecoder();
-            let receivedColor = decoder.decode(event.target.value);
-            document.getElementById('colorDisplay').style.backgroundColor = receivedColor;
+            peerConnection.onicecandidate = async (event) => {
+                if (event.candidate) return;
+                let answer = JSON.stringify(peerConnection.localDescription);
+                document.getElementById("offerInput").value = answer;
+                alert("Envie este código para o outro dispositivo.");
+            };
+
+            peerConnection.ondatachannel = (event) => {
+                dataChannel = event.channel;
+                dataChannel.onopen = () => {
+                    document.getElementById("status").innerText = "✅ Conexão estabelecida!";
+                };
+                dataChannel.onmessage = (msg) => alert("Mensagem recebida: " + msg.data);
+            };
+
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)));
+            let answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
         }
     </script>
 
