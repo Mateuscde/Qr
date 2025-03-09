@@ -5,27 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conexão Direta WebRTC</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #qr-container { display: none; margin: 20px auto; }
-        #status { margin-top: 20px; padding: 10px; font-size: 18px; }
-        textarea { width: 90%; height: 100px; margin: 10px; }
+        #qr-container, #video-container { display: none; margin: 20px auto; }
+        #status { display: none; background: green; color: white; padding: 10px; margin-top: 20px; font-size: 18px; border-radius: 5px; }
+        #video { width: 100%; max-width: 300px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <h1>Conexão Direta WebRTC</h1>
     <button onclick="startConnection()">Criar Conexão</button>
-    <button onclick="scanOffer()">Escanear QR Code</button>
+    <button onclick="scanQRCode()">Escanear QR Code</button>
     <div id="qr-container"></div>
-    <textarea id="offerInput" placeholder="Cole aqui o código e pressione Conectar"></textarea>
-    <button onclick="connectWithOffer()">Conectar</button>
-    <p id="status"></p>
+    
+    <div id="video-container">
+        <video id="video"></video>
+    </div>
+
+    <p id="status">✅ Conexão estabelecida com sucesso!</p>
 
     <script>
         let peerConnection;
         let dataChannel;
-        let qrcodeDiv = document.getElementById("qr-container");
+        let scanner;
 
         async function startConnection() {
             peerConnection = new RTCPeerConnection();
@@ -34,15 +38,12 @@
             peerConnection.onicecandidate = (event) => {
                 if (event.candidate) return;
                 let offer = JSON.stringify(peerConnection.localDescription);
-                qrcodeDiv.innerHTML = "";
-                new QRCode(qrcodeDiv, offer);
-                qrcodeDiv.style.display = "block";
+                document.getElementById("qr-container").innerHTML = "";
+                new QRCode(document.getElementById("qr-container"), offer);
+                document.getElementById("qr-container").style.display = "block";
             };
 
-            dataChannel.onopen = () => {
-                document.getElementById("status").innerText = "✅ Conexão estabelecida!";
-            };
-
+            dataChannel.onopen = () => showConnectedStatus();
             peerConnection.ondatachannel = (event) => {
                 event.channel.onmessage = (msg) => alert("Mensagem recebida: " + msg.data);
             };
@@ -51,37 +52,49 @@
             await peerConnection.setLocalDescription(offer);
         }
 
-        function scanOffer() {
-            let offer = prompt("Digite ou cole o código do QR Code:");
-            if (offer) {
-                connectWithOffer(offer);
-            }
+        function scanQRCode() {
+            document.getElementById("video-container").style.display = "block";
+            scanner = new Instascan.Scanner({ video: document.getElementById("video") });
+
+            scanner.addListener("scan", function (content) {
+                connectWithOffer(content);
+                scanner.stop();
+                document.getElementById("video-container").style.display = "none";
+            });
+
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                } else {
+                    alert("Nenhuma câmera encontrada.");
+                }
+            }).catch(function (e) {
+                alert("Erro ao acessar a câmera: " + e);
+            });
         }
 
-        async function connectWithOffer(offerText = null) {
-            let offer = offerText || document.getElementById("offerInput").value;
-            if (!offer) return alert("Cole um código válido!");
-
+        async function connectWithOffer(offer) {
             peerConnection = new RTCPeerConnection();
 
             peerConnection.onicecandidate = async (event) => {
                 if (event.candidate) return;
                 let answer = JSON.stringify(peerConnection.localDescription);
-                document.getElementById("offerInput").value = answer;
-                alert("Envie este código para o outro dispositivo.");
+                alert("Envie este código para o outro dispositivo:\n" + answer);
             };
 
             peerConnection.ondatachannel = (event) => {
                 dataChannel = event.channel;
-                dataChannel.onopen = () => {
-                    document.getElementById("status").innerText = "✅ Conexão estabelecida!";
-                };
+                dataChannel.onopen = () => showConnectedStatus();
                 dataChannel.onmessage = (msg) => alert("Mensagem recebida: " + msg.data);
             };
 
             await peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)));
             let answer = await peerConnection.createAnswer();
             await peerConnection.setLocalDescription(answer);
+        }
+
+        function showConnectedStatus() {
+            document.getElementById("status").style.display = "block";
         }
     </script>
 
