@@ -1,100 +1,136 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conexão Direta WebRTC</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
+    <title>Comunicação WebRTC</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        #qr-container, #video-container { display: none; margin: 20px auto; }
-        #status { display: none; background: green; color: white; padding: 10px; margin-top: 20px; font-size: 18px; border-radius: 5px; }
-        #video { width: 100%; max-width: 300px; margin-top: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #222;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .red { background-color: red; }
+        .blue { background-color: blue; }
+        .green { background-color: green; }
+        .yellow { background-color: gold; }
+
+        #received {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            margin: 10px 0;
+            background: #333;
+            color: white;
+            padding: 5px;
+            border: none;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
 
-    <h1>Conexão Direta WebRTC</h1>
+    <h1>Comunicação WebRTC</h1>
+
     <button onclick="startConnection()">Criar Conexão</button>
-    <button onclick="scanQRCode()">Escanear QR Code</button>
-    <div id="qr-container"></div>
-    
-    <div id="video-container">
-        <video id="video"></video>
+    <button onclick="joinConnection()">Entrar na Conexão</button>
+
+    <textarea id="offer" placeholder="Oferta de Conexão"></textarea>
+    <textarea id="answer" placeholder="Cole a Resposta aqui"></textarea>
+    <button onclick="acceptAnswer()">Aceitar Resposta</button>
+
+    <div>
+        <button class="red" onclick="sendColor('Vermelho')">Vermelho</button>
+        <button class="blue" onclick="sendColor('Azul')">Azul</button>
+        <button class="green" onclick="sendColor('Verde')">Verde</button>
+        <button class="yellow" onclick="sendColor('Amarelo')">Amarelo</button>
     </div>
 
-    <p id="status">✅ Conexão estabelecida com sucesso!</p>
+    <div id="received">Nenhuma cor recebida</div>
 
     <script>
         let peerConnection;
         let dataChannel;
-        let scanner;
 
         async function startConnection() {
             peerConnection = new RTCPeerConnection();
-            dataChannel = peerConnection.createDataChannel("chat");
 
-            peerConnection.onicecandidate = (event) => {
-                if (event.candidate) return;
-                let offer = JSON.stringify(peerConnection.localDescription);
-                document.getElementById("qr-container").innerHTML = "";
-                new QRCode(document.getElementById("qr-container"), offer);
-                document.getElementById("qr-container").style.display = "block";
+            dataChannel = peerConnection.createDataChannel("colorChannel");
+            dataChannel.onmessage = event => {
+                document.getElementById("received").textContent = "Cor recebida: " + event.data;
             };
 
-            dataChannel.onopen = () => showConnectedStatus();
-            peerConnection.ondatachannel = (event) => {
-                event.channel.onmessage = (msg) => alert("Mensagem recebida: " + msg.data);
-            };
-
-            let offer = await peerConnection.createOffer();
+            const offer = await peerConnection.createOffer();
             await peerConnection.setLocalDescription(offer);
-        }
+            document.getElementById("offer").value = JSON.stringify(offer);
 
-        function scanQRCode() {
-            document.getElementById("video-container").style.display = "block";
-            scanner = new Instascan.Scanner({ video: document.getElementById("video") });
-
-            scanner.addListener("scan", function (content) {
-                connectWithOffer(content);
-                scanner.stop();
-                document.getElementById("video-container").style.display = "none";
-            });
-
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    alert("Nenhuma câmera encontrada.");
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    document.getElementById("offer").value = JSON.stringify(peerConnection.localDescription);
                 }
-            }).catch(function (e) {
-                alert("Erro ao acessar a câmera: " + e);
-            });
+            };
         }
 
-        async function connectWithOffer(offer) {
+        async function joinConnection() {
             peerConnection = new RTCPeerConnection();
 
-            peerConnection.onicecandidate = async (event) => {
-                if (event.candidate) return;
-                let answer = JSON.stringify(peerConnection.localDescription);
-                alert("Envie este código para o outro dispositivo:\n" + answer);
-            };
-
-            peerConnection.ondatachannel = (event) => {
+            peerConnection.ondatachannel = event => {
                 dataChannel = event.channel;
-                dataChannel.onopen = () => showConnectedStatus();
-                dataChannel.onmessage = (msg) => alert("Mensagem recebida: " + msg.data);
+                dataChannel.onmessage = event => {
+                    document.getElementById("received").textContent = "Cor recebida: " + event.data;
+                };
             };
 
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)));
+            let offer = JSON.parse(document.getElementById("offer").value);
+            await peerConnection.setRemoteDescription(offer);
             let answer = await peerConnection.createAnswer();
             await peerConnection.setLocalDescription(answer);
+
+            document.getElementById("answer").value = JSON.stringify(answer);
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    document.getElementById("answer").value = JSON.stringify(peerConnection.localDescription);
+                }
+            };
         }
 
-        function showConnectedStatus() {
-            document.getElementById("status").style.display = "block";
+        async function acceptAnswer() {
+            let answer = JSON.parse(document.getElementById("answer").value);
+            await peerConnection.setRemoteDescription(answer);
+        }
+
+        function sendColor(color) {
+            if (dataChannel && dataChannel.readyState === "open") {
+                dataChannel.send(color);
+            } else {
+                alert("Conexão ainda não estabelecida!");
+            }
         }
     </script>
 
