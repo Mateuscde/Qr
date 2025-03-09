@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunicação WebRTC com QR Code</title>
+    <title>Conexão WebRTC com QR Code</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
     <style>
@@ -15,19 +15,25 @@
         .green { background-color: green; }
         .yellow { background-color: gold; }
         #received { margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; font-size: 20px; }
-        #qr-container, #video-container { display: none; margin: 20px auto; }
+        #qrcode-container { display: none; text-align: center; margin: 20px auto; }
+        #qrcode { display: inline-block; padding: 10px; background: white; }
+        #video-container { display: none; margin: 20px auto; }
         #status { display: none; background: green; color: white; padding: 10px; margin-top: 20px; font-size: 18px; border-radius: 5px; }
         #video { width: 100%; max-width: 300px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>Comunicação WebRTC com QR Code</h1>
+    <h1>Conexão WebRTC com QR Code</h1>
 
     <button onclick="startConnection()">Criar Conexão</button>
     <button onclick="scanQRCode()">Escanear QR Code</button>
 
-    <div id="qr-container"></div>
+    <div id="qrcode-container">
+        <p>Escaneie esse QR Code para conectar:</p>
+        <div id="qrcode"></div>
+    </div>
+
     <div id="video-container">
         <video id="video"></video>
     </div>
@@ -68,14 +74,13 @@
         }
 
         function generateQRCode(data) {
-            const qrContainer = document.getElementById("qr-container");
-            qrContainer.innerHTML = ""; // Garante que o QR Code anterior seja removido
-            new QRCode(qrContainer, {
+            document.getElementById("qrcode-container").style.display = "block"; // Exibe a div do QR Code
+            document.getElementById("qrcode").innerHTML = ""; // Limpa QR Code anterior
+            new QRCode(document.getElementById("qrcode"), {
                 text: data,
                 width: 200,
                 height: 200
             });
-            qrContainer.style.display = "block"; // Exibe o QR Code
         }
 
         function scanQRCode() {
