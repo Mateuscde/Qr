@@ -1,143 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conexão WebRTC com QR Code</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
+    <title>Gravação Contínua de Áudio</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #222; color: white; margin: 0; padding: 20px; }
-        h1 { margin-bottom: 20px; }
-        button { padding: 10px 20px; font-size: 16px; margin: 10px; cursor: pointer; border: none; border-radius: 5px; color: white; }
-        .red { background-color: red; }
-        .blue { background-color: blue; }
-        .green { background-color: green; }
-        .yellow { background-color: gold; }
-        #received { margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; font-size: 20px; }
-        #qrcode-container { display: none; text-align: center; margin: 20px auto; }
-        #qrcode { display: inline-block; padding: 10px; background: white; }
-        #video-container { display: none; margin: 20px auto; }
-        #status { display: none; background: green; color: white; padding: 10px; margin-top: 20px; font-size: 18px; border-radius: 5px; }
-        #video { width: 100%; max-width: 300px; margin-top: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #texto {
+            font-size: 24px;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        #gravar {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Conexão WebRTC com QR Code</h1>
-
-    <button onclick="startConnection()">Criar Conexão</button>
-    <button onclick="scanQRCode()">Escanear QR Code</button>
-
-    <div id="qrcode-container">
-        <p>Escaneie esse QR Code para conectar:</p>
-        <div id="qrcode"></div>
-    </div>
-
-    <div id="video-container">
-        <video id="video"></video>
-    </div>
-
-    <p id="status">✅ Conexão estabelecida com sucesso!</p>
-
-    <div>
-        <button class="red" onclick="sendColor('Vermelho')">Vermelho</button>
-        <button class="blue" onclick="sendColor('Azul')">Azul</button>
-        <button class="green" onclick="sendColor('Verde')">Verde</button>
-        <button class="yellow" onclick="sendColor('Amarelo')">Amarelo</button>
-    </div>
-
-    <div id="received">Nenhuma cor recebida</div>
+    <button id="gravar">Iniciar Gravação</button>
+    <p id="texto"></p>
 
     <script>
-        let peerConnection;
-        let dataChannel;
-        let scanner;
+        let reconhecimento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        reconhecimento.lang = 'pt-BR';
+        reconhecimento.continuous = true; 
+        reconhecimento.interimResults = false;
 
-        async function startConnection() {
-            peerConnection = new RTCPeerConnection();
-            dataChannel = peerConnection.createDataChannel("colorChannel");
+        let textoElement = document.getElementById("texto");
+        let botao = document.getElementById("gravar");
+        let gravando = false;
 
-            dataChannel.onmessage = event => {
-                document.getElementById("received").textContent = "Cor recebida: " + event.data;
-            };
-
-            peerConnection.onicecandidate = event => {
-                if (event.candidate) return;
-
-                let offer = JSON.stringify(peerConnection.localDescription);
-                generateQRCode(offer);
-            };
-
-            let offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-        }
-
-        function generateQRCode(data) {
-            document.getElementById("qrcode-container").style.display = "block"; // Exibe a div do QR Code
-            document.getElementById("qrcode").innerHTML = ""; // Limpa QR Code anterior
-            new QRCode(document.getElementById("qrcode"), {
-                text: data,
-                width: 200,
-                height: 200
-            });
-        }
-
-        function scanQRCode() {
-            document.getElementById("video-container").style.display = "block";
-            scanner = new Instascan.Scanner({ video: document.getElementById("video") });
-
-            scanner.addListener("scan", function (content) {
-                connectWithOffer(content);
-                scanner.stop();
-                document.getElementById("video-container").style.display = "none";
-            });
-
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    alert("Nenhuma câmera encontrada.");
-                }
-            }).catch(function (e) {
-                alert("Erro ao acessar a câmera: " + e);
-            });
-        }
-
-        async function connectWithOffer(offer) {
-            peerConnection = new RTCPeerConnection();
-
-            peerConnection.ondatachannel = event => {
-                dataChannel = event.channel;
-                dataChannel.onmessage = event => {
-                    document.getElementById("received").textContent = "Cor recebida: " + event.data;
-                };
-                showConnectedStatus();
-            };
-
-            peerConnection.onicecandidate = async (event) => {
-                if (event.candidate) return;
-
-                let answer = JSON.stringify(peerConnection.localDescription);
-                generateQRCode(answer);
-            };
-
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(offer)));
-            let answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-        }
-
-        function showConnectedStatus() {
-            document.getElementById("status").style.display = "block";
-        }
-
-        function sendColor(color) {
-            if (dataChannel && dataChannel.readyState === "open") {
-                dataChannel.send(color);
-            } else {
-                alert("Conexão ainda não estabelecida!");
+        botao.addEventListener("click", function() {
+            if (!gravando) {
+                reconhecimento.start();
+                gravando = true;
+                botao.innerText = "Gravando...";
             }
-        }
+        });
+
+        reconhecimento.onresult = function(event) {
+            let resultado = event.results[event.results.length - 1][0].transcript;
+            if (resultado.trim()) {
+                textoElement.innerText = resultado;
+                textoElement.style.opacity = 1;
+                setTimeout(() => {
+                    textoElement.style.opacity = 0;
+                }, 2000);
+            }
+        };
+
+        reconhecimento.onend = function() {
+            if (gravando) {
+                reconhecimento.start(); // Reinicia automaticamente para continuar captando
+            }
+        };
+
+        reconhecimento.onerror = function(event) {
+            console.error("Erro no reconhecimento:", event.error);
+        };
     </script>
 
 </body>
